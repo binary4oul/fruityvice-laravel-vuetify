@@ -8,6 +8,6 @@ class Lead extends Model
 {
     //
     protected $fillable = [
-
+        'id', 'personid'
     ];
 }

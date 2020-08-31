@@ -1,8 +1,7 @@
 <template>
-
 <v-card>
       <v-card-title>
-        Nutrition
+        Leads
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -16,6 +15,7 @@
         :headers="headers"
         :items="leads"
         :search="search"
+        @click:row="selectLead"
       ></v-data-table>
     </v-card>
 </template>
@@ -23,12 +23,13 @@
 <script>
 import axios from 'axios'
 import { api } from '~/config'
+
 export default {
 data: () => ({
       search: '',
       headers: [
-        { text: 'id', value: 'id' },
-        { text: 'personid', value: 'personid' },
+        { text: 'Person', value: 'name' },
+        { text: 'Company', value: 'person.company' },
         { text: 'Created_at', value: 'created_at' }
       ],
       leads:[]
@@ -43,6 +44,7 @@ methods: {
     axios.get(api.path('leads'))
       .then(res => {
         this.leads  = res.data
+        this.leads.map(item=> item['name'] = item['person']['firstname'] +" "+ item['person']['lastname'])
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)
@@ -51,7 +53,10 @@ methods: {
         this.loading = false
       })
     },
-
-  }
+  selectLead(lead){
+    this.$store.dispatch('person/setPerson', lead)
+    this.$router.push({ name: 'lead-edit' })
+    }
+}
 }
 </script>

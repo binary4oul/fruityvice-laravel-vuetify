@@ -61,8 +61,8 @@ class LeadController extends Controller
         $leads = Lead::where('created_by', $user->id)->get();
         foreach ($leads as $lead) {
             $person = Person::where('id', $lead->personid)->first();
-            $lead['person'] = $person;        }
-
+            $lead['person'] = $person;
+        }
         $response = $leads;
         return $response;
     }

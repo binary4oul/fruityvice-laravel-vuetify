@@ -14,19 +14,19 @@ export default [
     },
   ]),
   ...applyRules(['auth'], [
-    { path: '', component: require('$comp/admin/AdminWrapper').default, children:
+    { path: '', component: require('$comp/page').default, children:
       [
         { path: '', name: 'index', redirect: { name: 'leads' } },
-        { path: 'profile', component: require('$comp/admin/profile/ProfileWrapper').default, children:
+        { path: 'profile', component: require('$comp/page/profile/ProfileWrapper').default, children:
           [
-            { path: '', name: 'profile', component: require('$comp/admin/profile/Profile').default },
-            { path: 'edit', name: 'profile-edit', component: require('$comp/admin/profile/edit/ProfileEdit').default }
+            { path: '', name: 'profile', component: require('$comp/page/profile/Profile').default },
+            { path: 'edit', name: 'profile-edit', component: require('$comp/page/profile/edit/ProfileEdit').default }
           ]
         },
-        { path: 'lead', component: require('$comp/admin/lead/LeadWrapper').default, children:
+        { path: 'lead', component: require('$comp/page/lead/LeadWrapper').default, children:
           [
-            { path: 'list', name: 'leads', component: require('$comp/admin/lead/LeadList').default },
-            { path: 'edit', name: 'lead-edit', component: require('$comp/admin/profile/edit/ProfileEdit').default }
+            { path: 'list', name: 'leads', component: require('$comp/page/lead/LeadList').default },
+            { path: 'edit', name: 'lead-edit', component: require('$comp/page/lead/LeadEdit').default }
           ]
         }
       ]
