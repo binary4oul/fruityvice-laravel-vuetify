@@ -25,6 +25,20 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::post('lead', 'LeadController@create');
     Route::get('lead/{id}', 'LeadController@show');
     Route::get('leads', 'LeadController@list');
+    Route::delete('lead/{id}', 'API\LeadController@destroy');
+
+    Route::post('leaddetail', 'API\LeadDetailController@create');
+    Route::put('leaddetail/{id}', 'API\LeadDetailController@update');
+
+    Route::get('phonetype', 'API\PhoneController@getPhoneType');
+    Route::post('phone', 'API\PhoneController@create');
+    Route::put('phone/{id}', 'API\PhoneController@update');
+    Route::delete('phone/{id}', 'API\PhoneController@destroy');
+
+    Route::get('addresstype', 'API\AddressController@getAddressType');
+    Route::post('address', 'API\AddressController@create');
+    Route::put('address/{id}', 'API\AddressController@update');
+    Route::delete('address/{id}', 'API\AddressController@destroy');
 
     Route::post('logout', 'Auth\LoginController@logout');
 

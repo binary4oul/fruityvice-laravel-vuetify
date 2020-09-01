@@ -7,6 +7,8 @@
     <person-edit-form :person="lead['person']"></person-edit-form>
     <system-edit-form></system-edit-form>
     <lead-detail :leaddetail="lead['leaddetail']"></lead-detail>
+    <phone-edit-form></phone-edit-form>
+    <address-edit-form></address-edit-form>
 
 </v-card>
 </template>
@@ -17,6 +19,8 @@ import axios from 'axios'
 import { api } from '~/config'
 import PersonEditForm from '../component/PersonEditForm'
 import SystemEditForm from '../component/SystemEditForm'
+import PhoneEditForm from '../component/PhoneEditForm'
+import AddressEditForm from '../component/AddressEditForm'
 import LeadDetail from './LeadDetail'
 
 export default {
@@ -24,6 +28,8 @@ components: {
     PersonEditForm,
     SystemEditForm,
     LeadDetail,
+    PhoneEditForm,
+    AddressEditForm,
 },
 
 computed: mapGetters({
@@ -37,6 +43,7 @@ mounted() {
 
 data: () => ({
     lead: {},
+     items: ['Home', 'Office', 'Mobile'],
 }),
 
 methods: {
