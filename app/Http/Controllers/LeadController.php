@@ -45,7 +45,7 @@ class LeadController extends Controller
         $person = Person::find($lead['personid']);
         $address = Address::where('personid', $person->id)->get();
         $phone = Phone::where('personid', $person->id)->get();
-        $leaddetail = LeadDetail::where('leadid', $lead->id)->get();
+        $leaddetail = LeadDetail::where('leadid', $lead->id)->first();
 
         $response['lead'] = $lead;
         $response['person'] = $person;

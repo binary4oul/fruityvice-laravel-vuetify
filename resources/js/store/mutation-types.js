@@ -7,3 +7,4 @@ export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE'
 export const SET_TOKEN = 'SET_TOKEN'
 
 export const SET_PERSON = 'SET_PERSON'
+export const SET_LEADDETAIL = 'SET_LEADDETAIL'

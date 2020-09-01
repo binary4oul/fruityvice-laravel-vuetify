@@ -22,8 +22,9 @@ Route::group(['middleware' => ['guest:api']], function() {
 });
 
 Route::group(['middleware' => ['jwt']], function() {
-    Route::get('leads', 'LeadController@list');
     Route::post('lead', 'LeadController@create');
+    Route::get('lead/{id}', 'LeadController@show');
+    Route::get('leads', 'LeadController@list');
 
     Route::post('logout', 'Auth\LoginController@logout');
 

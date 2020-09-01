@@ -54,8 +54,7 @@ methods: {
       })
     },
   selectLead(lead){
-    this.$store.dispatch('person/setPerson', lead)
-    this.$router.push({ name: 'lead-edit' })
+    this.$router.push({ name: 'lead-edit', params:{leadid: lead['id']} })
     }
 }
 }

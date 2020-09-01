@@ -42,7 +42,7 @@
                             v-bind="attrs"
                             v-on="on"
                             >
-                                more
+                                settings
                         <v-icon right>mdi-menu-down</v-icon>
                         </v-btn>
                     </template>
@@ -64,7 +64,9 @@ export default {
         tab: null,
         items: [
           {name:'Leads', path:'/lead/list'},
-          {name:'Estimates', path:'/profile'}
+          {name:'Estimates', path:'/profile'},
+          {name:'Current Projects', path:'/profile'},
+          {name:'Complete Projects', path:'/profile'},
           ],
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         more: ['News', 'Maps', 'Books', 'Flights', 'Apps',],

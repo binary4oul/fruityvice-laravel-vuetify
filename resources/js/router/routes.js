@@ -26,7 +26,7 @@ export default [
         { path: 'lead', component: require('$comp/page/lead/LeadWrapper').default, children:
           [
             { path: 'list', name: 'leads', component: require('$comp/page/lead/LeadList').default },
-            { path: 'edit', name: 'lead-edit', component: require('$comp/page/lead/LeadEdit').default }
+            { path: 'edit/:leadid', name: 'lead-edit', component: require('$comp/page/lead/LeadEdit').default }
           ]
         }
       ]

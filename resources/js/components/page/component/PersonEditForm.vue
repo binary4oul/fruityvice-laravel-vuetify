@@ -4,7 +4,7 @@
                 <v-row>
                     <v-col cols="12" md="4">
                         <v-text-field
-                            v-model="form.firstname"
+                            v-model="person.firstname"
                             @input="change"
                             :rules="nameRules"
                             :counter="20"
@@ -14,7 +14,7 @@
                     </v-col>
                     <v-col cols="12" md="4">
                         <v-text-field
-                        v-model="form.lastname"
+                        v-model="person.lastname"
                         @input="change"
                         :rules="nameRules"
                         :counter="20"
@@ -24,7 +24,7 @@
                     </v-col>
                     <v-col cols="12" md="4">
                         <v-text-field
-                            v-model="form.company"
+                            v-model="person.company"
                             @input="change"
                             label="Company"
                             ></v-text-field>
@@ -40,40 +40,34 @@
 import { mapGetters } from 'vuex'
 
 export default {
-components: {
-
-    },
 
 methods: {
     success(data) {
 
     },
     change(){
-        let data = {'person': this.form}
-        console.log(data)
+        let data = {'person': this.person}
         this.$store.dispatch('person/setPerson', data)
     }
 },
 computed: mapGetters({
-    person: 'person/person',
+
 }),
 
 mounted() {
-    this.form = Object.assign(this.form, this.person)
+    setTimeout(() => {
+        this.change()
+    }, 2000)
 },
 
 data: () => ({
     valid: false,
-    form: {
-        firstname: '',
-        lastname: '',
-        company:'',
-    },
     nameRules: [
       v => !!v || 'Name is required',
       v => v.length <= 20 || 'Name must be less than 20 characters',
     ],
   }),
+props: ['person'],
 
 }
 </script>
