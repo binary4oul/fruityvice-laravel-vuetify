@@ -1,7 +1,7 @@
 <template>
 <v-card>
       <v-card-title>
-        Leads
+        Ingredients
         <v-spacer></v-spacer>
 
         <v-row class="d-flex flex-row-reverse">
@@ -24,9 +24,9 @@
       <v-card-text>
         <v-data-table
           :headers="headers"
-          :items="leads"
+          :items="ingredients"
           :search="search"
-          @click:row="selectLead"
+          @click:row="selectIngredient"
         ></v-data-table>
       </v-card-text>
     </v-card>
@@ -40,23 +40,24 @@ export default {
 data: () => ({
       search: '',
       headers: [
-        { text: 'Person', value: 'name' },
-        { text: 'Company', value: 'person.company' },
-        { text: 'Created_at', value: 'created_at' }
+        { text: 'No', value: 'no' },
+        { text: 'Name', value: 'name' },
+        { text: 'Coverage Area sq/ft', value: 'coverage' },
+        { text: 'Phurchage Price', value: 'purchageprice' }
       ],
-      leads:[]
+      ingredients:[]
     }),
 
 mounted() {
-  this.getLeads()
+  this.getIngredients()
 },
 
 methods: {
-  getLeads() {
-    axios.get(api.path('leads'))
+  getIngredients() {
+    axios.get(api.path('ingredients'))
       .then(res => {
-        this.leads  = res.data
-        this.leads.map(item=> item['name'] = item['person']['firstname'] +" "+ item['person']['lastname'])
+        this.ingredients  = res.data
+        this.ingredients.map((item, index)=> item['no'] = index + 1 )
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)
@@ -65,11 +66,11 @@ methods: {
         this.loading = false
       })
     },
-  selectLead(lead){
-    this.$router.push({ name: 'lead-edit', params:{leadid: lead['id']} })
+  selectIngredient(ingredient){
+    this.$router.push({ name: 'ingredient-edit', params:{ingredientid: ingredient['id']} })
   },
   addNew(){
-    this.$router.push({ name: 'lead-edit', params:{leadid: 'new'} })
+    this.$router.push({ name: 'ingredient-edit', params:{ingredientid: 'new'} })
   }
 }
 }

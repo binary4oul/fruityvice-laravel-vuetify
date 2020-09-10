@@ -68,9 +68,18 @@ export const api = Object.assign(new URL(apiUrl), {
   },
 
   leads: { url: 'leads' },
-  lead: { url: 'lead' },
-  phone: { url: 'phone' },
+  lead: {url: 'lead'},
+  person: { url: 'person' },
+  phone: { url: 'phone', refresh: 'refresh' },
   address: { url: 'address' },
   leaddetail: { url: 'leaddetail' },
+  colors: { url: 'colors' },
+  color: {url: 'color'},
+  patterns: { url: 'patterns' },
+  pattern: {url: 'pattern'},
+  ingredients: {url: 'ingredients'},
+  ingredient: {url: 'ingredient'},
+  systems: {url: 'systems'},
+  system: {url: 'system'},
 
 })

@@ -1,10 +1,25 @@
 <template>
-        <v-form v-model="valid">
+    <v-container fluid>
+        <v-row v-if="!edit">
+            <v-col cols="12" sm="4">
+                {{ personValue.firstname }} {{ personValue.lastname }}
+            </v-col>
+            <v-col cols="12" sm="4">
+                {{ personValue.company }}
+            </v-col>
+            <v-col cols="12" sm="4">
+                <v-spacer></v-spacer>
+                <v-btn color="blue" dark @click="edit = true">
+                    <v-icon dark>edit</v-icon>
+                </v-btn>
+            </v-col>
+        </v-row>
+        <v-form v-model="valid" v-if="edit">
             <v-container>
                 <v-row>
                     <v-col cols="12" md="4">
                         <v-text-field
-                            v-model="person.firstname"
+                            v-model="personValue.firstname"
                             @input="change"
                             :rules="nameRules"
                             :counter="20"
@@ -14,7 +29,7 @@
                     </v-col>
                     <v-col cols="12" md="4">
                         <v-text-field
-                        v-model="person.lastname"
+                        v-model="personValue.lastname"
                         @input="change"
                         :rules="nameRules"
                         :counter="20"
@@ -24,15 +39,21 @@
                     </v-col>
                     <v-col cols="12" md="4">
                         <v-text-field
-                            v-model="person.company"
+                            v-model="personValue.company"
                             @input="change"
                             label="Company"
                             ></v-text-field>
                     </v-col>
                 </v-row>
+                <v-row v-if="leadid != 'new'">
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue" dark @click="edit = false">
+                        OK
+                    </v-btn>
+                </v-row>
             </v-container>
         </v-form>
-
+    </v-container>
 </template>
 
 <script>
@@ -46,28 +67,36 @@ methods: {
 
     },
     change(){
-        let data = {'person': this.person}
+        let data = {'person': this.personValue}
         this.$store.dispatch('person/setPerson', data)
-    }
+    },
 },
 computed: mapGetters({
 
 }),
 
-mounted() {
+created() {
     setTimeout(() => {
-        this.change()
-    }, 2000)
+        if(this.person == null){
+            this.personValue['firstname'] = ''
+            this.personValue['lastname'] = ''
+            this.personValue['company'] = ''
+        }
+        else this.personValue = {...this.person}
+        if(this.leadid == 'new') this.edit = true
+    }, 1000)
 },
 
 data: () => ({
+    edit: false,
     valid: false,
+    personValue: {},
     nameRules: [
       v => !!v || 'Name is required',
       v => v.length <= 20 || 'Name must be less than 20 characters',
     ],
   }),
-props: ['person'],
+props: ['leadid', 'person'],
 
 }
 </script>

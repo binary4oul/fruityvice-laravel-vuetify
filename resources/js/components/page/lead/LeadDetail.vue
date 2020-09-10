@@ -1,15 +1,15 @@
 <template>
     <v-container fluid>
         <template f fluid>
-            <v-btn block @click="changeOpenState" color="rgb(236,151,31)" dark>LEAD DETAIL</v-btn>
+            <v-btn block @click="changeOpenState" v-bind:color="open == true ? 'rgb(236,151,31)' : 'primary'" dark>LEAD DETAIL</v-btn>
         </template>
         <v-spacer></v-spacer>
 
-        <template v-if="open && leaddetail != null">
-            <v-text-field label="Email" v-model="leaddetail.email"  class="pt-8"></v-text-field>
+        <template v-if="open && detail != null">
+            <v-text-field label="Email" v-model="detail.email"  class="mt-4"></v-text-field>
             <v-textarea
                 label="Best time to call"
-                v-model="leaddetail.besttimetocall"
+                v-model="detail.besttimetocall"
                 @input="change"
                 auto-grow
                 outlined
@@ -18,7 +18,7 @@
             ></v-textarea>
             <v-textarea
                 label="How did you hear about us"
-                v-model="leaddetail.hearaboutus"
+                v-model="detail.hearaboutus"
                 @input="change"
                 auto-grow
                 outlined
@@ -27,7 +27,7 @@
             ></v-textarea>
             <v-textarea
                 label="How can we help?"
-                v-model="leaddetail.howcanwehelp"
+                v-model="detail.howcanwehelp"
                 @input="change"
                 auto-grow
                 outlined
@@ -44,7 +44,7 @@ export default {
 
 data: () => ({
     open: false,
-
+    detail: {},
 }),
 props: ['leaddetail'],
 
@@ -53,22 +53,21 @@ methods: {
         this.open = !this.open
     },
     change(){
-        let data = {'leaddetail': this.leaddetail}
+        let data = {'leaddetail': this.detail}
         this.$store.dispatch('leaddetail/setLeaddetail', data)
     }
 },
 
-mounted() {
+created() {
     setTimeout(() => {
         if(this.leaddetail == null){
-            this.leaddetail = {}
-            this.leaddetail['email'] =''
-            this.leaddetail['besttimetocall'] =''
-            this.leaddetail['hearaboutus'] =''
-            this.leaddetail['howcanwehelp'] =''
+            this.detail['email'] =''
+            this.detail['besttimetocall'] =''
+            this.detail['hearaboutus'] =''
+            this.detail['howcanwehelp'] =''
         }
-        this.change()
-    }, 2000)
+        else this.detail = {...this.leaddetail}
+    }, 1000)
 },
 }
 </script>

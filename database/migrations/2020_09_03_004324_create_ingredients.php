@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePhones extends Migration
+class CreateIngredients extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreatePhones extends Migration
      */
     public function up()
     {
-        Schema::create('phones', function (Blueprint $table) {
+        Schema::create('ingredients', function (Blueprint $table) {
             $table->string('id');
-            $table->string('personid');
-            $table->string('number');
-            $table->string('type');
-            $table->boolean('primary')->default(true);
-            $table->string('created_by')->nullable();
+            $table->string('name');
+            $table->integer('coverage');
+            $table->float('purchageprice');
+            $table->string('created_by');
             $table->string('updated_by')->nullable();
             $table->timestamps();
         });
@@ -32,6 +31,6 @@ class CreatePhones extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phones');
+        Schema::dropIfExists('ingredients');
     }
 }

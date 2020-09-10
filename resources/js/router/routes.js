@@ -28,6 +28,16 @@ export default [
             { path: 'list', name: 'leads', component: require('$comp/page/lead/LeadList').default },
             { path: 'edit/:leadid', name: 'lead-edit', component: require('$comp/page/lead/LeadEdit').default }
           ]
+        },
+        { path: 'more', component: require('$comp/page/more/MoreWrapper').default, children:
+          [
+            { path: 'color/list', name: 'colors', component: require('$comp/page/more/ColorList').default},
+            { path: 'pattern/list', name: 'patterns', component: require('$comp/page/more/PatternList').default},
+            { path: 'ingredient/list', name: 'ingredients', component: require('$comp/page/more/IngredientList').default},
+            { path: 'ingredient/edit/:ingredientid', name: 'ingredient-edit', component: require('$comp/page/more/IngredientEdit').default},
+            { path: 'system/list', name: 'systems', component: require('$comp/page/more/SystemList').default},
+            { path: 'system/edit/:systemid', name: 'system-edit', component: require('$comp/page/more/SystemEdit').default},
+          ]
         }
       ]
     },

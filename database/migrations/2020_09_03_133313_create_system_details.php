@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePhones extends Migration
+class CreateSystemDetails extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreatePhones extends Migration
      */
     public function up()
     {
-        Schema::create('phones', function (Blueprint $table) {
+        Schema::create('system_details', function (Blueprint $table) {
             $table->string('id');
-            $table->string('personid');
-            $table->string('number');
-            $table->string('type');
-            $table->boolean('primary')->default(true);
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
+            $table->string('systemid');
+            $table->string('ingredientid');
+            $table->string('extra')->default('');
+            $table->float('price')->default(0);
+            $table->tinyInteger('factor')->default(1);
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreatePhones extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phones');
+        Schema::dropIfExists('system_details');
     }
 }

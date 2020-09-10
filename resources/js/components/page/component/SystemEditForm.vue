@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <template f fluid>
-            <v-btn block @click="changeOpenState" color="rgb(236,151,31)" dark>SYSTEMS</v-btn>
+            <v-btn block @click="changeOpenState" v-bind:color="open == true ? 'rgb(236,151,31)' : 'primary'" dark>SYSTEMS</v-btn>
         </template>
         <v-spacer></v-spacer>
 
@@ -13,7 +13,7 @@
                 outlined
                 rows="2"
                 row-height="15"
-                class="pt-8"
+                class="mt-8"
             ></v-textarea>
             <v-text-field label="Area Name" v-model="areaname"></v-text-field>
             <v-row>
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-
 import { mapGetters } from 'vuex'
 import VueNumericInput from 'vue-numeric-input'
 
@@ -48,7 +47,6 @@ export default {
 
 components: {
     VueNumericInput,
-
 },
 
 data: () => ({

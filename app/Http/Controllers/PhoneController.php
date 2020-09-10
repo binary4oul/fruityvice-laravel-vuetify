@@ -22,6 +22,7 @@ class PhoneController extends Controller
                 Phone::where('personid', $phone['personid'])
                     ->where('primary', true)
                     ->update(['primary'=>false]);
+                $phone['primary'] = true;
             }
         }
 

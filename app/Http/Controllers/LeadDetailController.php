@@ -23,9 +23,8 @@ class LeadDetailController extends Controller
         $user = auth()->user();
         $input['updated_by'] = $user->id;
         //Update Person
-        $result = LeadDetail::find($id)->update($input);
-        $response['status'] = true;
-        $response['data'] = $leaddetail;
+        $leaddetail = LeadDetail::find($id)->update($input);
+        $response = LeadDetail::find($id);
         return $response;
     }
 

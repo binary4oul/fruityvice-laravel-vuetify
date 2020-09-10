@@ -4,10 +4,10 @@ namespace App\Models;
 
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
 
-class Phone extends Model
+class Pattern extends Model
 {
     //
     protected $fillable = [
-        'id', 'personid', 'number', 'type', 'primary'
+        'id', 'name', 'created_by', 'updated_by', 'created_at', 'updated_at'
     ];
 }
