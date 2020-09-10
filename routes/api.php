@@ -31,6 +31,24 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::post('leaddetail', 'LeadDetailController@create');
     Route::put('leaddetail/{id}', 'LeadDetailController@update');
 
+    Route::post('project', 'ProjectController@create');
+    Route::get('projects', 'ProjectController@list');
+    Route::get('project/{id}', 'ProjectController@show');
+    Route::put('project/{id}', 'ProjectController@update');
+
+    Route::post('projectdetail', 'ProjectDetailController@create');
+    Route::put('projectdetail/{id}', 'ProjectDetailController@update');
+
+    Route::post('project/note', 'ProjectNoteController@create');
+    Route::get('project/note/list/{projectid}', 'ProjectNoteController@list');
+    Route::put('project/note/{id}', 'ProjectNoteController@update');
+    Route::delete('project/note/{id}', 'ProjectNoteController@destroy');
+
+    Route::post('project/image', 'ProjectImageController@create');
+    Route::get('project/image/list/{projectid}', 'ProjectImageController@list');
+    Route::put('project/image/{id}', 'ProjectImageController@update');
+    Route::delete('project/image/{id}', 'ProjectImageController@destroy');
+
     Route::get('phonetype', 'PhoneController@getPhoneType');
     Route::post('phone', 'PhoneController@create');
     Route::put('phone/{id}', 'PhoneController@update');

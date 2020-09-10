@@ -12,7 +12,7 @@
     <v-row>
         <v-spacer></v-spacer>
         <v-btn color="green" dark class="mx-2 my-4" @click="saveLead">Save</v-btn>
-         <v-btn color="error" dark class="mx-2 my-4" v-if="leadid != 'new'" @click="deleteLead">Delete</v-btn>
+        <v-btn color="error" dark class="mx-2 my-4" v-if="leadid != 'new'" @click="deleteLead">Delete</v-btn>
         <v-btn class="mx-2 my-4" @click="$router.push({name:'leads'})">Cancel</v-btn>
         <v-spacer></v-spacer>
     </v-row>
@@ -128,7 +128,7 @@ methods: {
                 .catch(err => {
                     this.handleErrors("leaddetail data error!")
                 })
-            this.$toast.success('Saved successfully!')
+            this.$toast.success('Updated successfully!')
         }
 
     },

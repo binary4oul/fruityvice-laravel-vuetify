@@ -42,8 +42,9 @@ data: () => ({
       headers: [
         { text: 'No', value: 'no' },
         { text: 'Name', value: 'name' },
-        { text: 'Coverage Area sq/ft', value: 'coverage' },
-        { text: 'Phurchage Price', value: 'purchageprice' }
+        { text: 'Price', value: 'saleprice' },
+        { text: 'Created_at', value: 'created_at' },
+        { text: 'Active', value: 'active' },
       ],
       systems:[]
     }),
@@ -57,7 +58,9 @@ methods: {
     axios.get(api.path('systems'))
       .then(res => {
         this.systems  = res.data
-        this.systems.map((item, index)=> item['no'] = index + 1 )
+        this.systems.map((item, index)=> {
+          item['no'] = index + 1
+        })
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)

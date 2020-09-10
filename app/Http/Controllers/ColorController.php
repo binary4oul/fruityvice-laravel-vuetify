@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Color;
+use App\Models\IngredientColor;
 
 class ColorController extends Controller
 {
@@ -57,6 +58,8 @@ class ColorController extends Controller
     {
         $color = Color::findOrFail($id);
         $color->delete();
+        $ingredient_colors = IngredientColor::where('colorid', $id)->get();
+        foreach($ingredient_colors as $ingredient_color) $ingredient_color->delete();
         $response['status'] = 'success';
         return $response;
     }

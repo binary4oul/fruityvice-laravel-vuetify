@@ -47,7 +47,7 @@
                 </v-row>
                 <v-row v-if="leadid != 'new'">
                     <v-spacer></v-spacer>
-                    <v-btn color="blue" dark @click="edit = false">
+                    <v-btn color="blue" dark @click="updatePerson">
                         OK
                     </v-btn>
                 </v-row>
@@ -57,8 +57,9 @@
 </template>
 
 <script>
-
 import { mapGetters } from 'vuex'
+import axios from 'axios'
+import { api } from '~/config'
 
 export default {
 
@@ -69,6 +70,15 @@ methods: {
     change(){
         let data = {'person': this.personValue}
         this.$store.dispatch('person/setPerson', data)
+    },
+    updatePerson(){
+         axios.put(api.path('person') +'/'+ this.personValue['id'], this.personValue)
+            .then(res => {
+                this.edit = false
+            })
+            .catch(err => {
+                this.handleErrors("lead data error!")
+            })
     },
 },
 computed: mapGetters({

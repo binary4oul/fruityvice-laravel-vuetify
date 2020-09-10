@@ -15,7 +15,7 @@
             window.Laravel = {!! json_encode([
                 'siteName' => config('app.name'),
                 'siteUrl' => config('app.url'),
-                'apiUrl' => config('app.url') . ':8080/api'
+                'apiUrl' => config('app.url') . '/api'
             ]) !!};
         </script>
     </head>

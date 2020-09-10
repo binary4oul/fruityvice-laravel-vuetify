@@ -1,7 +1,7 @@
 <template>
       <v-app-bar
         color="#6A76AB"
-        dark
+        :dark="true"
         fixed app
         shrink-on-scroll
         prominent
@@ -21,12 +21,12 @@
         <v-spacer></v-spacer>
 
         <template v-slot:extension>
-            <v-tabs align-with-title  mb4 >
+            <v-tabs align-with-title mb4>
                 <v-tab v-for="item in tabs" :key="item.tab" :to="item.path">
                     {{ item.name }}
                 </v-tab>
                 <v-tab>
-                  <v-menu v-if="more.length" >
+                  <v-menu v-if="more.length" offset-y>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
                             text
@@ -49,7 +49,7 @@
 
                 <v-spacer></v-spacer>
 
-                  <v-menu v-if="more.length" >
+                  <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
                             text
@@ -85,7 +85,7 @@ export default {
           ],
         more: [
           {name:'My Teams', path:'/lead/list'},
-          {name:'My Memberships', path:'/profile'},
+          {name:'My Memberships', path:'/lead/list'},
           {name:'Systems', path:'/more/system/list'},
           {name:'Ingredients', path:'/more/ingredient/list'},
           {name:'Colors', path:'/more/color/list'},
@@ -116,4 +116,5 @@ methods: {
     display: block;
     margin: 0 auto
   }
+
 </style>

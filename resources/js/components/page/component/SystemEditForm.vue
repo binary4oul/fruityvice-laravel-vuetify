@@ -28,11 +28,9 @@
                     </p>
                 </v-col>
             </v-row>
-
-            <v-select :items="items" label="System"></v-select>
+            <v-select :items="systems" label="System" v-model="category" item-text="name"/>
             <v-row align="center justify-center">
                 <v-btn color="green" @click="changeOpenState" dark>Add System</v-btn>
-
             </v-row>
 
         </template>
@@ -42,6 +40,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import VueNumericInput from 'vue-numeric-input'
+import axios from 'axios'
+import { api } from '~/config'
 
 export default {
 
@@ -53,7 +53,7 @@ data: () => ({
     open: false,
     areaname: '',
     note: '',
-    items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+    systems: [],
 }),
 
 methods: {
@@ -62,14 +62,19 @@ methods: {
     },
     changeOpenState(){
         this.open = !this.open
+    },
+    getSystems(){
+        axios.get(api.path('systems'))
+            .then(res => {
+                this.systems  = res.data
+            })
+            .catch(err => {
+                this.handleErrors(err.response.data.errors)
+            })
     }
 },
-computed: mapGetters({
-    person: 'person/person',
-}),
-
-mounted() {
-
+created() {
+    this.getSystems()
 },
 }
 </script>

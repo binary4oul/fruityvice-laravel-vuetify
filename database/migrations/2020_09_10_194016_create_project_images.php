@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSystems extends Migration
+class CreateProjectImages extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateSystems extends Migration
      */
     public function up()
     {
-        Schema::create('systems', function (Blueprint $table) {
+        Schema::create('project_images', function (Blueprint $table) {
             $table->string('id');
-            $table->string('name');
-            $table->float('saleprice');
-            $table->boolean('active')->default(true);
-            $table->boolean('share')->default(true);
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->string('projectid');
+            $table->text('image');
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ class CreateSystems extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('systems');
+        Schema::dropIfExists('project_images');
     }
 }

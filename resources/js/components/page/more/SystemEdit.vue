@@ -7,19 +7,52 @@
         <v-text-field label="Name" v-model="system.name"></v-text-field>
         <v-row>
             <v-col cols="12" sm="3">
-                <v-checkbox v-model="this.system['active']" label="Active">Acive</v-checkbox>
+                <v-checkbox v-model="system['active']" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-0 my-0">Acive</v-checkbox>
             </v-col>
             <v-col cols="12" sm="3">
-                <v-checkbox v-model="this.system['share']" label="Share">Share</v-checkbox>
+                <v-checkbox v-model="system['share']" label="Share" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-0 my-0">Share</v-checkbox>
             </v-col>
             <v-col cols="12" sm="6">
                 System Price / sq ft :
                 <vue-numeric-input v-model="system.saleprice" :value="0" :min="0" controls-type="updown"></vue-numeric-input>
             </v-col>
         </v-row>
+        <template f fluid>
+            <v-btn block @click="open_ingredients=!open_ingredients" v-bind:color="open_ingredients == true ? 'rgb(236,151,31)' : 'primary'" dark class="my-4">
+                Ingredients({{ingredients.length}})</v-btn>
+        </template>
+        <template v-if="open_ingredients">
         <v-row>
-
+            <v-col cols="12" sm="4">
+                Name
+            </v-col>
+            <v-col cols="12" sm="2">
+                Purchage Price
+            </v-col>
+            <v-col cols="12" sm="2">
+                Units
+            </v-col>
+            <v-col cols="12" sm="4">
+                Extra Info
+            </v-col>
         </v-row>
+        <v-row v-for="item in ingredientList" :key="item.id">
+            <v-col cols="12" sm="4">
+                <v-checkbox
+                    v-model="item.ingredientselect" :label=item.name
+                    v-bind:false-value=false v-bind:true-value=true hide-details class="mx-0 my-0"></v-checkbox>
+            </v-col>
+            <v-col cols="12" sm="2">
+                {{ item.purchageprice }}
+            </v-col>
+            <v-col cols="12" sm="2">
+                <vue-numeric-input v-model="item.factor" :value="1" :min="1" controls-type="updown"></vue-numeric-input>
+            </v-col>
+            <v-col cols="12" sm="4">
+               <v-text-field v-model="item.extra" single-line class="mx-0 my-0 py-0"></v-text-field>
+            </v-col>
+        </v-row>
+        </template>
         <v-row>
             <v-spacer></v-spacer>
             <v-btn color="green" dark class="mx-2 my-2" @click="saveSystem">Save</v-btn>
@@ -44,25 +77,27 @@ components: {
 
 created() {
     this.systemid = this.$route.params.systemid
-    this.getIngredients()
     if(this.systemid != 'new') this.getSystem(this.systemid)
-    else this.system.ingredients = []
-    this.setIngredientList()
+    else {
+        this.system.ingredients = []
+         this.getIngredients()
+    }
 },
 
 data: () => ({
     system: {},
     ingredients: [],
     ingredientList: [],
+    open_ingredients: false,
 
 }),
 
 methods: {
     getIngredients(){
-        axios.get(api.path('colors'))
+        axios.get(api.path('ingredients'))
             .then(res => {
                 this.ingredients = res.data
-
+                this.setIngredientList()
             })
             .catch(err => {
                  this.handleErrors("Ingredient data error!")
@@ -72,27 +107,25 @@ methods: {
     getSystem(systemid) {
         axios.get(api.path('system') +"/"+ systemid)
             .then(res => {
-                this.system  = res.data
-
+                this.system = res.data
+                this.getIngredients()
             })
             .catch(err => {
                 this.handleErrors("System data error!")
             })
-            .then(() => {
-                this.loading = false
-        })
     },
 
     setIngredientList(){
         this.ingredients.map( ingredient => {
             let ind = this.system.ingredients.findIndex( item => item['ingredientid'] == ingredient['id'])
+
             let ingredientList_item = {}
             ingredientList_item['ingredientid'] = ingredient['id']
             ingredientList_item['name'] = ingredient['name']
             ingredientList_item['purchageprice'] = ingredient['purchageprice']
             if(ind != -1){
                 ingredientList_item['ingredientselect'] = true
-                ingredientList_item['unit'] = this.system.ingredientspp[ind]['factor']
+                ingredientList_item['factor'] = this.system.ingredients[ind]['factor']
                 ingredientList_item['extra'] = this.system.ingredients[ind]['extra']
             }
             else {
@@ -100,18 +133,21 @@ methods: {
             }
             this.ingredientList.push(ingredientList_item)
         })
-
     },
 
     saveSystem(){
-        this.system.color.map((item_color, ind, arr) => {
-            let index = this.colors.findIndex(item => item['name'] == item_color)
-            arr[ind] = this.colors[index]['id']
+        let ingredient_system = []
+        this.ingredientList.map(ingredient => {
+            if(ingredient['ingredientselect'] == true){
+                let ingredient_item = {}
+                ingredient_item['ingredientid'] = ingredient['ingredientid']
+                ingredient_item['factor'] = ingredient['factor']
+                ingredient_item['price'] = ingredient['purchageprice'] * ingredient['factor']
+                ingredient_item['extra'] = ingredient['extra']
+                ingredient_system.push(ingredient_item)
+            }
         })
-        this.system.pattern.map((item_pattern, ind, arr) => {
-            let index = this.patterns.findIndex(item => item['name'] == item_pattern)
-            arr[ind] = this.patterns[index]['id']
-        })
+        this.system.ingredients = ingredient_system
 
         if(this.systemid == 'new')
         {

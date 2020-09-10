@@ -7,7 +7,8 @@ Vue.use(Vuetify, {
     VSnackbar,
     VBtn,
     VIcon
-  }
+  },
+
 })
 Vue.use(VuetifyToast)
 

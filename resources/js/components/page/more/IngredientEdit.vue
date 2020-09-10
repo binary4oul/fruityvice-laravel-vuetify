@@ -34,14 +34,11 @@
             persistent-hint
         ></v-select>
         <v-row style="align:center">
-
                 <v-spacer></v-spacer>
                 <v-btn color="green" dark class="mx-2 my-2" @click="saveIngredient">Save</v-btn>
                 <v-btn color="error" dark class="mx-2 my-2" v-if="ingredientid != 'new'" @click="deleteIngredient">Delete</v-btn>
                 <v-btn class="mx-2 my-2" @click="$router.push({name:'ingredients'})">Cancel</v-btn>
                 <v-spacer></v-spacer>
-
-
         </v-row>
     </v-card-text>
 </v-card>
@@ -61,12 +58,7 @@ components: {
 created() {
     this.ingredientid = this.$route.params.ingredientid
     this.getColors()
-    this.getPatterns()
-    if(this.ingredientid != 'new') this.getIngredient(this.ingredientid)
-    else {
-        this.ingredient.color = []
-        this.ingredient.pattern = []
-    }
+
 },
 
 data: () => ({
@@ -83,6 +75,7 @@ methods: {
             .then(res => {
                 this.colors = res.data
                 this.colors.map( item => this.colorNames.push(item['name']) )
+                this.getPatterns()
             })
             .catch(err => {
                 this.handleErrors(err.response.data.errors)
@@ -93,6 +86,13 @@ methods: {
             .then(res => {
                 this.patterns = res.data
                 this.patterns.map( item => this.patternNames.push(item['name']) )
+
+                if(this.ingredientid != 'new') this.getIngredient(this.ingredientid)
+                else {
+                    this.ingredient.color = []
+                    this.ingredient.pattern = []
+                }
+
             })
             .catch(err => {
                 this.handleErrors(err.response.data.errors)

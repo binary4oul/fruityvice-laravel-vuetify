@@ -17,6 +17,8 @@ class SystemController extends Controller
         $system['saleprice'] = $input['saleprice'];
         $system['created_by'] = $user->id;
         $system['updated_by'] = $user->id;
+        if(array_key_exists('active', $input)) $system['active'] = $input['active'];
+        if(array_key_exists('share', $input)) $system['share'] = $input['share'];
         $res_system = System::create($system);
 
         $systemId = $res_system->id;
@@ -50,6 +52,8 @@ class SystemController extends Controller
         $system['name'] = $input['name'];
         $system['saleprice'] = $input['saleprice'];
         $system['updated_by'] = $user->id;
+        if(array_key_exists('active', $input)) $system['active'] = $input['active'];
+        if(array_key_exists('share', $input)) $system['share'] = $input['share'];
         $result = System::find($id)->update($system);
         $res_system = System::find($id);
 

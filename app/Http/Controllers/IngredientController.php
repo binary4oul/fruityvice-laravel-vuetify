@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Ingredient;
 use App\Models\IngredientColor;
 use App\Models\IngredientPattern;
+use App\Models\SystemDetail;
 
 class IngredientController extends Controller
 {
@@ -71,6 +72,8 @@ class IngredientController extends Controller
         $ingredient = Ingredient::findOrFail($id);
         $this->destroyDetail($id);
         $ingredient->delete();
+        $system_details = SystemDetail::where('ingredientid', $id)->get();
+        foreach($system_details as $system_detail) $system_detail->delete();
         $response['status'] = 'success';
         return $response;
     }
