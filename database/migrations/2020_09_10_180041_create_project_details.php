@@ -23,7 +23,7 @@ class CreateProjectDetails extends Migration
             $table->float('areawidth');
             $table->string('name');
             $table->float('systemprice');
-            $table->float('salesprice')->nullable();
+            $table->float('saleprice')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();
