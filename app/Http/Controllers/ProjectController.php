@@ -73,7 +73,7 @@ class ProjectController extends Controller
         $project['address'] = $address;
         $projectdetails = ProjectDetail::where('projectid', $project['id'])->get();
         foreach($projectdetails as $projectdetail){
-            $projectdetailstyles = ProjectDetailStyle::where('projectdetailid', $projectdetail['id']);
+            $projectdetailstyles = ProjectDetailStyle::where('projectdetailid', $projectdetail['id'])->get();
             $projectdetail['projectdetailstyles'] = $projectdetailstyles;
         }
         $project['projectdetails'] = $projectdetails;

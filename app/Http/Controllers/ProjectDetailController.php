@@ -32,7 +32,7 @@ class ProjectDetailController extends Controller
         return $projectdetails;
     }
 
-    public function update(Reuqest $request, $id)
+    public function update(Request $request, $id)
     {
         $this->destroy($id);
         $projectdetails = $input['projectdetails'];
