@@ -52,7 +52,7 @@ methods: {
       .then(res => {
         this.leads  = res.data
         this.leads.map(lead => {
-            axios.get(api.path)
+
         })
       })
       .catch(err => {
