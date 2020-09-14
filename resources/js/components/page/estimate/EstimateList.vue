@@ -39,7 +39,7 @@ data: () => ({
         { text: 'Create_at', value: 'person.company' },
         { text: 'Price', value: 'created_at' }
       ],
-      leads:[]
+      estimates:[]
     }),
 
 mounted() {
@@ -52,7 +52,10 @@ methods: {
       .then(res => {
         this.leads  = res.data
         this.leads.map(lead => {
-
+            axios.get(api.path('getProjectByLeadId') +'/'+ lead['id'])
+                .then(res => {
+                    this.estimates.push(res.data)
+                })
         })
       })
       .catch(err => {
