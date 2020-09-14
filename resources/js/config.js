@@ -81,5 +81,8 @@ export const api = Object.assign(new URL(apiUrl), {
   ingredient: {url: 'ingredient'},
   systems: {url: 'systems'},
   system: {url: 'system'},
+  project: {url: 'project'},
+  projectdetail: {url: 'projectdetail'},
+  getProjectByLeadId: {url: 'project/getbyleadid'}
 
 })

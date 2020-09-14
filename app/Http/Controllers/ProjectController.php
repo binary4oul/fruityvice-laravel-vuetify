@@ -80,4 +80,27 @@ class ProjectController extends Controller
         return $project;
     }
 
+    public function destroy($id)
+    {
+        $project = Project::find($id);
+        $projectdetails = ProjectDetail::where('projectid', $project['id'])->get();
+        foreach($projectdetails as $projectdetail){
+            $projectdetailstyles = ProjectDetailStyle::where('projectdetailid', $projectdetail['id'])->get();
+            foreach($projectdetailstyles as $projectdetailstyle) $projectdetailstyle->delete();
+            $projectdetail->delete();
+        }
+        $project->delete();
+        $project['projectdetails'] = $projectdetails;
+        return $project;
+    }
+
+    public function getByLeadId($leadid){
+        $project = Project::where('leadid', $leadid)->first();
+        if($project){
+            $res_project = $this->show($project->id);
+            return $res_project;
+        }
+        return $project;
+    }
+
 }

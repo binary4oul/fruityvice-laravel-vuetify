@@ -67,6 +67,7 @@ created() {
             this.detail['howcanwehelp'] =''
         }
         else this.detail = {...this.leaddetail}
+        this.change()
     }, 1000)
 },
 }

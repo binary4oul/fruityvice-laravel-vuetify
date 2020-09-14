@@ -87,8 +87,8 @@ methods: {
   saveColor(){
     delete this.color_select['no'];
         if(this.color_select['id'] == 'new'){
-              delete this.color_select['id'];
-              axios.post(api.path('color'), this.color_select)
+            delete this.color_select['id'];
+            axios.post(api.path('color'), this.color_select)
               .then(res => {
                 if(res.data.status == "success"){
                   let color_new  = res.data

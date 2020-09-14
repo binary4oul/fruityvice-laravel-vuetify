@@ -40,7 +40,7 @@
                     </template>
 
                     <v-list class="grey lighten-3">
-                        <v-list-item v-for="item in more" :key="item" :to="item.path">
+                        <v-list-item v-for="(item, index) in more" :key="index" :to="item.path">
                             {{ item.name }}
                         </v-list-item>
                     </v-list>
@@ -64,7 +64,7 @@
 
                     <v-list class="grey lighten-3">
                       <v-list-item :to="profile.path">{{ profile.name }}</v-list-item>
-                      <v-list-item @click="logout">{{ logout.name }}</v-list-item>
+                      <v-list-item @click="logout">Log Out</v-list-item>
                     </v-list>
                   </v-menu>
 
@@ -74,6 +74,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import axios from 'axios'
+import { api } from '~/config'
 export default {
     data: () => ({
         tab: null,
@@ -92,7 +94,6 @@ export default {
           {name:'Patterns', path:'/more/pattern/list'},
           ],
         profile: {name:'My Profile', path:'/profile'},
-        logout: {name:'Log Out'},
 
     }),
 computed: mapGetters({
@@ -100,13 +101,24 @@ computed: mapGetters({
 }),
 
 methods: {
-  logout() {
-      this.$store.dispatch('auth/logout')
-      this.$toast.info('You are logged out.')
+    // logout() {
+
+    //     axios.post(api.path('logout'))
+    //         .then(res => {
+    //             this.$store.dispatch('auth/logout')
+    //             this.$toast.info('You are logged out.')
+    //            // this.$router.push({ name: 'login' })
+    //         })
+    //         .catch(err => {
+
+    //         })
+
+    // },
+    async logout() {
+      await this.$store.dispatch('auth/logout')
       this.$router.push({ name: 'login' })
     },
 },
-
 }
 </script>
 <style>

@@ -7,6 +7,7 @@
 
         <template v-if="open">
             <v-textarea
+                v-if="leadid=='new'"
                 label="Note"
                 v-model="note"
                 auto-grow
@@ -73,12 +74,17 @@
                         <td>{{ ingredient.name }}</td>
                         <td>{{ ingredient.extra }}</td>
                         <td>{{ ingredient.factor }}</td>
-                        <td>
-                            <v-select :items="ingredients[`${index}`].color" item-text="name" solo autowidth hide-details class="py-2"></v-select>
+
+                        <td v-if="ingredients[`${index}`].color.length > 0">
+                            <v-select :items="ingredients[`${index}`].color" v-model="ingredients[`${index}`].colorid" item-text="name" solo single-line autowidth hide-details class="py-2"></v-select>
                         </td>
-                        <td>
-                            <v-select :items="ingredients[`${index}`].pattern" item-text="name" solo autowidth hide-details class="py-2"></v-select>
+                        <td v-if="ingredients[`${index}`].color.length <= 0">No Colors</td>
+
+                        <td v-if="ingredients[`${index}`].pattern.length > 0">
+                            <v-select :items="ingredients[`${index}`].pattern" v-model="ingredients[`${index}`].patternid" item-text="name" solo single-line autowidth hide-details class="py-2"></v-select>
                         </td>
+                        <td v-if="ingredients[`${index}`].pattern.length <= 0">No Patterns</td>
+
                     </tr>
                     </tbody>
                 </template>
@@ -86,24 +92,38 @@
 
             <v-row>
                 <v-spacer></v-spacer>
-                <v-btn color="green" @click="changeOpenState" dark class="mt-4">Add System</v-btn>
+                <v-btn color="green" @click="addProject" dark class="my-4">Add System</v-btn>
                 <v-spacer></v-spacer>
             </v-row>
+
+            <v-simple-table dense>
+                <template v-slot:default>
+                    <tbody>
+                    <tr v-for="(detail, index) in project.projectdetails" :key="index" @click="editProjectDetail">
+                        <td>Area Name: {{ detail.name }}</td>
+                        <td>System: {{ detail.system}}</td>
+                        <td>Area: {{ detail.area }} sqft</td>
+                        <td>Price: ${{ detail.areaprice }} </td>
+                    </tr>
+                    </tbody>
+                </template>
+            </v-simple-table>
 
         </template>
 </v-container>
 </template>
 
 <script>
+import {Vue, Component} from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
 import VueNumericInput from 'vue-numeric-input'
 import axios from 'axios'
 import { api } from '~/config'
 
 export default {
-
 components: {
     VueNumericInput,
+
 },
 
 data: () => ({
@@ -122,6 +142,7 @@ data: () => ({
     ingredient_list:[],
     color_list:[],
     pattern_list:[],
+    project:{ projectdetails:[] }
 }),
 props: ['leadid'],
 
@@ -176,9 +197,18 @@ methods: {
                 this.ingredients = res.data['ingredients']
                 this.ingredients.map(ingredient => {
                     let idx = this.ingredient_list.findIndex(item => item['id'] == ingredient['ingredientid'])
+                    ingredient['ingredientid'] = this.ingredient_list[idx]['id']
                     ingredient['name'] = this.ingredient_list[idx]['name']
                     ingredient['color'] = this.ingredient_list[idx]['color']
+                    ingredient['color'].map(color_ingredient => {
+                        let color = this.color_list.find( item => item['id'] == color_ingredient['colorid'] )
+                        color_ingredient['name'] = color['name']
+                    })
                     ingredient['pattern'] = this.ingredient_list[idx]['pattern']
+                    ingredient['pattern'].map(pattern_ingredient => {
+                        let pattern = this.pattern_list.find( item => item['id'] == pattern_ingredient['patternid'] )
+                        pattern_ingredient['name'] = pattern['name']
+                    })
                 })
             })
             .catch(err => {
@@ -188,12 +218,84 @@ methods: {
     eidtSalePrice(){
         if(this.show_edit_salePrice) this.show_edit_salePrice = false
         else this.show_edit_salePrice = true
+    },
+    addProject(){
+        if(!this.checkProjectDetail()) return
+        this.project['note'] = this.note
+        if(!this.project['projectdetails']) this.project['projectdetails'] = []
+        this.project['projectdetails'].push(this.getNewProjectDetail())
+
+        let data = {'project': this.project}
+        data['project']['projectdetails'].map(item => delete item['system'])
+        this.$store.dispatch('project/setProject', data)
+
+        this.areaname = ''
+        this.areawidth = 0
+        this.note = ''
+        this.width = 0
+        this.length = 0
+        this.saleprice = 0
+        this.ingredients = []
+        this.system_des = ''
+        this.show_ingredients = false
+    },
+    checkProjectDetail(){
+        if(this.areaname == '') return false
+        if(this.length == 0 || this.width == 0) return false
+        if(this.getSystemIdx == -1) return false
+        return true
+    },
+    getNewProjectDetail(){
+        let detail = {}
+        detail['name'] = this.areaname
+        detail['areawidth'] = this.width
+        detail['arealength'] = this.length
+        detail['area'] = this.getArea
+        detail['systemid'] = this.systems[this.getSystemIdx]['id']
+        detail['system'] = this.systems[this.getSystemIdx]['name']
+        detail['saleprice'] = this.saleprice
+        detail['areaprice'] = this.getAreaPrice
+        detail['systemprice'] = this.systems[this.getSystemIdx]['saleprice']
+
+        let detailStyles = []
+        this.ingredients.map(style => {
+            let detailstyle = {}
+            if(style['colorid']){
+                let color = style['color'].find( item => item['name'] == style['colorid'] )
+                detailstyle['colorid'] = color['colorid']
+            }
+            if(style['patternid']){
+                let pattern = style['pattern'].find( item => item['name'] == style['patternid'] )
+                detailstyle['patternid'] = pattern['patternid']
+            }
+            detailstyle['ingredientid'] = style['ingredientid']
+            detailStyles.push(detailstyle)
+        })
+        detail['projectdetailstyles'] = detailStyles
+        return detail
+    },
+    getProject(){
+        axios.get(api.path('getProjectByLeadId') +'/'+ this.leadid)
+            .then(res => {
+                if(res.data){
+                    this.project = res.data
+                    this.$store.dispatch('project/setProject', res.data)
+                }
+            })
+            .catch(err => {
+                this.handleErrors(err.response.data.errors)
+            })
+    },
+    editProjectDetail() {
+        console.log('test alert')
     }
 },
 
 created() {
     this.getSystems()
     this.getData()
+    if(this.leadid != 'new') this.getProject()
+    else this.project['projectdetails'] = []
 },
 
 computed:{
@@ -211,7 +313,6 @@ computed:{
     getAreaPrice: function(){
         return this.getArea * this.saleprice
     },
-
 },
 
 }

@@ -44,7 +44,8 @@ computed: mapGetters({
     person: 'person/person',
     address: 'person/address',
     phone: 'person/phone',
-    leaddetail: 'leaddetail/leaddetail'
+    leaddetail: 'leaddetail/leaddetail',
+    project_store: 'project/project'
 }),
 
 created() {
@@ -115,6 +116,28 @@ methods: {
                         .catch(err => {
                             this.handleErrors("leaddetail data error!")
                         })
+
+                    let project = { leadid: leadid }
+                    axios.post(api.path('project'), project)
+                        .then(res => {
+                            project = res.data
+                            this.project_store.projectdetails.map(detail => {
+                                detail['projectid'] = project['id']
+                                axios.post(api.path('projectdetail'), detail)
+                                    .then(res => {
+
+                                    })
+                            })
+                            let projectnote = { note: project_store['note'], projectid: project['id']}
+                            axios.post(api.path('projectdetail'), detail)
+                                    .then(res => {
+
+                            })
+                        })
+                        .catch(err => {
+                            this.handleErrors("leaddetail data error!")
+                        })
+
                     this.$toast.success('Saved successfully!')
                 })
 
@@ -128,6 +151,34 @@ methods: {
                 .catch(err => {
                     this.handleErrors("leaddetail data error!")
                 })
+            console.log('saving')
+            if('id' in this.project_store){
+                axios.delete(api.path('project') +'/'+ this.project_store['id'])
+                .then(res => {
+                })
+            }
+
+                let project = { leadid: this.leadid }
+                    axios.post(api.path('project'), project)
+                        .then(res => {
+                            project = res.data
+                            this.project_store.projectdetails.map(detail => {
+                                detail['projectid'] = project['id']
+                                axios.post(api.path('projectdetail'), detail)
+                                    .then(res => {
+
+                                    })
+                            })
+                            let projectnote = { note: project_store['note'], projectid: project['id']}
+                            axios.post(api.path('projectdetail'), detail)
+                                    .then(res => {
+
+                            })
+                        })
+                        .catch(err => {
+                            this.handleErrors("leaddetail data error!")
+                        })
+
             this.$toast.success('Updated successfully!')
         }
 
@@ -135,6 +186,7 @@ methods: {
     deleteLead(){
 
     }
+
 },
 
 }
