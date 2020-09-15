@@ -16,6 +16,7 @@ class CreateLeads extends Migration
         Schema::create('leads', function (Blueprint $table) {
             $table->string('id');
             $table->string('personid')->default('');
+            $table->boolean('active')->default(true);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

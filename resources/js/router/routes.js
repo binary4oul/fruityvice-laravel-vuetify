@@ -29,6 +29,13 @@ export default [
             { path: 'edit/:leadid', name: 'lead-edit', component: require('$comp/page/lead/LeadEdit').default }
           ]
         },
+        { path: 'project', component: require('$comp/page/lead/LeadWrapper').default, children:
+          [
+            { path: 'estimates', name: 'estimates', component: require('$comp/page/estimate/EstimateList').default },
+            { path: 'complete', name: 'complete', component: require('$comp/page/estimate/CompleteProject').default },
+            { path: 'current', name: 'current', component: require('$comp/page/estimate/CurrentProject').default },
+          ]
+        },
         { path: 'more', component: require('$comp/page/more/MoreWrapper').default, children:
           [
             { path: 'color/list', name: 'colors', component: require('$comp/page/more/ColorList').default},

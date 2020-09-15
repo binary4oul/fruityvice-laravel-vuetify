@@ -81,9 +81,9 @@ export default {
         tab: null,
         tabs: [
           {name:'Leads', path:'/lead/list'},
-          {name:'Estimates', path:'/lead/list'},
-          {name:'Current Projects', path:'/lead/list'},
-          {name:'Complete Projects', path:'/lead/list'},
+          {name:'Estimates', path:'/project/estimates'},
+          {name:'Current Projects', path:'/project/current'},
+          {name:'Complete Projects', path:'/project/complete'},
           ],
         more: [
           {name:'My Teams', path:'/lead/list'},

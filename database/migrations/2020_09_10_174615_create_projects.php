@@ -22,6 +22,8 @@ class CreateProjects extends Migration
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->string('designconsult')->nullable();
+            $table->boolean('active')->default(true);
+            $table->boolean('share')->default(false);
             $table->timestamps();
         });
     }
