@@ -119,6 +119,7 @@ methods: {
         axios.put(api.path('project') +'/'+ this.project['id'], project_data)
             .then(res => {
                     this.edit_project = false
+                    this.project = res.data
                 })
             .catch(err => {
                 this.handleErrors(err.response.data.errors)
