@@ -6,6 +6,11 @@
         <v-spacer></v-spacer>
 
         <template v-if="open">
+            <v-btn color="green" dark @click="edit_new=!edit_new" class="mx-4 my-4">
+              <v-icon dark>add</v-icon>New System
+            </v-btn>
+
+            <template v-if="edit_new">
             <v-textarea
                 v-if="leadid=='new'"
                 label="Note"
@@ -96,10 +101,12 @@
                 <v-spacer></v-spacer>
             </v-row>
 
+            </template>
+
             <v-simple-table dense>
                 <template v-slot:default>
                     <tbody>
-                    <tr v-for="(detail, index) in project.projectdetails" :key="index" @click="editProjectDetail">
+                    <tr v-for="(detail, index) in project.projectdetails" :key="index" @click="editProjectDetail(detail)">
                         <td>Area Name: {{ detail.name }}</td>
                         <td>System: {{ detail.system}}</td>
                         <td>Area: {{ detail.area }} sqft</td>
@@ -128,6 +135,7 @@ components: {
 
 data: () => ({
     open: false,
+    edit_new: true,
     show_ingredients: false,
     show_edit_salePrice: false,
     areaname: '',
@@ -149,6 +157,7 @@ props: ['leadid'],
 methods: {
     changeOpenState(){
         this.open = !this.open
+        this.edit_new = false
     },
     changeShowIngredients(){
         this.show_ingredients = !this.show_ingredients
@@ -229,8 +238,32 @@ methods: {
         data['project']['projectdetails'].map(item => delete item['system'])
         this.$store.dispatch('project/setProject', data)
 
+        if(this.leadid != 'new'){
+            if('id' in data['project']){
+                axios.delete(api.path('project') +'/'+ data['project']['id'])
+                    .then(res => {
+                })
+            }
+            let new_project = { leadid: this.leadid }
+                axios.post(api.path('project'), new_project)
+                    .then(res => {
+                        new_project = res.data
+                        data['project']['projectdetails'].map(detail => {
+                            detail['projectid'] = new_project['id']
+                            axios.post(api.path('projectdetail'), detail)
+                                .then(res => {
+                                })
+                        })
+                        let projectnote = { note: data['project']['note'], projectid: new_project['id']}
+                        axios.post(api.path('projectnote'), projectnote)
+                            .then(res => { })
+                        })
+                    .catch(err => {
+                            this.handleErrors("Project data error!")
+                    })
+        }
+
         this.areaname = ''
-        this.areawidth = 0
         this.note = ''
         this.width = 0
         this.length = 0
@@ -279,15 +312,31 @@ methods: {
             .then(res => {
                 if(res.data){
                     this.project = res.data
-                    this.$store.dispatch('project/setProject', res.data)
+                    let proeject_data = {}
+                    proeject_data['project'] = res.data
+                    proeject_data['project']['projectdetails'].map(detail => {
+                        let idx = this.systems.findIndex(item => item['id'] == detail['systemid'])
+                        detail['system'] = this.systems[idx]['name']
+                    })
+                    this.$store.dispatch('project/setProject', proeject_data)
+                    this.edit_new = false
                 }
             })
             .catch(err => {
                 this.handleErrors(err.response.data.errors)
             })
     },
-    editProjectDetail() {
-        console.log('test alert')
+    editProjectDetail(detail) {
+        console.log(detail)
+        this.edit_new = true
+        this.areaname = detail['name']
+        this.width = detail['areawidth']
+        this.length = detail['arealength']
+        let idx = this.systems.findIndex(item => item['id'] == detail['systemid'])
+        this.system_des = this.systems[idx]['description']
+        this.saleprice = detail['saleprice']
+        this.ingredients = detail['projectdetailstyles']
+        this.project.projectdetails.pop(detail)
     }
 },
 

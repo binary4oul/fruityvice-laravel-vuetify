@@ -151,34 +151,6 @@ methods: {
                 .catch(err => {
                     this.handleErrors("leaddetail data error!")
                 })
-            console.log('saving')
-            if('id' in this.project_store){
-                axios.delete(api.path('project') +'/'+ this.project_store['id'])
-                .then(res => {
-                })
-            }
-
-                let project = { leadid: this.leadid }
-                    axios.post(api.path('project'), project)
-                        .then(res => {
-                            project = res.data
-                            this.project_store.projectdetails.map(detail => {
-                                detail['projectid'] = project['id']
-                                axios.post(api.path('projectdetail'), detail)
-                                    .then(res => {
-
-                                    })
-                            })
-                            let projectnote = { note: project_store['note'], projectid: project['id']}
-                            axios.post(api.path('projectdetail'), detail)
-                                    .then(res => {
-
-                            })
-                        })
-                        .catch(err => {
-                            this.handleErrors("leaddetail data error!")
-                        })
-
             this.$toast.success('Updated successfully!')
         }
 

@@ -19,11 +19,10 @@
       <v-card-text>
         <v-data-table
           :headers="headers"
-          :items="completes"
-          :search="search"
-          @click:row="selectEstimate">
+          :items="estimates"
+          :search="search">
           <template v-slot:item="row">
-              <tr>
+              <tr @click="selectEstimate(row.item)">
                 <td>{{row.item.person.fullname}}</td>
                 <td>{{row.item.person.company}}</td>
                 <td>${{row.item.price}}</td>
@@ -50,7 +49,7 @@ data: () => ({
         { text: 'Area', value: 'area' },
         { text: 'Create_at', value: 'created_at' }
       ],
-      completes:[]
+      estimates:[]
     }),
 
 mounted() {
@@ -77,11 +76,11 @@ methods: {
                       data['area'] += detail['area']
                       data['price'] += detail['areaprice']
                     })
-                    this.completes.push(data)
+                    this.estimates.push(data)
                   }
                 })
         })
-        console.log(this.completes)
+
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)
@@ -90,12 +89,12 @@ methods: {
         this.loading = false
       })
     },
-  selectEstimate(lead){
-    this.$router.push({ name: 'lead-edit', params:{leadid: lead['id']} })
+  selectEstimate(estimate){
+    this.$router.push({ name: 'project-edit', params:{leadid: estimate['leadid'], projectid: estimate['projectid']} })
   },
-  addNew(){
-    this.$router.push({ name: 'lead-edit', params:{leadid: 'new'} })
-  }
+},
+created() {
+    this.status = this.$route.params.status
 }
 }
 </script>

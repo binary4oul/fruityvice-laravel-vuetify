@@ -16,7 +16,7 @@ class CreateProjectNotes extends Migration
         Schema::create('project_notes', function (Blueprint $table) {
             $table->string('id');
             $table->string('projectid');
-            $table->text('text');
+            $table->text('note');
             $table->timestamps();
         });
     }

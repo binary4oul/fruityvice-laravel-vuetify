@@ -34,6 +34,7 @@ export default [
             { path: 'estimates', name: 'estimates', component: require('$comp/page/estimate/EstimateList').default },
             { path: 'complete', name: 'complete', component: require('$comp/page/estimate/CompleteProject').default },
             { path: 'current', name: 'current', component: require('$comp/page/estimate/CurrentProject').default },
+            { path: 'edit/:leadid:projectid', name: 'project-edit', component: require('$comp/page/estimate/ProjectEdit').default },
           ]
         },
         { path: 'more', component: require('$comp/page/more/MoreWrapper').default, children:

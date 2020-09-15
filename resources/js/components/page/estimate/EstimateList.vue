@@ -20,10 +20,9 @@
         <v-data-table
           :headers="headers"
           :items="estimates"
-          :search="search"
-          @click:row="selectEstimate">
+          :search="search">
           <template v-slot:item="row">
-              <tr>
+              <tr @click="selectEstimate(row.item)">
                 <td>{{row.item.person.fullname}}</td>
                 <td>{{row.item.person.company}}</td>
                 <td>${{row.item.price}}</td>
@@ -81,7 +80,7 @@ methods: {
                   }
                 })
         })
-        console.log(this.estimates)
+
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)
@@ -90,12 +89,12 @@ methods: {
         this.loading = false
       })
     },
-  selectEstimate(lead){
-    this.$router.push({ name: 'lead-edit', params:{leadid: lead['id']} })
+  selectEstimate(estimate){
+    this.$router.push({ name: 'project-edit', params:{leadid: estimate['leadid'], projectid: estimate['projectid']} })
   },
-  addNew(){
-    this.$router.push({ name: 'lead-edit', params:{leadid: 'new'} })
-  }
+},
+created() {
+    this.status = this.$route.params.status
 }
 }
 </script>

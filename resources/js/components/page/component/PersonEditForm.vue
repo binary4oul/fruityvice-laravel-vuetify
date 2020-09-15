@@ -1,19 +1,23 @@
 <template>
     <v-container fluid>
-        <v-row v-if="!edit">
-            <v-col cols="12" sm="4">
-                {{ personValue.firstname }} {{ personValue.lastname }}
-            </v-col>
-            <v-col cols="12" sm="4">
-                {{ personValue.company }}
-            </v-col>
-            <v-col cols="12" sm="4">
+        <template v-if="!edit">
+            <v-row>
+                <p class="mx-12">
+                    <font style="font-size:samller; color:grey">Full Name<br /></font>
+                    <font style="font-size:large">&nbsp;&nbsp;{{ personValue.firstname }} {{ personValue.lastname }}</font>
+                </p>
+            </v-row>
+            <v-row>
+                <p class="mx-12">
+                    <font style="font-size:samller; color:grey">Company<br /></font>
+                    <font style="font-size:large">&nbsp;&nbsp;{{ personValue.company }}</font>
+                </p>
                 <v-spacer></v-spacer>
-                <v-btn color="blue" dark @click="edit = true">
+                <v-btn color="blue" dark @click="edit = true" small class="mx-8">
                     <v-icon dark>edit</v-icon>
                 </v-btn>
-            </v-col>
-        </v-row>
+            </v-row>
+        </template>
         <v-form v-model="valid" v-if="edit">
             <v-container>
                 <v-row>
@@ -110,3 +114,6 @@ props: ['leadid', 'person'],
 
 }
 </script>
+<style scoped>
+
+</style>
