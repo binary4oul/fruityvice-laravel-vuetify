@@ -15,7 +15,7 @@
                         <v-text-field label="Address 2" v-model="selectedAddress.address2" @input="change"></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
-                        <v-select :items="items" label="Type" v-model="selectedAddress.type" @input="change"></v-select>
+                        <v-select :items="address_types" label="Type" v-model="selectedAddress.type" @input="change"></v-select>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -23,7 +23,7 @@
                         <v-text-field label="City" v-model="selectedAddress.city" @input="change"></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
-                        <v-select :items="items" label="State" v-model="selectedAddress.state" @input="change"></v-select>
+                        <v-select :items="countries" label="State" v-model="selectedAddress.state" @input="change"></v-select>
                     </v-col>
                     <v-col cols="12" md="2">
                         <v-text-field label="Zip" v-model="selectedAddress.zip" @input="change"></v-text-field>
@@ -71,7 +71,7 @@ export default {
 
 data: () => ({
     open: false,
-    items: ['Home', 'Office', 'Billing', 'Main'],
+    address_types: ['Home', 'Office', 'Billing', 'Main'],
     headers: [
         { text: 'Address1', value: 'address1', sortable: false },
         { text: 'Address2', value: 'address2', sortable: false },
@@ -82,8 +82,8 @@ data: () => ({
         { text: 'Primary', value: 'primary', sortable: false }
       ],
     edit: false,
-    selectedAddress:{}
-
+    selectedAddress:{},
+    countries: []
 }),
 props: ['address', 'personid'],
 
@@ -94,6 +94,9 @@ computed: {
         return addresses
     }
 },
+created() {
+    this.getCountries()
+},
 
 methods: {
     changeOpenState(){
@@ -102,6 +105,17 @@ methods: {
     change(){
         let data = {'address': this.selectedAddress}
         this.$store.dispatch('person/setAddress', data)
+    },
+    getCountries(){
+        axios.get(api.path('countries'))
+            .then(res => {
+                let data = res.data;
+                data.map(item => this.countries.push(item['country']))
+            })
+            .catch(err => {
+                this.handleErrors("address data error!")
+            })
+
     },
     selectAddress(address){
         this.edit = true

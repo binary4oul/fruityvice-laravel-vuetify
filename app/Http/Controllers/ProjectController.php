@@ -100,7 +100,18 @@ class ProjectController extends Controller
             $res_project = $this->show($project->id);
             return $res_project;
         }
-        return $project;
+        $res['error'] = true;
+        return $res;
+    }
+    public function getByLeadIdProjectStatus(Request $request){
+        $input = $request->all();
+        $project = Project::where('leadid', $input['leadid'])->where('projectstatus', $input['projectstatus'])->first();
+        if($project){
+            $res_project = $this->show($project->id);
+            return $res_project;
+        }
+        $res['error'] = true;
+        return $res;
     }
 
 }

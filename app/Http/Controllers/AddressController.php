@@ -62,4 +62,9 @@ class AddressController extends Controller
         $response = $addresstype;
         return $response;
     }
+
+    public function getCountries(){
+        $countries = DB::table('countries')->get();
+        return $countries;
+    }
 }

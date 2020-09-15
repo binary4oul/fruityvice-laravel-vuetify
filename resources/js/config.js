@@ -72,6 +72,7 @@ export const api = Object.assign(new URL(apiUrl), {
   person: { url: 'person' },
   phone: { url: 'phone', refresh: 'refresh' },
   address: { url: 'address' },
+  countries: { url: 'countries' },
   leaddetail: { url: 'leaddetail' },
   colors: { url: 'colors' },
   color: {url: 'color'},
@@ -83,6 +84,7 @@ export const api = Object.assign(new URL(apiUrl), {
   system: {url: 'system'},
   project: {url: 'project'},
   projectdetail: {url: 'projectdetail'},
-  getProjectByLeadId: {url: 'project/getbyleadid'}
+  getProjectByLeadId: {url: 'project/getbyleadid'},
+  getByLeadIdProjectStatus: {url: 'project/getbyleadidprojectstatus'},
 
 })

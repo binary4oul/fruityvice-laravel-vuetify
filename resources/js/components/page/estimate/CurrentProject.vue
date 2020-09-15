@@ -19,10 +19,19 @@
       <v-card-text>
         <v-data-table
           :headers="headers"
-          :items="estimates"
+          :items="currents"
           :search="search"
-          @click:row="selectEstimate"
-        ></v-data-table>
+          @click:row="selectEstimate">
+          <template v-slot:item="row">
+              <tr>
+                <td>{{row.item.person.fullname}}</td>
+                <td>{{row.item.person.company}}</td>
+                <td>${{row.item.price}}</td>
+                <td>{{row.item.area}} sqft</td>
+                <td>{{row.item.created_at}}</td>
+              </tr>
+          </template>
+        </v-data-table>
       </v-card-text>
     </v-card>
 </template>
@@ -35,28 +44,44 @@ export default {
 data: () => ({
       search: '',
       headers: [
-        { text: 'Customer', value: 'name' },
+        { text: 'Customer', value: 'person.fullname' },
         { text: 'Company', value: 'person.company' },
-        { text: 'Price', value: 'created_at' }
+        { text: 'Price', value: 'price' },
+        { text: 'Area', value: 'area' },
+        { text: 'Create_at', value: 'created_at' }
       ],
-      estimates:[]
+      currents:[]
     }),
 
 mounted() {
-  this.getLeads()
+  this.getProjects()
 },
 
 methods: {
-  getLeads() {
+  getProjects() {
     axios.get(api.path('leads'))
       .then(res => {
         this.leads  = res.data
         this.leads.map(lead => {
-            axios.get(api.path('getProjectByLeadId') +'/'+ lead['id'])
+            let request = {}
+            request['leadid'] = lead['id']
+            request['projectstatus'] = 'current'
+            axios.post(api.path('getByLeadIdProjectStatus'), request)
                 .then(res => {
-                    this.estimates.push(res.data)
+                  let data = res.data
+                  if(!('error' in data)) {
+                    data['person']['fullname'] = data['person']['firstname'] +' '+ data['person']['lastname']
+                    data['area'] = 0
+                    data['price'] = 0
+                    data['projectdetails'].map( detail => {
+                      data['area'] += detail['area']
+                      data['price'] += detail['areaprice']
+                    })
+                    this.currents.push(data)
+                  }
                 })
         })
+        console.log(this.currents)
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)

@@ -37,6 +37,7 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::put('project/{id}', 'ProjectController@update');
     Route::delete('project/{id}', 'ProjectController@destroy');
     Route::get('project/getbyleadid/{id}', 'ProjectController@getByLeadId');
+    Route::post('project/getbyleadidprojectstatus', 'ProjectController@getByLeadIdProjectStatus');
 
     Route::post('projectdetail', 'ProjectDetailController@create');
     Route::put('projectdetail/{id}', 'ProjectDetailController@update');
@@ -58,6 +59,7 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::delete('phone/{id}', 'PhoneController@destroy');
 
     Route::get('addresstype', 'AddressController@getAddressType');
+    Route::get('countries', 'AddressController@getCountries');
     Route::post('address', 'AddressController@create');
     Route::put('address/{id}', 'AddressController@update');
     Route::delete('address/{id}', 'AddressController@destroy');
