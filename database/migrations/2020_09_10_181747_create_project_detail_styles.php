@@ -19,8 +19,8 @@ class CreateProjectDetailStyles extends Migration
             $table->string('projectdetailid');
             $table->string('colorid')->nullable();
             $table->string('patternid')->nullable();
-            $table->float('purchaseprice');
-            $table->float('chargeprice');
+            $table->float('purchaseprice')->nullable();
+            $table->float('chargeprice')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

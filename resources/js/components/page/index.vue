@@ -17,7 +17,6 @@
 
 <script>
 import AppNav from './shared/AppNav'
-import TopMenu from './shared/TopMenu'
 import AppFooter from './shared/AppFooter'
 import Tab from './shared/Tab'
 
@@ -28,7 +27,6 @@ export default {
 
   components: {
     AppNav,
-    TopMenu,
     AppFooter,
     Tab,
   },
