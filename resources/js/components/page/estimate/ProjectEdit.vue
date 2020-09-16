@@ -96,8 +96,8 @@
 
             <v-row>
               <v-col
-                v-for="item in image"
-                :key="item"
+                v-for="(item,idx) in image"
+                :key="idx"
                 class="d-flex child-flex"
                 cols="12" sm="4">
                 <v-card flat tile class="d-flex">
