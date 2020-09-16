@@ -4,15 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProjectImage;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectImageController extends Controller
 {
     //
     public function create(Request $request)
     {
-        $projectImage = $request->all();
-        $response = ProjectImage::create($projectImage);
-        return $response;
+        if ($request->hasFile('image')) {
+            //  Let's do everything here
+            if ($request->file('image')->isValid()) {
+                $validated = $request->validate([
+                    'image' => 'mimes:jpeg,png|max:1014',
+                ]);
+                $imageName = time().'.'.$request->image->getClientOriginalExtension();
+
+                $request->image->storeAs('/public/images', $imageName);
+                $url = url('storage/images/'.$imageName);
+                $projectImage['projectid'] = $request->projectid;
+                $projectImage['image'] = $url;
+                $response = ProjectImage::create($projectImage);
+                return $response;
+            }
+        }
+
     }
 
     public function update(Request $request, $id)

@@ -22,7 +22,7 @@
         </template>
         <template v-if="edit_project">
             <v-row>
-                <v-col cols="12" md="4">
+                <v-col cols="12" sm="4">
                     <v-select :items="status_type" label="Status" v-model="project_edit.projectstatus"></v-select>
                 </v-col>
                  <v-col cols="12" sm="3">
@@ -76,14 +76,47 @@
         <template f fluid>
             <v-btn block @click="edit_image=!edit_image" v-bind:color="edit_image == true ? 'rgb(236,151,31)' : 'primary'" dark>IMAGES</v-btn>
         </template>
-     </v-container>
+        <template v-if="edit_image">
+            <v-btn color="green" dark @click="new_image=!new_image" class="mx-4 my-4">
+              <v-icon dark>add</v-icon>New Image
+            </v-btn>
+            <v-row v-if="new_image">
+                <v-spacer></v-spacer>
+                <v-file-input
+                    :rules="image_size"
+                    accept="image/png, image/jpeg, image/bmp"
+                    placeholder="Upload an image"
+                    prepend-icon="mdi-camera"
+                    label="Image"
+                    v-model="image_edit"
+                    ></v-file-input>
+                <v-btn color="green" dark class="mx-4 my-2" @click="saveImage">Save</v-btn>
+                <v-spacer></v-spacer>
+            </v-row>
 
+            <v-row>
+              <v-col
+                v-for="item in image"
+                :key="item"
+                class="d-flex child-flex"
+                cols="12" sm="4">
+                <v-card flat tile class="d-flex">
+                  <v-img
+                    :src="item.image"
+                    aspect-ratio="1"
+                    contain
+                    class="grey lighten-2">
+                  </v-img>
+                </v-card>
+              </v-col>
+            </v-row>
+
+        </template>
+     </v-container>
     <v-row>
         <v-spacer></v-spacer>
         <v-btn class="mx-8 my-4" @click="$router.go(-1)">Cancel</v-btn>
     </v-row>
-
-
 </v-card>
 </template>
 <script>
@@ -104,12 +137,18 @@ data: () => ({
     project: {},
     project_edit: {},
     note: [],
+    image: [],
+    image_edit:null,
     note_edit: '',
     edit_image: false,
+    new_image: false,
     price: 0,
     edit_project: false,
     edit_note: false,
-    status_type:['estimate', 'current', 'complete']
+    status_type:['estimate', 'current', 'complete'],
+    image_size: [
+      value => !value || value.size < 2000000 || 'Image size should be less than 2 MB!',
+    ],
 }),
 
 methods: {
@@ -141,8 +180,29 @@ methods: {
                 this.handleErrors(err.response.data.errors)
         })
 
-    }
+    },
+    onImageChange(e){
+        console.log(e.target.files[0]);
+        this.image_edit = e.target.files[0];
+    },
+    saveImage(){
+        if(!this.image_edit) return
+        const config = {
+                headers: { 'content-type': 'multipart/form-data' }
+            }
+        let formData = new FormData();
+        formData.append('image', this.image_edit);
+        formData.append('projectid', this.project['id']);
 
+        axios.post(api.path('projectimage'), formData, config)
+            .then(res =>{
+                this.image.push(res.data)
+            })
+            .catch(err => {
+
+            })
+
+    }
 },
 
 created() {
@@ -157,6 +217,10 @@ created() {
                 axios.get(api.path('projectnotelist') +'/'+ this.project['id'])
                     .then(res => {
                         this.note = res.data
+                    })
+                axios.get(api.path('projectimagelist')+'/'+this.project['id'])
+                    .then(res => {
+                        this.image = res.data
                     })
             }
             })
