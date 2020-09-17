@@ -59,7 +59,7 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::delete('phone/{id}', 'PhoneController@destroy');
 
     Route::get('addresstype', 'AddressController@getAddressType');
-    Route::get('countries', 'AddressController@getCountries');
+    Route::get('states', 'AddressController@getStates');
     Route::post('address', 'AddressController@create');
     Route::put('address/{id}', 'AddressController@update');
     Route::delete('address/{id}', 'AddressController@destroy');

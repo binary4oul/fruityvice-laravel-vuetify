@@ -17,7 +17,7 @@ class CreateIngredients extends Migration
             $table->string('id');
             $table->string('name');
             $table->integer('coverage');
-            $table->float('purchageprice');
+            $table->float('purchaseprice');
             $table->string('created_by');
             $table->string('updated_by')->nullable();
             $table->timestamps();

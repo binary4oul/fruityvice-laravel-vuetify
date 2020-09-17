@@ -27,7 +27,7 @@
                 Name
             </v-col>
             <v-col cols="12" sm="2">
-                Purchage Price
+                Purchase Price
             </v-col>
             <v-col cols="12" sm="2">
                 Units
@@ -43,7 +43,7 @@
                     v-bind:false-value=false v-bind:true-value=true hide-details class="mx-0 my-0"></v-checkbox>
             </v-col>
             <v-col cols="12" sm="2">
-                {{ item.purchageprice }}
+                {{ item.purchaseprice }}
             </v-col>
             <v-col cols="12" sm="2">
                 <vue-numeric-input v-model="item.factor" :value="1" :min="1" controls-type="updown"></vue-numeric-input>
@@ -122,7 +122,7 @@ methods: {
             let ingredientList_item = {}
             ingredientList_item['ingredientid'] = ingredient['id']
             ingredientList_item['name'] = ingredient['name']
-            ingredientList_item['purchageprice'] = ingredient['purchageprice']
+            ingredientList_item['purchaseprice'] = ingredient['purchaseprice']
             if(ind != -1){
                 ingredientList_item['ingredientselect'] = true
                 ingredientList_item['factor'] = this.system.ingredients[ind]['factor']
@@ -142,7 +142,7 @@ methods: {
                 let ingredient_item = {}
                 ingredient_item['ingredientid'] = ingredient['ingredientid']
                 ingredient_item['factor'] = ingredient['factor']
-                ingredient_item['price'] = ingredient['purchageprice'] * ingredient['factor']
+                ingredient_item['price'] = ingredient['purchaseprice'] * ingredient['factor']
                 ingredient_item['extra'] = ingredient['extra']
                 ingredient_system.push(ingredient_item)
             }

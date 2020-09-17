@@ -43,7 +43,7 @@ data: () => ({
         { text: 'No', value: 'no' },
         { text: 'Name', value: 'name' },
         { text: 'Coverage Area sq/ft', value: 'coverage' },
-        { text: 'Phurchage Price', value: 'purchageprice' }
+        { text: 'Phurchage Price', value: 'purchaseprice' }
       ],
       ingredients:[]
     }),

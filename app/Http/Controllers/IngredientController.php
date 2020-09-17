@@ -16,7 +16,7 @@ class IngredientController extends Controller
         $user = auth()->user();
         $ingredient['name'] = $request['name'];
         $ingredient['coverage'] = $request['coverage'];
-        $ingredient['purchageprice'] = $request['purchageprice'];
+        $ingredient['purchaseprice'] = $request['purchaseprice'];
         $ingredient['created_by'] = $user->id;
         $ingredient['updated_by'] = $user->id;
         $res_ingredient = Ingredient::create($ingredient);
@@ -39,7 +39,7 @@ class IngredientController extends Controller
         $input['updated_by'] = $user->id;
         $ingredient['name'] = $request['name'];
         $ingredient['coverage'] = $request['coverage'];
-        $ingredient['purchageprice'] = $request['purchageprice'];
+        $ingredient['purchaseprice'] = $request['purchaseprice'];
         $result = Ingredient::find($id)->update($ingredient);
         $ingredient = Ingredient::find($id);
 

@@ -72,7 +72,7 @@ export const api = Object.assign(new URL(apiUrl), {
   person: { url: 'person' },
   phone: { url: 'phone', refresh: 'refresh' },
   address: { url: 'address' },
-  countries: { url: 'countries' },
+  states: { url: 'states' },
   leaddetail: { url: 'leaddetail' },
   colors: { url: 'colors' },
   color: {url: 'color'},

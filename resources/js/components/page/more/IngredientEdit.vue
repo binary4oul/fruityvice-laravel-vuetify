@@ -12,8 +12,8 @@
                 </p>
             </v-col>
             <v-col cols="12" sm="6">
-                <p style="text-align:center">Purchage Price :
-                    <vue-numeric-input v-model="ingredient.purchageprice" :value="0" :min="0" controls-type="updown"></vue-numeric-input>
+                <p style="text-align:center">Purchase Price :
+                    <vue-numeric-input v-model="ingredient.purchaseprice" :value="0" :min="0" controls-type="updown"></vue-numeric-input>
                 </p>
             </v-col>
         </v-row>

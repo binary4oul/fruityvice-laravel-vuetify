@@ -8,6 +8,6 @@ class Ingredient extends Model
 {
     //
     protected $fillable = [
-        'id', 'name', 'coverage', 'purchageprice', 'created_by', 'updated_by'
+        'id', 'name', 'coverage', 'purchaseprice', 'created_by', 'updated_by'
     ];
 }

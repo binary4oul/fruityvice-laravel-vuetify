@@ -63,8 +63,8 @@ class AddressController extends Controller
         return $response;
     }
 
-    public function getCountries(){
-        $countries = DB::table('countries')->get();
-        return $countries;
+    public function getStates(){
+        $states = DB::table('states')->get();
+        return $states;
     }
 }

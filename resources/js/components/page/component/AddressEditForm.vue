@@ -23,7 +23,7 @@
                         <v-text-field label="City" v-model="selectedAddress.city" @input="change"></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
-                        <v-select :items="countries" label="State" v-model="selectedAddress.state" @input="change"></v-select>
+                        <v-select :items="states" label="State" v-model="selectedAddress.state" @input="change"></v-select>
                     </v-col>
                     <v-col cols="12" md="2">
                         <v-text-field label="Zip" v-model="selectedAddress.zip" @input="change"></v-text-field>
@@ -83,7 +83,7 @@ data: () => ({
       ],
     edit: false,
     selectedAddress:{},
-    countries: []
+    states: []
 }),
 props: ['address', 'personid'],
 
@@ -95,7 +95,7 @@ computed: {
     }
 },
 created() {
-    this.getCountries()
+    this.getStates()
 },
 
 methods: {
@@ -106,11 +106,11 @@ methods: {
         let data = {'address': this.selectedAddress}
         this.$store.dispatch('person/setAddress', data)
     },
-    getCountries(){
-        axios.get(api.path('countries'))
+    getStates(){
+        axios.get(api.path('states'))
             .then(res => {
                 let data = res.data;
-                data.map(item => this.countries.push(item['country']))
+                data.map(item => this.states.push(item['state']))
             })
             .catch(err => {
                 this.handleErrors("address data error!")
