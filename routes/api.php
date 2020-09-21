@@ -91,5 +91,8 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::post('logout', 'Auth\LoginController@logout');
     Route::get('me', 'Auth\LoginController@me');
     Route::put('profile', 'ProfileController@update');
+
+    Route::get('send-mail', 'MailController@basic_email');
+
 });
 
