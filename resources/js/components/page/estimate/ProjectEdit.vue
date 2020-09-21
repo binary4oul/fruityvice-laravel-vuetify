@@ -1,9 +1,5 @@
 <template>
-<v-card>
-    <v-card-title>
-        Edit Project
-        <v-spacer></v-spacer>
-    </v-card-title>
+<div>
     <person-edit-form :person="project['person']" :leadid="leadid"></person-edit-form>
 
     <v-container fluid>
@@ -22,10 +18,56 @@
         </template>
         <template v-if="edit_project">
             <v-row>
-                <v-col cols="12" sm="4">
+                <v-col cols="12" sm="3">
                     <v-select :items="status_type" label="Status" v-model="project_edit.projectstatus"></v-select>
                 </v-col>
-                 <v-col cols="12" sm="3">
+                <v-col cols="12" sm="3">
+                    <v-menu
+                        v-model="calen_install"
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        max-width="290px"
+                        min-width="290px"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                            v-model="project_edit.install"
+                            label="Installed"
+                            persistent-hint
+                            prepend-icon="event"
+                            readonly
+                            v-bind="attrs"
+                            v-on="on"
+                        ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="project_edit.install" no-title @input="calen_install = false"></v-date-picker>
+                    </v-menu>
+                </v-col>
+                <v-col cols="12" sm="3">
+                    <v-menu
+                        v-model="calen_completed"
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        max-width="290px"
+                        min-width="290px"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                            v-model="project_edit.completed"
+                            label="Completed"
+                            persistent-hint
+                            prepend-icon="event"
+                            readonly
+                            v-bind="attrs"
+                            v-on="on"
+                        ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="project_edit.completed" no-title @input="calen_completed = false"></v-date-picker>
+                    </v-menu>
+                </v-col>
+                <v-col cols="12" sm="3">
                     <v-checkbox v-model="project_edit.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-8">Acive</v-checkbox>
                 </v-col>
             </v-row>
@@ -117,7 +159,7 @@
         <v-spacer></v-spacer>
         <v-btn class="mx-8 my-4" @click="$router.go(-1)">Cancel</v-btn>
     </v-row>
-</v-card>
+</div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -149,12 +191,14 @@ data: () => ({
     image_size: [
       value => !value || value.size < 2000000 || 'Image size should be less than 2 MB!',
     ],
+    calen_completed: false,
+    calen_install: false,
 }),
 
 methods: {
     saveProject(){
         let project_data = {}
-        project_data = this.project_edit
+        project_data = this.project_edit+
         axios.put(api.path('project') +'/'+ this.project['id'], project_data)
             .then(res => {
                     this.edit_project = false
@@ -167,6 +211,8 @@ methods: {
     editProject(){
         this.edit_project = true
         this.project_edit['projectstatus'] = this.project['projectstatus']
+        this.project_edit['install'] = this.project['install']
+        this.project_edit['completed'] = this.project['completed']
     },
     saveNote(){
         let project_note = {}
@@ -206,6 +252,8 @@ methods: {
 },
 
 created() {
+    let data = {'title': 'Project'}
+    this.$store.dispatch('title/setTitle', data)
     this.leadid = this.$route.params.leadid
     this.projectid = this.$route.params.projectid
     axios.get(api.path('getProjectByLeadId') +'/'+ this.leadid)

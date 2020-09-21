@@ -1,15 +1,8 @@
 <template>
-<v-card>
-      <v-card-title>
-        Ingredients
-        <v-spacer></v-spacer>
+<v-container fluid>
 
-        <v-row class="d-flex flex-row-reverse">
-          <v-col sm="3" style="align:center">
-            <v-btn color="green" dark @click="addNew">
-              <v-icon dark>add</v-icon>Add New
-            </v-btn>
-          </v-col>
+        <v-row class="mt-4">
+          <v-spacer></v-spacer>
           <v-col sm="6">
             <v-text-field
               v-model="search"
@@ -19,17 +12,22 @@
               hide-details
             ></v-text-field>
           </v-col>
+          <v-col sm="3" style="align:center">
+            <v-btn color="green" dark @click="addNew">
+              <v-icon dark>add</v-icon>Add New
+            </v-btn>
+          </v-col>
+          <v-spacer></v-spacer>
         </v-row>
-      </v-card-title>
-      <v-card-text>
+
+
         <v-data-table
           :headers="headers"
           :items="ingredients"
           :search="search"
           @click:row="selectIngredient"
         ></v-data-table>
-      </v-card-text>
-    </v-card>
+</v-container>
 </template>
 
 <script>
@@ -50,6 +48,8 @@ data: () => ({
 
 mounted() {
   this.getIngredients()
+  let data = {'title': 'Ingredients'}
+  this.$store.dispatch('title/setTitle', data)
 },
 
 methods: {

@@ -1,8 +1,7 @@
 <template>
-<v-card>
-    <v-card-title>
-      Colors
-      <v-spacer></v-spacer>
+<div>
+  <v-container fluid>
+
       <v-row class="d-flex flex-row-reverse">
         <v-col sm="3" style="align:center">
           <v-btn color="green" dark @click="addNew">
@@ -19,8 +18,6 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      </v-card-title>
-      <v-card-text>
 
         <v-row v-if="edit">
           <v-spacer></v-spacer>
@@ -30,7 +27,7 @@
                   label="Name"
                   ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
+            <v-col cols="12" sm="6">
               <v-btn color="green" dark class="mx-2" @click="saveColor">Save</v-btn>
               <v-btn color="error" dark class="mx-2" @click="deleteColor" v-if="color_select['id'] != 'new'">Delete</v-btn>
               <v-btn class="mx-2" @click="edit=false">Cancel</v-btn>
@@ -44,8 +41,8 @@
           :search="search"
           @click:row="selectColor"
         ></v-data-table>
-      </v-card-text>
-    </v-card>
+  </v-container>
+</div>
 </template>
 
 <script>
@@ -67,6 +64,8 @@ data: () => ({
     }),
 
 mounted() {
+  let data = {'title': 'Colors'}
+  this.$store.dispatch('title/setTitle', data)
   this.getColors()
 },
 

@@ -1,40 +1,63 @@
 <template>
+
   <div class="fill-height">
+      <v-card class="mx-auto" max-width="800">
 
-    <tab></tab>
+          <div class="primary">
+            <img :src="'/assets/image/logo.png'"  class="logoPng" center height="150px">
+          </div>
 
-    <v-content>
-      <v-container fluid>
-        <transition name="fade" mode="out-in">
-          <router-view></router-view>
-        </transition>
-      </v-container>
-    </v-content>
 
-    <app-footer></app-footer>
+        <v-toolbar color="second" dark>
+            <v-btn icon @click="$router.push({name:'setting'})">
+              <v-icon>mdi-settings</v-icon>
+            </v-btn>
+            <v-spacer></v-spacer>
+
+            <v-toolbar-title>{{title}}</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn icon @click="$router.push({name:'index'})">
+              <v-icon>mdi-home</v-icon>
+            </v-btn>
+        </v-toolbar>
+
+          <transition name="fade" mode="out-in">
+            <router-view></router-view>
+          </transition>
+
+      </v-card>
+
   </div>
 </template>
 
 <script>
-import AppNav from './shared/AppNav'
-import AppFooter from './shared/AppFooter'
-import Tab from './shared/Tab'
+import { mapGetters } from 'vuex'
+import store from '~/store'
+import axios from 'axios'
 
 export default {
   data: () => ({
     mini: false
   }),
+  computed: mapGetters({
+    title: 'title/title',
+  }),
 
   components: {
-    AppNav,
-    AppFooter,
-    Tab,
+
   },
 
   methods: {
-    navToggle() {
-      this.mini = !this.mini
-    }
+
   }
 }
 </script>
+
+<style>
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: 0 auto
+  }
+</style>

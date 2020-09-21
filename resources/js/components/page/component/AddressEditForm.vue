@@ -54,7 +54,6 @@
                     v-if="address.length > 0"
                     :headers="headers"
                     :items="getAddress"
-                    :search="search"
                     @click:row="selectAddress"
                 ></v-data-table>
             </template>
@@ -96,6 +95,7 @@ computed: {
 },
 created() {
     this.getStates()
+    this.change()
 },
 
 methods: {
@@ -110,7 +110,7 @@ methods: {
         axios.get(api.path('states'))
             .then(res => {
                 let data = res.data;
-                data.map(item => this.states.push(item['state']))
+                data.map(item => { if(item['countryid'] == 'US') this.states.push(item['state']) })
             })
             .catch(err => {
                 this.handleErrors("address data error!")
@@ -126,6 +126,7 @@ methods: {
         this.selectedAddress['state'] = address['state']
         this.selectedAddress['zip'] = address['zip']
         this.selectedAddress['type'] = address['type']
+        this.selectedAddress['personid'] = this.personid
         if(address['primary'] == true) this.selectedAddress['primary'] = 'true'
     },
     addNew(){

@@ -11,4 +11,5 @@ export const SET_PHONE = 'SET_PHONE0'
 export const SET_ADDRESS = 'SET_ADDRESS'
 
 export const SET_LEADDETAIL = 'SET_LEADDETAIL'
+export const SET_TITLE = 'SET_TITLE'
 export const SET_PROJECT = 'SET_PROJECT'

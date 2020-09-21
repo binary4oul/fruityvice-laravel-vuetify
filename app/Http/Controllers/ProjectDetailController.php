@@ -29,6 +29,9 @@ class ProjectDetailController extends Controller
 
     public function update(Request $request, $id)
     {
+        $projectdetailstyles = ProjectDetailStyle::where('projectdetailid', $id)->get();
+        foreach($projectdetailstyles as $projectdetailstyle) $projectdetailstyle->delete();
+
         $projectdetail = $request->all();
         $projectdetailstyles = $projectdetail['projectdetailstyles'];
         unset($projectdetail['projectdetailstyles']);
@@ -44,6 +47,8 @@ class ProjectDetailController extends Controller
 
     public function destroy($id)
     {
+        $projectdetailstyles = ProjectDetailStyle::where('projectdetailid', $id)->get();
+        foreach($projectdetailstyles as $projectdetailstyle) $projectdetailstyle->delete();
         $projectdetail = ProjectDetail::find($id)->first();
         $projectdetail->delete();
         $response['status'] = "success";

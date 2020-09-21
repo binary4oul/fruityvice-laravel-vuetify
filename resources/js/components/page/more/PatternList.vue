@@ -1,7 +1,6 @@
 <template>
-<v-card>
-    <v-card-title>
-      Patterns
+<v-container fluid>
+
       <v-spacer></v-spacer>
       <v-row class="d-flex flex-row-reverse">
         <v-col sm="3" style="align:center">
@@ -19,8 +18,6 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      </v-card-title>
-      <v-card-text>
 
         <v-row v-if="edit">
           <v-spacer></v-spacer>
@@ -44,8 +41,7 @@
           :search="search"
           @click:row="selectPattern"
         ></v-data-table>
-      </v-card-text>
-    </v-card>
+</v-container>
 </template>
 
 <script>
@@ -67,6 +63,8 @@ data: () => ({
 
 mounted() {
   this.getPatterns()
+  let data = {'title': 'Patterns'}
+  this.$store.dispatch('title/setTitle', data)
 },
 
 methods: {

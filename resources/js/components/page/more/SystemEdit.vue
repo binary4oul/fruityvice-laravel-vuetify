@@ -1,9 +1,5 @@
 <template>
-<v-card>
-    <v-card-title>
-        Edit System
-    </v-card-title>
-    <v-card-text>
+<v-container fluid>
         <v-text-field label="Name" v-model="system.name"></v-text-field>
         <v-row>
             <v-col cols="12" sm="3">
@@ -60,8 +56,7 @@
             <v-btn class="mx-2 my-2" @click="$router.push({name:'systems'})">Cancel</v-btn>
             <v-spacer></v-spacer>
         </v-row>
-    </v-card-text>
-</v-card>
+</v-container>
 </template>
 
 <script>
@@ -82,6 +77,8 @@ created() {
         this.system.ingredients = []
          this.getIngredients()
     }
+    let data = {'title': 'Edit System'}
+    this.$store.dispatch('title/setTitle', data)
 },
 
 data: () => ({

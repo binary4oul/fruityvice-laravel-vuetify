@@ -1,9 +1,5 @@
 <template>
-<v-card>
-    <v-card-title>
-        Edit Lead
-        <v-spacer></v-spacer>
-    </v-card-title>
+<div>
     <person-edit-form :person="lead['person']" :leadid="leadid"></person-edit-form>
     <system-edit-form :leadid="leadid"></system-edit-form>
     <lead-detail :leaddetail="lead['leaddetail']" :leadid="leadid"></lead-detail>
@@ -16,8 +12,7 @@
         <v-btn class="mx-2 my-4" @click="$router.push({name:'leads'})">Cancel</v-btn>
         <v-spacer></v-spacer>
     </v-row>
-
-</v-card>
+</div>
 </template>
 
 <script>
@@ -52,6 +47,10 @@ created() {
     this.leadid = this.$route.params.leadid
     if(this.leadid != 'new') this.getLead(this.leadid)
     else this.personid = 'new'
+
+    let data = {'title': 'Lead'}
+    if(this.leadid == 'new') data['title'] = "New Lead"
+    this.$store.dispatch('title/setTitle', data)
 },
 
 data: () => ({
@@ -89,35 +88,33 @@ methods: {
                 .catch(err => {
                     this.handleErrors("lead data error!")
                 }).then(()=>{
-
                     this.phone['personid'] = personid
-                    axios.post(api.path('phone'), this.phone)
-                        .then(res => {
-
-                        })
-                        .catch(err => {
-                            this.handleErrors("phone data error!")
-                        })
+                    if('number' in this.phone){
+                        axios.post(api.path('phone'), this.phone)
+                            .then(res => {
+                            })
+                            .catch(err => {
+                                this.handleErrors("phone data error!")
+                            })
+                    }
 
                     this.address['personid'] = personid
-                    axios.post(api.path('address'), this.address)
-                        .then(res => {
-
-                        })
-                        .catch(err => {
-                            this.handleErrors("address data error!")
-                        })
+                    if('address1' in this.address){
+                        axios.post(api.path('address'), this.address)
+                            .then(res => { })
+                            .catch(err => {
+                                this.handleErrors("address data error!")
+                            })
+                    }
 
                     this.leaddetail['leadid'] = leadid
                     axios.post(api.path('leaddetail'), this.leaddetail)
-                        .then(res => {
-
-                        })
+                        .then(res => {  })
                         .catch(err => {
                             this.handleErrors("leaddetail data error!")
                         })
 
-                    let project = { leadid: leadid }
+                    let project = { 'leadid': leadid }
                     axios.post(api.path('project'), project)
                         .then(res => {
                             project = res.data

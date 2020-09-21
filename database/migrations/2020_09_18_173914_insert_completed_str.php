@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RenamePurchase extends Migration
+class InsertCompletedStr extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class RenamePurchase extends Migration
      */
     public function up()
     {
-        Schema::table('ingredients', function (Blueprint $table) {
+        Schema::table('projects', function (Blueprint $table) {
             //
-            $table->renameColumn('purchageprice', 'purchaseprice');
+            $table->string('completed')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class RenamePurchase extends Migration
      */
     public function down()
     {
-        Schema::table('ingredients', function (Blueprint $table) {
+        Schema::table('projects', function (Blueprint $table) {
             //
         });
     }

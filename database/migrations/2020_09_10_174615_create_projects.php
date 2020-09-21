@@ -17,6 +17,7 @@ class CreateProjects extends Migration
             $table->string('id');
             $table->string('leadid');
             $table->string('install')->nullable();
+            $table->string('completed')->nullable();
             $table->string('addressid')->nullable();
             $table->string('projectstatus')->default('estimate');
             $table->string('created_by')->nullable();

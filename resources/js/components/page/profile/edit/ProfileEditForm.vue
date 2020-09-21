@@ -61,7 +61,7 @@
       </v-card-text>
     </v-card>
 
-    <v-layout mt-12 mx-0>
+    <v-layout my-8 mx-0>
       <v-spacer></v-spacer>
 
       <v-btn

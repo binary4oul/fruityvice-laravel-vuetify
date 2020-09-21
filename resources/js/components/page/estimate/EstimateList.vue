@@ -1,10 +1,6 @@
 <template>
-<v-card>
-      <v-card-title>
-        Estimates
-        <v-spacer></v-spacer>
-
-        <v-row class="d-flex flex-row-reverse">
+  <div>
+      <v-row class="d-flex flex-row-reverse">
           <v-col sm="6">
             <v-text-field
               v-model="search"
@@ -14,9 +10,8 @@
               hide-details
             ></v-text-field>
           </v-col>
-        </v-row>
-      </v-card-title>
-      <v-card-text>
+      </v-row>
+
         <v-data-table
           :headers="headers"
           :items="estimates"
@@ -31,8 +26,7 @@
               </tr>
           </template>
         </v-data-table>
-      </v-card-text>
-    </v-card>
+    </div>
 </template>
 
 <script>
@@ -54,6 +48,8 @@ data: () => ({
 
 mounted() {
   this.getProjects()
+  let data = {'title': 'Estimates'}
+  this.$store.dispatch('title/setTitle', data)
 },
 
 methods: {

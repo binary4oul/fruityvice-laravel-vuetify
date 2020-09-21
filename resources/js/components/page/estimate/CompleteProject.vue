@@ -1,9 +1,5 @@
 <template>
-<v-card>
-      <v-card-title>
-        Complete Projects
-        <v-spacer></v-spacer>
-
+<div>
         <v-row class="d-flex flex-row-reverse">
           <v-col sm="6">
             <v-text-field
@@ -15,8 +11,7 @@
             ></v-text-field>
           </v-col>
         </v-row>
-      </v-card-title>
-      <v-card-text>
+
         <v-data-table
           :headers="headers"
           :items="estimates"
@@ -31,8 +26,7 @@
               </tr>
           </template>
         </v-data-table>
-      </v-card-text>
-    </v-card>
+  </div>
 </template>
 
 <script>
@@ -54,6 +48,8 @@ data: () => ({
 
 mounted() {
   this.getProjects()
+  let data = {'title': 'Complete Projects'}
+  this.$store.dispatch('title/setTitle', data)
 },
 
 methods: {

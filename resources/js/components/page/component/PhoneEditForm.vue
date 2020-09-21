@@ -39,7 +39,6 @@
                     v-if="phone.length > 0"
                     :headers="headers"
                     :items="getPhone"
-                    :search="search"
                     @click:row="selectPhone"
                     ></v-data-table>
             </template>
@@ -74,6 +73,10 @@ computed: {
         phones.map(item=>item['primary'] = item['primary'] == true ? 'true': 'false')
         return phones
     }
+},
+
+created(){
+    this.change()
 },
 
 methods: {

@@ -16,7 +16,8 @@ export default [
   ...applyRules(['auth'], [
     { path: '', component: require('$comp/page').default, children:
       [
-        { path: '', name: 'index', redirect: { name: 'leads' } },
+        { path: '', name: 'index', component: require('$comp/page/home').default },
+        { path: 'setting', name: 'setting', component: require('$comp/page/shared/Settings').default },
         { path: 'profile', component: require('$comp/page/profile/ProfileWrapper').default, children:
           [
             { path: '', name: 'profile', component: require('$comp/page/profile/Profile').default },
@@ -37,16 +38,15 @@ export default [
             { path: 'edit/:leadid:projectid', name: 'project-edit', component: require('$comp/page/estimate/ProjectEdit').default },
           ]
         },
-        { path: 'more', component: require('$comp/page/more/MoreWrapper').default, children:
-          [
+
             { path: 'color/list', name: 'colors', component: require('$comp/page/more/ColorList').default},
             { path: 'pattern/list', name: 'patterns', component: require('$comp/page/more/PatternList').default},
             { path: 'ingredient/list', name: 'ingredients', component: require('$comp/page/more/IngredientList').default},
             { path: 'ingredient/edit/:ingredientid', name: 'ingredient-edit', component: require('$comp/page/more/IngredientEdit').default},
             { path: 'system/list', name: 'systems', component: require('$comp/page/more/SystemList').default},
             { path: 'system/edit/:systemid', name: 'system-edit', component: require('$comp/page/more/SystemEdit').default},
-          ]
-        }
+
+
       ]
     },
 

@@ -1,0 +1,20 @@
+<template>
+    <v-container fluid>
+        <v-btn block color="grey" class="my-2" @click="$router.push({name:'profile'})">My Profile</v-btn>
+        <v-btn block color="grey" class="my-2">Log Out</v-btn>
+        <v-btn block color="primary" class="my-2" dark>My Teams</v-btn>
+        <v-btn block color="primary" class="my-2" dark>My Memberships</v-btn>
+        <v-btn block color="primary" class="my-2" @click="$router.push({name:'systems'})" dark>Systems</v-btn>
+        <v-btn block color="primary" class="my-2" @click="$router.push({name:'ingredients'})" dark>Ingredients</v-btn>
+        <v-btn block color="primary" class="my-2" @click="$router.push({name:'colors'})" dark>Colors</v-btn>
+        <v-btn block color="primary" class="my-2" @click="$router.push({name:'patterns'})" dark>Patterns</v-btn>
+    </v-container>
+</template>
+
+<script>
+import axios from 'axios'
+import { api } from '~/config'
+
+export default {
+
+}

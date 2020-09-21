@@ -1,9 +1,5 @@
 <template>
-<v-card>
-    <v-card-title>
-        Edit Ingredient
-    </v-card-title>
-    <v-card-text>
+<v-container fluid>
         <v-text-field label="Name" v-model="ingredient.name"></v-text-field>
         <v-row>
             <v-col cols="12" sm="6">
@@ -40,8 +36,7 @@
                 <v-btn class="mx-2 my-2" @click="$router.push({name:'ingredients'})">Cancel</v-btn>
                 <v-spacer></v-spacer>
         </v-row>
-    </v-card-text>
-</v-card>
+</v-container>
 </template>
 
 <script>
@@ -58,7 +53,8 @@ components: {
 created() {
     this.ingredientid = this.$route.params.ingredientid
     this.getColors()
-
+    let data = {'title': 'Edit Ingredient'}
+    this.$store.dispatch('title/setTitle', data)
 },
 
 data: () => ({

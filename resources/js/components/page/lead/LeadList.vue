@@ -1,35 +1,28 @@
 <template>
-<v-card>
-      <v-card-title>
-        Leads
-        <v-spacer></v-spacer>
-
-        <v-row class="d-flex flex-row-reverse">
-          <v-col sm="3" style="align:center">
-            <v-btn color="green" dark @click="addNew">
-              <v-icon dark>add</v-icon>Add New
-            </v-btn>
-          </v-col>
-          <v-col sm="6">
+<div>
+         <v-row>
+           <v-spacer></v-spacer>
             <v-text-field
               v-model="search"
               append-icon="mdi-magnify"
               label="Search"
               single-line
               hide-details
+              class="mx-4 my-4"
             ></v-text-field>
-          </v-col>
+             <v-btn color="green" dark @click="addNew" class="mx-4 my-4">
+              <v-icon dark>add</v-icon>Add New
+            </v-btn>
+            <v-spacer></v-spacer>
+
         </v-row>
-      </v-card-title>
-      <v-card-text>
         <v-data-table
           :headers="headers"
           :items="leads"
           :search="search"
           @click:row="selectLead"
         ></v-data-table>
-      </v-card-text>
-    </v-card>
+</div>
 </template>
 
 <script>
@@ -37,6 +30,7 @@ import axios from 'axios'
 import { api } from '~/config'
 
 export default {
+
 data: () => ({
       search: '',
       headers: [
@@ -48,6 +42,8 @@ data: () => ({
     }),
 
 mounted() {
+  let data = {'title': 'Leads'}
+  this.$store.dispatch('title/setTitle', data)
   this.getLeads()
 },
 

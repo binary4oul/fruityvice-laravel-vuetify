@@ -138,6 +138,7 @@ data: () => ({
     edit_new: true,
     show_ingredients: false,
     show_edit_salePrice: false,
+    id: '',
     areaname: '',
     note: '',
     icon_ingredientList: 'add_circle',
@@ -228,6 +229,11 @@ methods: {
         if(this.show_edit_salePrice) this.show_edit_salePrice = false
         else this.show_edit_salePrice = true
     },
+    change(){
+        let data = {'project': this.project}
+        data['project']['projectdetails'].map(item => delete item['system'])
+        this.$store.dispatch('project/setProject', data)
+    },
     addProject(){
         if(!this.checkProjectDetail()) return
         this.project['note'] = this.note
@@ -310,7 +316,10 @@ methods: {
     getProject(){
         axios.get(api.path('getProjectByLeadId') +'/'+ this.leadid)
             .then(res => {
-                if(res.data){
+                if( 'error' in res.data){
+                    this.project['id'] = 'new'
+                }
+                else {
                     this.project = res.data
                     let proeject_data = {}
                     proeject_data['project'] = res.data
@@ -329,6 +338,7 @@ methods: {
     editProjectDetail(detail) {
         console.log(detail)
         this.edit_new = true
+        this.id = detail['id']
         this.areaname = detail['name']
         this.width = detail['areawidth']
         this.length = detail['arealength']
@@ -336,7 +346,7 @@ methods: {
         this.system_des = this.systems[idx]['description']
         this.saleprice = detail['saleprice']
         this.ingredients = detail['projectdetailstyles']
-        this.project.projectdetails.pop(detail)
+
     }
 },
 
