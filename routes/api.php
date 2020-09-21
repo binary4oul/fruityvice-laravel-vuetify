@@ -25,6 +25,7 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::post('person', 'LeadController@create');
     Route::put('person/{id}', 'PersonController@update');
     Route::get('lead/{id}', 'LeadController@show');
+    Route::put('lead/{id}', 'LeadController@update');
     Route::get('leads', 'LeadController@list');
     Route::delete('lead/{id}', 'LeadController@destroy');
 

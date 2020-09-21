@@ -43,6 +43,7 @@ data: () => ({
 
 mounted() {
   let data = {'title': 'Leads'}
+  this.active = !!this.$route.params.active
   this.$store.dispatch('title/setTitle', data)
   this.getLeads()
 },
@@ -51,8 +52,11 @@ methods: {
   getLeads() {
     axios.get(api.path('leads'))
       .then(res => {
-        this.leads  = res.data
-        this.leads.map(item=> item['name'] = item['person']['firstname'] +" "+ item['person']['lastname'])
+        let res_leads  = res.data
+        res_leads.map(item => {
+          item['name'] = item['person']['firstname'] +" "+ item['person']['lastname']
+          if(item['active'] == this.active) this.leads.push(item)
+          })
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)

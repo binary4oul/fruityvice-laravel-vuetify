@@ -1,6 +1,13 @@
 <template>
 <div>
     <person-edit-form :person="lead['person']" :leadid="leadid"></person-edit-form>
+
+    <v-row>
+        <v-col cols="12" sm="3">
+            <v-checkbox v-model="lead.lead.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-8 my-0">Acive</v-checkbox>
+        </v-col>
+    </v-row>
+
     <system-edit-form :leadid="leadid"></system-edit-form>
     <lead-detail :leaddetail="lead['leaddetail']" :leadid="leadid"></lead-detail>
     <phone-edit-form :personid="personid" :phone="lead['phone']"></phone-edit-form>
@@ -9,7 +16,7 @@
         <v-spacer></v-spacer>
         <v-btn color="green" dark class="mx-2 my-4" @click="saveLead">Save</v-btn>
         <v-btn color="error" dark class="mx-2 my-4" v-if="leadid != 'new'" @click="deleteLead">Delete</v-btn>
-        <v-btn class="mx-2 my-4" @click="$router.push({name:'leads'})">Cancel</v-btn>
+        <v-btn class="mx-2 my-4" @click="$router.go(-1)">Cancel</v-btn>
         <v-spacer></v-spacer>
     </v-row>
 </div>
@@ -88,6 +95,15 @@ methods: {
                 .catch(err => {
                     this.handleErrors("lead data error!")
                 }).then(()=>{
+                    let lead_data = this.lead['lead']
+                    axios.put(api.path('lead') +'/'+ leadid, lead_data)
+                        .then(res => {
+
+                        })
+                        .catch(err =>{
+                            this.handleErrors('Lead data error!')
+                        })
+
                     this.phone['personid'] = personid
                     if('number' in this.phone){
                         axios.post(api.path('phone'), this.phone)
@@ -148,6 +164,14 @@ methods: {
                 .catch(err => {
                     this.handleErrors("leaddetail data error!")
                 })
+            let lead_data = this.lead['lead']
+                    axios.put(api.path('lead') +'/'+ this.leadid, lead_data)
+                        .then(res => {
+
+                        })
+                        .catch(err =>{
+                            this.handleErrors('Lead data error!')
+                        })
             this.$toast.success('Updated successfully!')
         }
 

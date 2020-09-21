@@ -105,7 +105,8 @@ class ProjectController extends Controller
     }
     public function getByLeadIdProjectStatus(Request $request){
         $input = $request->all();
-        $project = Project::where('leadid', $input['leadid'])->where('projectstatus', $input['projectstatus'])->first();
+        $project = Project::where('leadid', $input['leadid'])->where('projectstatus', $input['projectstatus'])
+            ->where('active', $input['active'])->first();
         if($project){
             $res_project = $this->show($project->id);
             return $res_project;

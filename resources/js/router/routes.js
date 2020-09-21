@@ -26,16 +26,16 @@ export default [
         },
         { path: 'lead', component: require('$comp/page/lead/LeadWrapper').default, children:
           [
-            { path: 'list', name: 'leads', component: require('$comp/page/lead/LeadList').default },
+            { path: 'list/:active', name: 'leads', component: require('$comp/page/lead/LeadList').default },
             { path: 'edit/:leadid', name: 'lead-edit', component: require('$comp/page/lead/LeadEdit').default }
           ]
         },
         { path: 'project', component: require('$comp/page/lead/LeadWrapper').default, children:
           [
-            { path: 'estimates', name: 'estimates', component: require('$comp/page/estimate/EstimateList').default },
-            { path: 'complete', name: 'complete', component: require('$comp/page/estimate/CompleteProject').default },
-            { path: 'current', name: 'current', component: require('$comp/page/estimate/CurrentProject').default },
-            { path: 'edit/:leadid:projectid', name: 'project-edit', component: require('$comp/page/estimate/ProjectEdit').default },
+            { path: 'estimates/:active', name: 'estimates', component: require('$comp/page/estimate/EstimateList').default },
+            { path: 'complete/:active', name: 'complete', component: require('$comp/page/estimate/CompleteProject').default },
+            { path: 'current/:active', name: 'current', component: require('$comp/page/estimate/CurrentProject').default },
+            { path: 'edit/:leadid', name: 'project-edit', component: require('$comp/page/estimate/ProjectEdit').default },
           ]
         },
 

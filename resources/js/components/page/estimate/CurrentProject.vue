@@ -62,6 +62,7 @@ methods: {
             let request = {}
             request['leadid'] = lead['id']
             request['projectstatus'] = 'current'
+            request['active'] = this.active
             axios.post(api.path('getByLeadIdProjectStatus'), request)
                 .then(res => {
                   let data = res.data
@@ -92,6 +93,7 @@ methods: {
 },
 created() {
     this.status = this.$route.params.status
+    this.active = !!this.$route.params.active
 }
 }
 </script>

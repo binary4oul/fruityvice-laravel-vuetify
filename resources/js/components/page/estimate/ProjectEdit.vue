@@ -198,7 +198,7 @@ data: () => ({
 methods: {
     saveProject(){
         let project_data = {}
-        project_data = this.project_edit+
+        project_data = this.project_edit
         axios.put(api.path('project') +'/'+ this.project['id'], project_data)
             .then(res => {
                     this.edit_project = false
@@ -213,6 +213,7 @@ methods: {
         this.project_edit['projectstatus'] = this.project['projectstatus']
         this.project_edit['install'] = this.project['install']
         this.project_edit['completed'] = this.project['completed']
+        this.project_edit['active'] = this.project['active']
     },
     saveNote(){
         let project_note = {}
@@ -255,7 +256,7 @@ created() {
     let data = {'title': 'Project'}
     this.$store.dispatch('title/setTitle', data)
     this.leadid = this.$route.params.leadid
-    this.projectid = this.$route.params.projectid
+  //  this.projectid = this.$route.params.projectid
     axios.get(api.path('getProjectByLeadId') +'/'+ this.leadid)
         .then(res => {
             if(res.data){

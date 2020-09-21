@@ -57,14 +57,15 @@ methods: {
     axios.get(api.path('leads'))
       .then(res => {
         this.leads  = res.data
-        this.leads.map(lead => {
+
             let request = {}
-            request['leadid'] = lead['id']
+
             request['projectstatus'] = 'estimate'
-            axios.post(api.path('getByLeadIdProjectStatus'), request)
+            request['active'] = this.active
+            axios.get(api.path('getProjectsByStatus') +'/'+ 'estimate', )
                 .then(res => {
-                  let data = res.data
-                  if(!('error' in data)) {
+                  let data_arr = res.data
+                  data_arr.map(data => {
                     data['person']['fullname'] = data['person']['firstname'] +' '+ data['person']['lastname']
                     data['area'] = 0
                     data['price'] = 0
@@ -72,18 +73,17 @@ methods: {
                       data['area'] += detail['area']
                       data['price'] += detail['areaprice']
                     })
-                    this.estimates.push(data)
-                  }
+                    if(data['active'] == this.active) this.estimates.push(data)
+                    return data
+                  })
                 })
-        })
+
 
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)
       })
-      .then(() => {
-        this.loading = false
-      })
+
     },
   selectEstimate(estimate){
     this.$router.push({ name: 'project-edit', params:{leadid: estimate['leadid'], projectid: estimate['projectid']} })
@@ -91,6 +91,7 @@ methods: {
 },
 created() {
     this.status = this.$route.params.status
+    this.active = !!this.$route.params.active
 }
 }
 </script>
