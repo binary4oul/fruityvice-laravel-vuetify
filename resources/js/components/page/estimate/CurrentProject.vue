@@ -23,7 +23,7 @@
                 <td>{{row.item.person.company}}</td>
                 <td>${{row.item.price}}</td>
                 <td>{{row.item.area}} sqft</td>
-                <td>{{row.item.created_at}}</td>
+                <td>{{row.item.install}}</td>
               </tr>
           </template>
         </v-data-table>
@@ -42,7 +42,7 @@ data: () => ({
         { text: 'Company', value: 'person.company' },
         { text: 'Price', value: 'price' },
         { text: 'Area', value: 'area' },
-        { text: 'Create_at', value: 'created_at' }
+        { text: 'Install', value: 'install' }
       ],
       estimates:[]
     }),
@@ -93,7 +93,7 @@ methods: {
 },
 created() {
     this.status = this.$route.params.status
-    this.active = !!this.$route.params.active
+    this.active = this.$route.params.active
 }
 }
 </script>

@@ -4,7 +4,7 @@
       <v-card class="mx-auto" max-width="800">
 
           <div class="primary">
-            <img :src="'/assets/image/logo.png'"  class="logoPng" center height="150px">
+            <img :src="'/assets/image/logo.png'"  class="logoPng" center height="100px">
           </div>
 
 

@@ -2,9 +2,9 @@
 <div>
     <person-edit-form :person="lead['person']" :leadid="leadid"></person-edit-form>
 
-    <v-row>
+    <v-row v-if="leadid!='new' && lead.lead">
         <v-col cols="12" sm="3">
-            <v-checkbox v-model="lead.lead.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-8 my-0">Acive</v-checkbox>
+          <v-checkbox v-model="lead.lead.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-8 my-0">Acive</v-checkbox>
         </v-col>
     </v-row>
 

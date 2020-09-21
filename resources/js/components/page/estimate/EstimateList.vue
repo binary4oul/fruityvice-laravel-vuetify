@@ -91,7 +91,7 @@ methods: {
 },
 created() {
     this.status = this.$route.params.status
-    this.active = !!this.$route.params.active
+    this.active = this.$route.params.active
 }
 }
 </script>

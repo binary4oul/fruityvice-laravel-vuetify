@@ -6,7 +6,7 @@
         <v-spacer></v-spacer>
 
         <template v-if="open">
-            <v-btn color="green" dark @click="edit_new=!edit_new" class="mx-4 my-4">
+            <v-btn color="green" dark @click="editNewProjectDetail" class="mx-4 my-4">
               <v-icon dark>add</v-icon>New System
             </v-btn>
 
@@ -38,11 +38,11 @@
             <v-select :items="systems" label="System" v-model="system_des" item-text="description"/>
 
             <v-row v-if="getSystemIdx != -1">
-                <v-col cols="12" sm="2">
+                <v-col cols="12" sm="3">
                     <v-icon @click="changeShowIngredients" medium>{{ icon_ingredientList }}</v-icon>
                     Coverage: {{ getArea }} sqft
                 </v-col>
-                <v-col cols="12" sm="2">
+                <v-col cols="12" sm="3">
                     <template v-if="!show_edit_salePrice">
                         <v-btn text small exact color="primary" @click="eidtSalePrice" class="text-lowercase">${{ saleprice }} /sqft</v-btn>
                     </template>
@@ -56,7 +56,7 @@
                         </v-row>
                     </template>
                 </v-col>
-                <v-col cols="12" sm="2">
+                <v-col cols="12" sm="3">
                     SystemPrice: ${{ getAreaPrice }}
                 </v-col>
             </v-row>
@@ -139,6 +139,7 @@ data: () => ({
     show_ingredients: false,
     show_edit_salePrice: false,
     id: '',
+    projectid: '',
     areaname: '',
     note: '',
     icon_ingredientList: 'add_circle',
@@ -238,45 +239,57 @@ methods: {
         if(!this.checkProjectDetail()) return
         this.project['note'] = this.note
         if(!this.project['projectdetails']) this.project['projectdetails'] = []
-        this.project['projectdetails'].push(this.getNewProjectDetail())
+        let new_projectdetail = this.getNewProjectDetail()
+        if(new_projectdetail['id'] == 'new') this.project['projectdetails'].push(new_projectdetail)
+        else {
+            let idx = this.project['projectdetails'].findIndex(item => item['id'] == new_projectdetail['id'])
+            this.project['projectdetails'].splice(idx, 1, new_projectdetail)
+        }
+
+        delete new_projectdetail.system
 
         let data = {'project': this.project}
         data['project']['projectdetails'].map(item => delete item['system'])
         this.$store.dispatch('project/setProject', data)
 
         if(this.leadid != 'new'){
-            if('id' in data['project']){
-                axios.delete(api.path('project') +'/'+ data['project']['id'])
-                    .then(res => {
-                })
-            }
-            let new_project = { leadid: this.leadid }
+            if(!('id' in data['project'])){
+               let new_project = { leadid: this.leadid }
                 axios.post(api.path('project'), new_project)
                     .then(res => {
                         new_project = res.data
-                        data['project']['projectdetails'].map(detail => {
-                            detail['projectid'] = new_project['id']
-                            axios.post(api.path('projectdetail'), detail)
-                                .then(res => {
-                                })
-                        })
+                        new_projectdetail['projectid'] = new_project['id']
+                        axios.post(api.path('projectdetail'), new_projectdetail)
+                            .then(res => {})
+                            .catch(res => {})
+
                         let projectnote = { note: data['project']['note'], projectid: new_project['id']}
-                        axios.post(api.path('projectnote'), projectnote)
-                            .then(res => { })
+                        if(projectnote != ''){
+                            axios.post(api.path('projectnote'), projectnote)
+                            .then(res => {})
+                            .catch(err => {})
+                        }
                         })
                     .catch(err => {
                             this.handleErrors("Project data error!")
                     })
+            }
+            else{
+                if(new_projectdetail['id'] == 'new'){
+                    delete new_projectdetail.id
+                    new_projectdetail['projectid'] = data['project']['id']
+                    axios.post(api.path('projectdetail'), new_projectdetail)
+                        .then(res => {})
+                        .catch(res => {})
+                }
+                else{
+                    axios.put(api.path('projectdetail') +'/'+ new_projectdetail['id'], new_projectdetail)
+                        .then(res => {})
+                        .catch(res => {})
+                }
+            }
         }
-
-        this.areaname = ''
-        this.note = ''
-        this.width = 0
-        this.length = 0
-        this.saleprice = 0
-        this.ingredients = []
-        this.system_des = ''
-        this.show_ingredients = false
+        this.edit_new = false
     },
     checkProjectDetail(){
         if(this.areaname == '') return false
@@ -286,6 +299,8 @@ methods: {
     },
     getNewProjectDetail(){
         let detail = {}
+        detail['id'] = this.id
+        detail['projectid'] = this.projectid
         detail['name'] = this.areaname
         detail['areawidth'] = this.width
         detail['arealength'] = this.length
@@ -336,9 +351,9 @@ methods: {
             })
     },
     editProjectDetail(detail) {
-        console.log(detail)
         this.edit_new = true
         this.id = detail['id']
+        this.projectid = detail['projectid']
         this.areaname = detail['name']
         this.width = detail['areawidth']
         this.length = detail['arealength']
@@ -346,7 +361,16 @@ methods: {
         this.system_des = this.systems[idx]['description']
         this.saleprice = detail['saleprice']
         this.ingredients = detail['projectdetailstyles']
-
+    },
+    editNewProjectDetail(){
+        this.edit_new = true
+        this.id = 'new'
+        this.areaname = ''
+        this.width = 0
+        this.length = 0
+        this.system_des = ''
+        this.saleprice = 0
+        this.ingredients = []
     }
 },
 

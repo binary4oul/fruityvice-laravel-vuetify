@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-row class="mt-4">
+    <v-row class="mt-2">
         <v-spacer></v-spacer>
         <v-col cols="5" sm="3">
             <v-card calss="mx-auto clickable" @click.native="selcetActiveItem('leads')" color="primary" dark>
@@ -142,16 +142,16 @@ mounted() {
 
 methods:{
     selcetActiveItem(item){
-        if(item=='leads') this.$router.push({ name: 'leads', params:{active: true} })
-        if(item=='estimates') this.$router.push({ name: 'estimates', params:{active: true} })
-        if(item=='current') this.$router.push({ name: 'current', params:{active: true} })
-        if(item=='complete') this.$router.push({ name: 'complete', params:{active: true} })
+        if(item=='leads') this.$router.push({ name: 'leads', params:{active: 1} })
+        if(item=='estimates') this.$router.push({ name: 'estimates', params:{active: 1} })
+        if(item=='current') this.$router.push({ name: 'current', params:{active: 1} })
+        if(item=='complete') this.$router.push({ name: 'complete', params:{active: 1} })
     },
     selcetInctiveItem(item){
-        if(item=='leads') this.$router.push({ name: 'leads', params:{active: false} })
-        if(item=='estimates') this.$router.push({ name: 'estimates', params:{active: false} })
-        if(item=='current') this.$router.push({ name: 'current', params:{active: false} })
-        if(item=='complete') this.$router.push({ name: 'complete', params:{active: false} })
+        if(item=='leads') this.$router.push({ name: 'leads', params:{active: 0} })
+        if(item=='estimates') this.$router.push({ name: 'estimates', params:{active: 0} })
+        if(item=='current') this.$router.push({ name: 'current', params:{active: 0} })
+        if(item=='complete') this.$router.push({ name: 'complete', params:{active: 0} })
     }
 }
 }
