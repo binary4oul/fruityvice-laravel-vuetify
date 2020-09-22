@@ -14,7 +14,7 @@ class InsertActive extends Migration
     public function up()
     {
         //
-        Schema::create('leads', function (Blueprint $table) {
+        Schema::table('leads', function (Blueprint $table) {
 
             $table->boolean('active')->default(true);
 
