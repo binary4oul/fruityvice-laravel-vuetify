@@ -49,7 +49,6 @@ mounted() {
 },
 created(){
   this.active = this.$route.params.active
-   console.log(this.$route.params.active)
 },
 
 methods: {
@@ -57,7 +56,6 @@ methods: {
     axios.get(api.path('leads'))
       .then(res => {
         let res_leads  = res.data
-        console.log(this.active)
         res_leads.map(item => {
           item['name'] = item['person']['firstname'] +" "+ item['person']['lastname']
           if(item['active'] == this.active) this.leads.push(item)

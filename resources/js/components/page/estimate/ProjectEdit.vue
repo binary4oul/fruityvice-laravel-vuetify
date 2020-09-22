@@ -229,7 +229,7 @@ methods: {
 
     },
     onImageChange(e){
-        console.log(e.target.files[0]);
+
         this.image_edit = e.target.files[0];
     },
     saveImage(){

@@ -24,9 +24,6 @@ methods: {
       this.$router.push({ name: 'login' })
     },
 
-    test() {
-        console.log('test log')
-    }
 },
 
 }
