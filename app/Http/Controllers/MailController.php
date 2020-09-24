@@ -19,14 +19,14 @@ class MailController extends Controller
         dd("Email is Sent.");
     }
 
-    public function basic_email() {
-        $data = array('name'=>"Virat Gandhi");
+    public function sendmail() {
+        $details = [
+            'title' => 'Mail from ItSolutionStuff.com',
+            'body' => 'This is for testing email using smtp'
+        ];
 
-        Mail::send(['text'=>'mail'], $data, function($message) {
-           $message->to('sweetfigaro27@gmail.com', 'Tutorials Point')->subject
-              ('Laravel Basic Testing Mail');
-           $message->from('sweetfigaro27@gmail.com','Virat Gandhi');
-        });
-        echo "Basic Email Sent. Check your inbox.";
+        \Mail::to('sweetfigaro27@gmail.com')->send(new \App\Mail\TestMail($details));
+
+        dd("Email is Sent.");
      }
 }

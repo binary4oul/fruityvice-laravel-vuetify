@@ -92,7 +92,7 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::get('me', 'Auth\LoginController@me');
     Route::put('profile', 'ProfileController@update');
 
-    Route::get('send-mail', 'MailController@basic_email');
+    Route::get('send-mail', 'MailController@sendmail');
 
 });
 
