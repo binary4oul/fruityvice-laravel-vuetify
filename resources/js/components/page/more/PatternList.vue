@@ -27,7 +27,7 @@
                   label="Name"
                   ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
+            <v-col cols="12" sm="6">
               <v-btn color="green" dark class="mx-2" @click="savePattern">Save</v-btn>
               <v-btn color="error" dark class="mx-2" @click="deletePattern" v-if="pattern_select['id'] != 'new'">Delete</v-btn>
               <v-btn class="mx-2" @click="edit=false">Cancel</v-btn>

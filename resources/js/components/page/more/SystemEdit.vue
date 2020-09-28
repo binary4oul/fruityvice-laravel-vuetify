@@ -42,7 +42,7 @@
                 {{ item.purchaseprice }}
             </v-col>
             <v-col cols="12" sm="2">
-                <vue-numeric-input v-model="item.factor" :value="1" :min="1" controls-type="updown"></vue-numeric-input>
+                <vue-numeric-input v-model="item.factor" :value="1" :min="1" controls-type="updown" size="100px"></vue-numeric-input>
             </v-col>
             <v-col cols="12" sm="4">
                <v-text-field v-model="item.extra" single-line class="mx-0 my-0 py-0"></v-text-field>
