@@ -92,6 +92,11 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::get('me', 'Auth\LoginController@me');
     Route::put('profile', 'ProfileController@update');
 
+    Route::post('calendar', 'CalendarController@create');
+    Route::put('calendar/{id}', 'CalendarController@update');
+    Route::delete('calendar/{id}', 'CalendarController@destroy');
+    Route::get('calendars', 'CalendarController@list');
+
     Route::get('send-mail', 'MailController@sendmail');
 
 });
