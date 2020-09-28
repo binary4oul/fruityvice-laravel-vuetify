@@ -38,7 +38,7 @@
             <v-select :items="systems" label="System" v-model="system_des" item-text="description"/>
 
             <v-row v-if="getSystemIdx != -1">
-                <v-col cols="12" sm="3">
+                <v-col cols="12" sm="4">
                     <v-icon @click="changeShowIngredients" medium>{{ icon_ingredientList }}</v-icon>
                     Coverage: {{ getArea }} sqft
                 </v-col>
