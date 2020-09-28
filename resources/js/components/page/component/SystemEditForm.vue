@@ -172,21 +172,21 @@ methods: {
                 this.color_list = res.data
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Color Data Error!")
             })
         axios.get(api.path('patterns'))
             .then(res => {
                 this.pattern_list  = res.data
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Pattern Data Error!")
             })
         axios.get(api.path('ingredients'))
             .then(res => {
                 this.ingredient_list  = res.data
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Ingredients Data Error")
             })
     },
     getSystems(){
@@ -199,7 +199,7 @@ methods: {
                 })
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("System Data Error!")
             })
     },
     getIngredients(systemId){
@@ -223,7 +223,7 @@ methods: {
                 })
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("System Data Error")
             })
     },
     eidtSalePrice(){
@@ -347,7 +347,7 @@ methods: {
                 }
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Lead Data Error!")
             })
     },
     editProjectDetail(detail) {

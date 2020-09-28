@@ -77,7 +77,7 @@ export default {
             this.$emit('success', this.form)
           })
           .catch(err => {
-            this.handleErrors(err.response.data.errors)
+            this.handleErrors("Error")
           })
           .then(() => {
             this.loading = false

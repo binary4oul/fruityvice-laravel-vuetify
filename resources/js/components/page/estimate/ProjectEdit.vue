@@ -205,7 +205,7 @@ methods: {
                     this.project = res.data
                 })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Data Error!")
         })
     },
     editProject(){
@@ -224,7 +224,7 @@ methods: {
                     this.note.push(res.data)
                 })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Data Error!")
         })
 
     },
@@ -274,7 +274,7 @@ created() {
             }
             })
         .catch(err => {
-            this.handleErrors(err.response.data.errors)
+            this.handleErrors("Data Error!")
         })
 
 },
