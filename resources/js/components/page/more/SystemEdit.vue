@@ -151,27 +151,29 @@ methods: {
             console.log(valid['message'])
             return
         }
+        else {
 
-        if(this.systemid == 'new')
-        {
-            axios.post(api.path('system'), this.system)
-                .then(res => {
-                     this.$toast.success('Saved successfully!')
-                })
-                .catch(err => {
-                    this.handleErrors("System data error!")
-                })
-        }
-        else        {
+            if(this.systemid == 'new')
+            {
+                axios.post(api.path('system'), this.system)
+                    .then(res => {
+                        this.$toast.success('Saved successfully!')
+                    })
+                    .catch(err => {
+                        this.handleErrors("System data error!")
+                    })
+            }
+            else        {
 
-            axios.put(api.path('system') +'/'+ this.system['id'], this.system)
-                .then(res => {
-                    this.$toast.success('Updated successfully!')
-                })
-                .catch(err => {
-                    console.log('Error')
+                axios.put(api.path('system') +'/'+ this.system['id'], this.system)
+                    .then(res => {
+                        this.$toast.success('Updated successfully!')
+                    })
+                    .catch(err => {
+                        console.log('Error')
 
-                })
+                    })
+            }
         }
 
     },
@@ -193,7 +195,8 @@ methods: {
             res['message'] = 'Input Name'
             return res
         }
-        if(data_system['saleprice'] == null){
+        if(!data_system['saleprice']){
+
             res['status'] = 'error'
             res['message'] = 'Input Price'
             return res
