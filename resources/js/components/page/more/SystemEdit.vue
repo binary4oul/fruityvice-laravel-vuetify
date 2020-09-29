@@ -146,6 +146,12 @@ methods: {
         })
         this.system.ingredients = ingredient_system
 
+        let valid = this.checkData(this.system)
+        if(valid['status'] == 'error') {
+            console.log(valid['message'])
+            return
+        }
+
         if(this.systemid == 'new')
         {
             axios.post(api.path('system'), this.system)
@@ -156,14 +162,15 @@ methods: {
                     this.handleErrors("System data error!")
                 })
         }
-        else
-        {
+        else        {
+
             axios.put(api.path('system') +'/'+ this.system['id'], this.system)
                 .then(res => {
                     this.$toast.success('Updated successfully!')
                 })
                 .catch(err => {
-                    this.handleErrors("System data error!")
+                    console.log('Error')
+
                 })
         }
 
@@ -179,6 +186,25 @@ methods: {
         })
 
     },
+    checkData(data_system){
+        let res = { status: 'success', message: ''}
+        if(data_system['name'] == ''){
+            res['status'] = 'error'
+            res['message'] = 'Input Name'
+            return res
+        }
+        if(data_system['saleprice'] == null){
+            res['status'] = 'error'
+            res['message'] = 'Input Price'
+            return res
+        }
+        if(data_system['ingredients'].length == 0){
+            res['status'] = 'error'
+            res['message'] = 'Select Ingredients'
+            return res
+        }
+        return res
+    }
 }
 
 }

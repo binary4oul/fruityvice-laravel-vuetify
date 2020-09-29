@@ -18,7 +18,7 @@ class CreateSystemDetails extends Migration
             $table->string('systemid');
             $table->string('ingredientid');
             $table->string('extra')->default('');
-            $table->float('price')->default(0);
+            $table->float('purchaseprice')->default(0);
             $table->tinyInteger('factor')->default(1);
             $table->timestamps();
         });

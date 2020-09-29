@@ -156,6 +156,7 @@
         </template>
      </v-container>
     <v-row>
+        <v-btn class="mx-8 my-4" color="green" dark @click="sendEstimate">Share with Client</v-btn>
         <v-spacer></v-spacer>
         <v-btn class="mx-8 my-4" @click="$router.go(-1)">Cancel</v-btn>
     </v-row>
@@ -248,6 +249,9 @@ methods: {
             .catch(err => {
 
             })
+
+    },
+    sendEstimate(){
 
     }
 },

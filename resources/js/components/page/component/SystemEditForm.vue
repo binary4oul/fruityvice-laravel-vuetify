@@ -80,15 +80,15 @@
                         <td>{{ ingredient.extra }}</td>
                         <td>{{ ingredient.factor }}</td>
 
-                        <td v-if="ingredients[`${index}`].color.length > 0">
+                        <td v-if="ingredients[`${index}`].color != null">
                             <v-select :items="ingredients[`${index}`].color" v-model="ingredients[`${index}`].colorid" item-text="name" solo single-line autowidth hide-details class="py-2"></v-select>
                         </td>
-                        <td v-if="ingredients[`${index}`].color.length <= 0">No Colors</td>
+                        <td v-if="ingredients[`${index}`].color == null">No Colors</td>
 
-                        <td v-if="ingredients[`${index}`].pattern.length > 0">
+                        <td v-if="ingredients[`${index}`].pattern != null">
                             <v-select :items="ingredients[`${index}`].pattern" v-model="ingredients[`${index}`].patternid" item-text="name" solo single-line autowidth hide-details class="py-2"></v-select>
                         </td>
-                        <td v-if="ingredients[`${index}`].pattern.length <= 0">No Patterns</td>
+                        <td v-if="ingredients[`${index}`].pattern == null">No Patterns</td>
 
                     </tr>
                     </tbody>
