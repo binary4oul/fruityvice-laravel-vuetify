@@ -83,6 +83,7 @@ methods: {
     },
   savePattern(){
     delete this.pattern_select['no'];
+    if(!this.pattern_select['name']) return
         if(this.pattern_select['id'] == 'new'){
               delete this.pattern_select['id'];
               axios.post(api.path('pattern'), this.pattern_select)

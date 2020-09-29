@@ -85,6 +85,7 @@ methods: {
     },
   saveColor(){
     delete this.color_select['no'];
+      if(!this.color_select['name']) return
         if(this.color_select['id'] == 'new'){
             delete this.color_select['id'];
             axios.post(api.path('color'), this.color_select)
