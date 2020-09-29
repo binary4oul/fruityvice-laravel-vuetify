@@ -190,13 +190,14 @@ methods: {
     },
     checkData(data_system){
         let res = { status: 'success', message: ''}
+        console.log(data_system['saleprice'])
         if(data_system['name'] == ''){
             res['status'] = 'error'
             res['message'] = 'Input Name'
             return res
         }
         if(!data_system['saleprice']){
-
+            console.log(data_system['saleprice'])
             res['status'] = 'error'
             res['message'] = 'Input Price'
             return res
