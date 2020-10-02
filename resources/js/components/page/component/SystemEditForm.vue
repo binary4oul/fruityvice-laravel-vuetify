@@ -253,6 +253,9 @@ methods: {
         this.$store.dispatch('project/setProject', data)
 
         if(this.leadid != 'new'){
+
+            if(!data['name']) return
+
             if(!('id' in data['project'])){
                let new_project = { leadid: this.leadid }
                 axios.post(api.path('project'), new_project)

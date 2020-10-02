@@ -125,6 +125,10 @@ methods: {
             arr[ind] = this.patterns[index]['id']
         })
 
+        if(!this.ingredient['name']) return
+        if(!this.ingredient['coverage']) return
+        if(!this.ingredient['purchaseprice']) return
+
         if(this.ingredientid == 'new')
         {
             axios.post(api.path('ingredient'), this.ingredient)

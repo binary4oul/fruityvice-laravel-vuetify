@@ -39,7 +39,7 @@ axios.interceptors.response.use(response => {
     }
   }
 
-  error.response.data.message !== undefined && app.$toast.error(error.response.data.message || 'Something went wrong.')
-  error.response.data.error !== undefined && app.$toast.error(error.response.data.error || 'Error occurred.')
+  // error.response.data.message !== undefined && app.$toast.error(error.response.data.message || 'Something went wrong.')
+  // error.response.data.error !== undefined && app.$toast.error(error.response.data.error || 'Error occurred.')
   return Promise.reject(error)
 })
