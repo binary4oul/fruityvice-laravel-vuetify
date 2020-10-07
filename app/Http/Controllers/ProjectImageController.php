@@ -27,6 +27,8 @@ class ProjectImageController extends Controller
                 return $response;
             }
         }
+        $response = $request;
+        return $response;
 
     }
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSystemDetails extends Migration
+class CreateCalendar extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateSystemDetails extends Migration
      */
     public function up()
     {
-        Schema::create('system_details', function (Blueprint $table) {
+        Schema::create('calendar', function (Blueprint $table) {
             $table->string('id');
-            $table->string('systemid');
-            $table->string('ingredientid');
-            $table->string('extra')->default('');
-            $table->float('purchaseprice')->default(0);
-            $table->tinyInteger('factor')->default(1);
+            $table->string('content');
+            $table->string('activedate');
+            $table->string('created_by');
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateSystemDetails extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('system_details');
+        Schema::dropIfExists('calendar');
     }
 }

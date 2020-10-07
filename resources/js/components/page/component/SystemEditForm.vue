@@ -38,7 +38,7 @@
             <v-select :items="systems" label="System" v-model="system_des" item-text="description"/>
 
             <v-row v-if="getSystemIdx != -1">
-                <v-col cols="12" sm="3">
+                <v-col cols="12" sm="4">
                     <v-icon @click="changeShowIngredients" medium>{{ icon_ingredientList }}</v-icon>
                     Coverage: {{ getArea }} sqft
                 </v-col>
@@ -80,15 +80,15 @@
                         <td>{{ ingredient.extra }}</td>
                         <td>{{ ingredient.factor }}</td>
 
-                        <td v-if="ingredients[`${index}`].color.length > 0">
+                        <td v-if="ingredients[`${index}`].color != null">
                             <v-select :items="ingredients[`${index}`].color" v-model="ingredients[`${index}`].colorid" item-text="name" solo single-line autowidth hide-details class="py-2"></v-select>
                         </td>
-                        <td v-if="ingredients[`${index}`].color.length <= 0">No Colors</td>
+                        <td v-if="ingredients[`${index}`].color == null">No Colors</td>
 
-                        <td v-if="ingredients[`${index}`].pattern.length > 0">
+                        <td v-if="ingredients[`${index}`].pattern != null">
                             <v-select :items="ingredients[`${index}`].pattern" v-model="ingredients[`${index}`].patternid" item-text="name" solo single-line autowidth hide-details class="py-2"></v-select>
                         </td>
-                        <td v-if="ingredients[`${index}`].pattern.length <= 0">No Patterns</td>
+                        <td v-if="ingredients[`${index}`].pattern == null">No Patterns</td>
 
                     </tr>
                     </tbody>
@@ -172,21 +172,21 @@ methods: {
                 this.color_list = res.data
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Color Data Error!")
             })
         axios.get(api.path('patterns'))
             .then(res => {
                 this.pattern_list  = res.data
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Pattern Data Error!")
             })
         axios.get(api.path('ingredients'))
             .then(res => {
                 this.ingredient_list  = res.data
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Ingredients Data Error")
             })
     },
     getSystems(){
@@ -199,7 +199,7 @@ methods: {
                 })
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("System Data Error!")
             })
     },
     getIngredients(systemId){
@@ -223,7 +223,7 @@ methods: {
                 })
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("System Data Error")
             })
     },
     eidtSalePrice(){
@@ -253,6 +253,9 @@ methods: {
         this.$store.dispatch('project/setProject', data)
 
         if(this.leadid != 'new'){
+
+            if(!data['name']) return
+
             if(!('id' in data['project'])){
                let new_project = { leadid: this.leadid }
                 axios.post(api.path('project'), new_project)
@@ -347,7 +350,7 @@ methods: {
                 }
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Lead Data Error!")
             })
     },
     editProjectDetail(detail) {

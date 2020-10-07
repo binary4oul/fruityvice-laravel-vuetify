@@ -156,6 +156,7 @@
         </template>
      </v-container>
     <v-row>
+        <v-btn class="mx-8 my-4" color="green" dark @click="sendEstimate">Share with Client</v-btn>
         <v-spacer></v-spacer>
         <v-btn class="mx-8 my-4" @click="$router.go(-1)">Cancel</v-btn>
     </v-row>
@@ -205,7 +206,7 @@ methods: {
                     this.project = res.data
                 })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Data Error!")
         })
     },
     editProject(){
@@ -224,7 +225,7 @@ methods: {
                     this.note.push(res.data)
                 })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.handleErrors("Data Error!")
         })
 
     },
@@ -248,6 +249,9 @@ methods: {
             .catch(err => {
 
             })
+
+    },
+    sendEstimate(){
 
     }
 },
@@ -274,7 +278,7 @@ created() {
             }
             })
         .catch(err => {
-            this.handleErrors(err.response.data.errors)
+            this.handleErrors("Data Error!")
         })
 
 },

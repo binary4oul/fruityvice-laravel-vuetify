@@ -1,4 +1,4 @@
-[2020-09-11 01:31:40] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php:109)
+[2020-09-30 02:01:19] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php:109)
 [stacktrace]
 #0 E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php(128): Tymon\\JWTAuth\\Manager->decode()
 #1 E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\JWT.php(106): Tymon\\JWTAuth\\Manager->refresh()
@@ -42,7 +42,7 @@
 #39 E:\\Work\\laravel-vuetify\\server.php(21): require_once('E:\\\\Work\\\\laravel...')
 #40 {main}
 "} 
-[2020-09-11 12:41:02] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php:109)
+[2020-09-30 02:01:20] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php:109)
 [stacktrace]
 #0 E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php(128): Tymon\\JWTAuth\\Manager->decode()
 #1 E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\JWT.php(106): Tymon\\JWTAuth\\Manager->refresh()
@@ -86,7 +86,7 @@
 #39 E:\\Work\\laravel-vuetify\\server.php(21): require_once('E:\\\\Work\\\\laravel...')
 #40 {main}
 "} 
-[2020-09-11 16:49:51] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php:109)
+[2020-09-30 02:01:20] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php:109)
 [stacktrace]
 #0 E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php(128): Tymon\\JWTAuth\\Manager->decode()
 #1 E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\JWT.php(106): Tymon\\JWTAuth\\Manager->refresh()
@@ -130,7 +130,7 @@
 #39 E:\\Work\\laravel-vuetify\\server.php(21): require_once('E:\\\\Work\\\\laravel...')
 #40 {main}
 "} 
-[2020-09-11 17:50:07] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php:109)
+[2020-09-30 02:01:20] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php:109)
 [stacktrace]
 #0 E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php(128): Tymon\\JWTAuth\\Manager->decode()
 #1 E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\JWT.php(106): Tymon\\JWTAuth\\Manager->refresh()
@@ -174,7 +174,7 @@
 #39 E:\\Work\\laravel-vuetify\\server.php(21): require_once('E:\\\\Work\\\\laravel...')
 #40 {main}
 "} 
-[2020-09-11 18:55:29] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php:109)
+[2020-09-30 02:01:20] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php:109)
 [stacktrace]
 #0 E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\Manager.php(128): Tymon\\JWTAuth\\Manager->decode()
 #1 E:\\Work\\laravel-vuetify\\vendor\\tymon\\jwt-auth\\src\\JWT.php(106): Tymon\\JWTAuth\\Manager->refresh()

@@ -42,7 +42,7 @@
                 {{ item.purchaseprice }}
             </v-col>
             <v-col cols="12" sm="2">
-                <vue-numeric-input v-model="item.factor" :value="1" :min="1" controls-type="updown"></vue-numeric-input>
+                <vue-numeric-input v-model="item.factor" :value="1" :min="1" controls-type="updown" size="100px"></vue-numeric-input>
             </v-col>
             <v-col cols="12" sm="4">
                <v-text-field v-model="item.extra" single-line class="mx-0 my-0 py-0"></v-text-field>
@@ -146,25 +146,34 @@ methods: {
         })
         this.system.ingredients = ingredient_system
 
-        if(this.systemid == 'new')
-        {
-            axios.post(api.path('system'), this.system)
-                .then(res => {
-                     this.$toast.success('Saved successfully!')
-                })
-                .catch(err => {
-                    this.handleErrors("System data error!")
-                })
+        let valid = this.checkData(this.system)
+        if(valid['status'] == 'error') {
+            console.log(valid['message'])
+            return
         }
-        else
-        {
-            axios.put(api.path('system') +'/'+ this.system['id'], this.system)
-                .then(res => {
-                    this.$toast.success('Updated successfully!')
-                })
-                .catch(err => {
-                    this.handleErrors("System data error!")
-                })
+        else {
+
+            if(this.systemid == 'new')
+            {
+                axios.post(api.path('system'), this.system)
+                    .then(res => {
+                        this.$toast.success('Saved successfully!')
+                    })
+                    .catch(err => {
+                        this.handleErrors("System data error!")
+                    })
+            }
+            else        {
+
+                axios.put(api.path('system') +'/'+ this.system['id'], this.system)
+                    .then(res => {
+                        this.$toast.success('Updated successfully!')
+                    })
+                    .catch(err => {
+                        console.log('Error')
+
+                    })
+            }
         }
 
     },
@@ -179,6 +188,27 @@ methods: {
         })
 
     },
+    checkData(data_system){
+        let res = { status: 'success', message: ''}
+        console.log(data_system['saleprice'])
+        if(data_system['name'] == ''){
+            res['status'] = 'error'
+            res['message'] = 'Input Name'
+            return res
+        }
+        if(!data_system['saleprice']){
+            console.log(data_system['saleprice'])
+            res['status'] = 'error'
+            res['message'] = 'Input Price'
+            return res
+        }
+        if(data_system['ingredients'].length == 0){
+            res['status'] = 'error'
+            res['message'] = 'Select Ingredients'
+            return res
+        }
+        return res
+    }
 }
 
 }

@@ -27,7 +27,7 @@
                   label="Name"
                   ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
+            <v-col cols="12" sm="6">
               <v-btn color="green" dark class="mx-2" @click="savePattern">Save</v-btn>
               <v-btn color="error" dark class="mx-2" @click="deletePattern" v-if="pattern_select['id'] != 'new'">Delete</v-btn>
               <v-btn class="mx-2" @click="edit=false">Cancel</v-btn>
@@ -73,6 +73,7 @@ methods: {
       .then(res => {
         this.patterns  = res.data
         this.patterns.map((item, index)=> item['no'] = index + 1 )
+        console.log('test')
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)
@@ -83,6 +84,7 @@ methods: {
     },
   savePattern(){
     delete this.pattern_select['no'];
+    if(!this.pattern_select['name']) return
         if(this.pattern_select['id'] == 'new'){
               delete this.pattern_select['id'];
               axios.post(api.path('pattern'), this.pattern_select)

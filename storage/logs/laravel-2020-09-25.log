@@ -1,0 +1,70 @@
+[2020-09-25 20:42:00] local.ERROR: Command "make:migrate" is not defined.
+
+Did you mean one of these?
+    make:channel
+    make:command
+    make:controller
+    make:event
+    make:exception
+    make:factory
+    make:job
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:observer
+    make:policy
+    make:provider
+    make:request
+    make:resource
+    make:rule
+    make:seeder
+    make:test {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"make:migrate\" is not defined.
+
+Did you mean one of these?
+    make:channel
+    make:command
+    make:controller
+    make:event
+    make:exception
+    make:factory
+    make:job
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:observer
+    make:policy
+    make:provider
+    make:request
+    make:resource
+    make:rule
+    make:seeder
+    make:test at E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Application.php:646)
+[stacktrace]
+#0 E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Application.php(236): Symfony\\Component\\Console\\Application->find()
+#1 E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Application.php(148): Symfony\\Component\\Console\\Application->doRun()
+#2 E:\\Work\\laravel-vuetify\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(90): Symfony\\Component\\Console\\Application->run()
+#3 E:\\Work\\laravel-vuetify\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(131): Illuminate\\Console\\Application->run()
+#4 E:\\Work\\laravel-vuetify\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle()
+#5 {main}
+"} 
+[2020-09-25 20:52:14] local.ERROR: The "--refresh" option does not exist. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): The \"--refresh\" option does not exist. at E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Input\\ArgvInput.php:218)
+[stacktrace]
+#0 E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Input\\ArgvInput.php(154): Symfony\\Component\\Console\\Input\\ArgvInput->addLongOption()
+#1 E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Input\\ArgvInput.php(82): Symfony\\Component\\Console\\Input\\ArgvInput->parseLongOption()
+#2 E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Input\\Input.php(55): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#3 E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Command\\Command.php(214): Symfony\\Component\\Console\\Input\\Input->bind()
+#4 E:\\Work\\laravel-vuetify\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(179): Symfony\\Component\\Console\\Command\\Command->run()
+#5 E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Application.php(915): Illuminate\\Console\\Command->run()
+#6 E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Application.php(272): Symfony\\Component\\Console\\Application->doRunCommand()
+#7 E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Application.php(148): Symfony\\Component\\Console\\Application->doRun()
+#8 E:\\Work\\laravel-vuetify\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(90): Symfony\\Component\\Console\\Application->run()
+#9 E:\\Work\\laravel-vuetify\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(131): Illuminate\\Console\\Application->run()
+#10 E:\\Work\\laravel-vuetify\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle()
+#11 {main}
+"} 
