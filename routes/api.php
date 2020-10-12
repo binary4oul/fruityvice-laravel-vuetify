@@ -88,6 +88,15 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::delete('system/{id}', 'SystemController@destroy');
     Route::get('systems', 'SystemController@list');
 
+    Route::post('team', 'TeamController@create');
+    Route::get('teams', 'TeamController@getTeamList');
+    Route::get('team/project/{id}', 'TeamController@getTeamProjects');
+
+    Route::post('teammember', 'TeamMemberController@create');
+    Route::get('teammembers', 'TeamMemberController@getMembers');
+    Route::delete('teammember/{id}', 'TeamMemberController@delete');
+
+
     Route::post('logout', 'Auth\LoginController@logout');
     Route::get('me', 'Auth\LoginController@me');
     Route::put('profile', 'ProfileController@update');
