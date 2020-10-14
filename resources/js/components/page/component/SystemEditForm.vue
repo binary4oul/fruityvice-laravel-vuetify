@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <template f fluid>
-            <v-btn block @click="changeOpenState" v-bind:color="open == true ? 'rgb(236,151,31)' : 'primary'" dark>SYSTEMS</v-btn>
+            <v-btn block @click="changeOpenState" v-bind:color="open == true ? 'rgb(236,151,31)' : 'primary'" dark>{{title}}</v-btn>
         </template>
         <v-spacer></v-spacer>
 
@@ -134,6 +134,7 @@ components: {
 },
 
 data: () => ({
+    title: 'ESTIMATES',
     open: false,
     edit_new: true,
     show_ingredients: false,
@@ -381,7 +382,10 @@ created() {
     this.getSystems()
     this.getData()
     if(this.leadid != 'new') this.getProject()
-    else this.project['projectdetails'] = []
+    else {
+        this.project['projectdetails'] = []
+        this.title = "SYSTEMS"
+    }
 },
 
 computed:{

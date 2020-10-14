@@ -89,8 +89,10 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::get('systems', 'SystemController@list');
 
     Route::post('team', 'TeamController@create');
+    Route::put('team/{id}', 'TeamController@update');
     Route::get('teams', 'TeamController@getTeamList');
     Route::get('team/project/{id}', 'TeamController@getTeamProjects');
+    Route::get('team', 'TeamController@getTeam');
 
     Route::post('teammember', 'TeamMemberController@create');
     Route::get('teammembers', 'TeamMemberController@getMembers');

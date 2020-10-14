@@ -16,6 +16,11 @@ class TeamMemberController extends Controller
         $team = Team::where('owner', $user->id)->first();
         if ($team) {
             $team['member'] = TeamMember::where('teamid', $team->id)->get();
+            foreach($team['member'] as $team_member){
+                $member = User::where('id', $team_member['userid'])->first();
+                $team_member['name'] = $member['firstname'].' '.$member['lastname'];
+                $team_member['email'] = $member['email'];
+            }
             $res['member'] = $team['member'];
             $res['status'] = 'success';
         }
@@ -34,6 +39,8 @@ class TeamMemberController extends Controller
             $member_data['teamid'] = $team['id'];
             $member_data['userid'] = $member_user['id'];
             $member = TeamMember::create($member_data);
+            $member['name'] = $member_user['firstname'].' '.$member_user['lastname'];
+            $member['email'] = $member_user['email'];
             $response['status'] = "success";
             $response['member'] = $member;
         }

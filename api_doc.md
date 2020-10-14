@@ -589,12 +589,38 @@ response:{"projectid"}
 -localhost:8000/api/team, post
     request:{"name":"test team"}
     response:{
-            "name": "test team",
-            "owner": "648b5f34-eb0f-4454-a4ab-eef34b92b304",
-            "id": "9ba782c7-e0de-409c-aa8d-679a395abd35",
-            "updated_at": "2020-10-12 01:06:30",
-            "created_at": "2020-10-12 01:06:30"
-        }
+                "id": "9ba782c7-e0de-409c-aa8d-679a395abd35",
+                "name": "test team",
+                "owner": {
+                    "id": "648b5f34-eb0f-4454-a4ab-eef34b92b304",
+                    "firstname": "paul",
+                    "lastname": "koman",
+                    "email": "test@gmail.com",
+                    "role": "user",
+                    "created_at": "2020-08-26 01:40:03",
+                    "updated_at": "2020-08-26 01:40:03"
+                },
+                "created_at": "2020-10-12 01:06:30",
+                "updated_at": "2020-10-12 01:06:30"
+            }
+-http://localhost:8000/api/team, get
+    response:{
+        status: "success"
+        team: {id: "9ba782c7-e0de-409c-aa8d-679a395abd35", name: "test team",…}
+    }
+
+-localhost:8000/api/teams, get
+    response:{
+        [
+            {
+                "id": "9ba782c7-e0de-409c-aa8d-679a395abd35",
+                "name": "test team",
+                "owner": "648b5f34-eb0f-4454-a4ab-eef34b92b304",
+                "created_at": "2020-10-12 01:06:30",
+                "updated_at": "2020-10-12 01:06:30"
+            }
+        ]
+    }
 
 -localhost:8000/api/team/project/9ba782c7-e0de-409c-aa8d-679a395abd35, get
     response:[
@@ -647,7 +673,9 @@ response:{"projectid"}
                     "teamid": "9ba782c7-e0de-409c-aa8d-679a395abd35",
                     "userid": "7e16b2cc-ada8-43c7-8c79-123689246e1f",
                     "created_at": "2020-10-12 01:51:07",
-                    "updated_at": "2020-10-12 01:51:07"
+                    "updated_at": "2020-10-12 01:51:07",
+                    "name": "test2 test",
+                    "email": "test2@gmail.com"
                 }
             ],
             "status": "success"

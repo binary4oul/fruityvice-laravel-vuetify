@@ -91,7 +91,10 @@ export const api = Object.assign(new URL(apiUrl), {
   getProjectByLeadId: {url: 'project/getbyleadid'},
   getProjectsByStatus: {url: 'project/getprojectsbystatus'},
   getByLeadIdProjectStatus: {url: 'project/getbyleadidprojectstatus'},
-
-
+  team: {url: 'team'},
+  getTeams: {url: 'teams'},
+  getTeamProject: {url: 'team/project'},
+  getMembers: {url: 'teammembers'},
+  teamMember: {url: 'teammember'},
 
 })

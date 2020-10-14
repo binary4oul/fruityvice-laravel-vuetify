@@ -39,13 +39,15 @@ export default [
           ]
         },
 
-            { path: 'color/list', name: 'colors', component: require('$comp/page/more/ColorList').default},
-            { path: 'pattern/list', name: 'patterns', component: require('$comp/page/more/PatternList').default},
-            { path: 'ingredient/list', name: 'ingredients', component: require('$comp/page/more/IngredientList').default},
-            { path: 'ingredient/edit/:ingredientid', name: 'ingredient-edit', component: require('$comp/page/more/IngredientEdit').default},
-            { path: 'system/list', name: 'systems', component: require('$comp/page/more/SystemList').default},
-            { path: 'system/edit/:systemid', name: 'system-edit', component: require('$comp/page/more/SystemEdit').default},
-
+        { path: 'color/list', name: 'colors', component: require('$comp/page/more/ColorList').default},
+        { path: 'pattern/list', name: 'patterns', component: require('$comp/page/more/PatternList').default},
+        { path: 'ingredient/list', name: 'ingredients', component: require('$comp/page/more/IngredientList').default},
+        { path: 'ingredient/edit/:ingredientid', name: 'ingredient-edit', component: require('$comp/page/more/IngredientEdit').default},
+        { path: 'system/list', name: 'systems', component: require('$comp/page/more/SystemList').default},
+        { path: 'system/edit/:systemid', name: 'system-edit', component: require('$comp/page/more/SystemEdit').default},
+        { path: 'myteams', name: 'myteams', component: require('$comp/page/more/MyTeam').default},
+        { path: 'myteams/project/:teamid', name: 'teamProject', component: require('$comp/page/more/TeamProject').default},
+        { path: 'mymembership', name: 'mymembership', component: require('$comp/page/more/MyMembership').default},
 
       ]
     },
