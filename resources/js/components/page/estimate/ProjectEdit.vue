@@ -18,10 +18,10 @@
         </template>
         <template v-if="edit_project">
             <v-row>
-                <v-col cols="12" sm="3">
+                <v-col cols="12" sm="4" class="py-0">
                     <v-select :items="status_type" label="Status" v-model="project_edit.projectstatus"></v-select>
                 </v-col>
-                <v-col cols="12" sm="3">
+                <v-col cols="12" sm="4" class="py-0">
                     <v-menu
                         v-model="calen_install"
                         :close-on-content-click="false"
@@ -44,7 +44,7 @@
                         <v-date-picker v-model="project_edit.install" no-title @input="calen_install = false"></v-date-picker>
                     </v-menu>
                 </v-col>
-                <v-col cols="12" sm="3">
+                <v-col cols="12" sm="4" class="py-0">
                     <v-menu
                         v-model="calen_completed"
                         :close-on-content-click="false"
@@ -67,8 +67,13 @@
                         <v-date-picker v-model="project_edit.completed" no-title @input="calen_completed = false"></v-date-picker>
                     </v-menu>
                 </v-col>
-                <v-col cols="12" sm="3">
-                    <v-checkbox v-model="project_edit.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-8">Acive</v-checkbox>
+            </v-row>
+            <v-row>
+                <v-col cols="12" sm="4">
+                    <v-checkbox v-model="project_edit.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-2 my-0">Acive</v-checkbox>
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-checkbox v-model="project_edit.share" label="Share" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-2 my-0">Share</v-checkbox>
                 </v-col>
             </v-row>
             <v-row>
@@ -215,6 +220,7 @@ methods: {
         this.project_edit['install'] = this.project['install']
         this.project_edit['completed'] = this.project['completed']
         this.project_edit['active'] = this.project['active']
+        this.project_edit['share'] = this.project['share']
     },
     saveNote(){
         let project_note = {}

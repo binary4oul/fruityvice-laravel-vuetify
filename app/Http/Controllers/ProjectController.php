@@ -116,7 +116,8 @@ class ProjectController extends Controller
     }
 
     public function getProjectsByProjectStatus($status){
-        $projects = Project::where('projectstatus', $status)->get();
+        $user = auth()->user();
+        $projects = Project::where('created_by', $user->id)->where('projectstatus', $status)->get();
         $res_projects = array();
         foreach($projects as $project) array_push($res_projects, $this->show($project->id));
         return $res_projects;
