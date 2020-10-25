@@ -34,6 +34,7 @@ class ProjectImageController extends Controller
 
     public function update(Request $request, $id)
     {
+        $input = $request->all();
         $result = ProjectImage::find($id)->update($input);
         $projectImage = ProjectImage::find($id);
         return $projectImage;

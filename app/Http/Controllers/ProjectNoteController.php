@@ -17,6 +17,7 @@ class ProjectNoteController extends Controller
 
     public function update(Request $request, $id)
     {
+        $input = $request->all();
         $result = ProjectNote::find($id)->update($input);
         $projectNote = ProjectNote::find($id);
         return $projectNote;
