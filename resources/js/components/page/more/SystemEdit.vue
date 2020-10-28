@@ -158,6 +158,7 @@ methods: {
                 axios.post(api.path('system'), this.system)
                     .then(res => {
                         this.$toast.success('Saved successfully!')
+                        this.$router.push({ name: 'systems'})
                     })
                     .catch(err => {
                         this.handleErrors("System data error!")
@@ -168,6 +169,7 @@ methods: {
                 axios.put(api.path('system') +'/'+ this.system['id'], this.system)
                     .then(res => {
                         this.$toast.success('Updated successfully!')
+                        this.$router.push({ name: 'systems'})
                     })
                     .catch(err => {
                         console.log('Error')

@@ -152,7 +152,7 @@ methods: {
                         })
 
                     this.$toast.success('Saved successfully!')
-                    this.$router.push({name:'index'})
+                    this.$router.push({name:'leads'})
                 })
 
         }
@@ -174,7 +174,7 @@ methods: {
                             this.handleErrors('Lead data error!')
                         })
             this.$toast.success('Updated successfully!')
-            this.$router.push({name:'index'})
+            this.$router.push({name:'leads'})
         }
 
     },
