@@ -255,7 +255,8 @@ methods: {
 
         if(this.leadid != 'new'){
 
-            if(!data['name']) return
+            // if(!data['name']) return
+            console.log('insert ---------------------')
 
             if(!('id' in data['project'])){
                let new_project = { leadid: this.leadid }
