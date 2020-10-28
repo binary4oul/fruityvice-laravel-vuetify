@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCalendar extends Migration
+class CreateTeamMembers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateCalendar extends Migration
      */
     public function up()
     {
-        Schema::create('calendar', function (Blueprint $table) {
+        Schema::create('team_members', function (Blueprint $table) {
             $table->string('id');
-            $table->string('content');
-            $table->string('activedate');
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
+            $table->string('teamid');
+            $table->string('userid');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateCalendar extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calendar');
+        Schema::dropIfExists('team_members');
     }
 }

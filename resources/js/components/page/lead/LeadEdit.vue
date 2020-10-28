@@ -152,6 +152,7 @@ methods: {
                         })
 
                     this.$toast.success('Saved successfully!')
+                    this.$route.go(-1)
                 })
 
         }
@@ -173,6 +174,7 @@ methods: {
                             this.handleErrors('Lead data error!')
                         })
             this.$toast.success('Updated successfully!')
+            this.$route.go(-1)
         }
 
     },

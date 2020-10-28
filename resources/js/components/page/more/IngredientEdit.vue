@@ -133,7 +133,8 @@ methods: {
         {
             axios.post(api.path('ingredient'), this.ingredient)
                 .then(res => {
-                     this.$toast.success('Saved successfully!')
+                    this.$toast.success('Saved successfully!')
+                    this.$router.push({name:'ingredients'})
                 })
                 .catch(err => {
                     this.handleErrors("Ingredient data error!")
@@ -141,9 +142,11 @@ methods: {
         }
         else
         {
+            this.$router.push({name:'ingredients'})
             axios.put(api.path('ingredient') +'/'+ this.ingredient['id'], this.ingredient)
                 .then(res => {
                     this.$toast.success('Updated successfully!')
+
                 })
                 .catch(err => {
                     this.handleErrors("Ingredient data error!")

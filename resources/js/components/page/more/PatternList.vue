@@ -73,7 +73,6 @@ methods: {
       .then(res => {
         this.patterns  = res.data
         this.patterns.map((item, index)=> item['no'] = index + 1 )
-        console.log('test')
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)
