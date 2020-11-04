@@ -47,7 +47,7 @@ export default [
         { path: 'system/edit/:systemid', name: 'system-edit', component: require('$comp/page/more/SystemEdit').default},
         { path: 'myteams', name: 'myteams', component: require('$comp/page/more/MyTeam').default},
         { path: 'myteams/project/:teamid', name: 'teamProject', component: require('$comp/page/more/TeamProject').default},
-        { path: 'mymembership', name: 'mymembership', component: require('$comp/page/more/MyMembership').default},
+        // { path: 'mymembership', name: 'mymembership', component: require('$comp/page/more/MyMembership').default},
 
       ]
     },

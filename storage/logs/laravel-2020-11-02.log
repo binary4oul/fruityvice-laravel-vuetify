@@ -1,0 +1,9 @@
+[2020-11-02 14:27:05] local.ERROR: Command "0.0.0.0" is not defined. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"0.0.0.0\" is not defined. at E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Application.php:646)
+[stacktrace]
+#0 E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Application.php(236): Symfony\\Component\\Console\\Application->find()
+#1 E:\\Work\\laravel-vuetify\\vendor\\symfony\\console\\Application.php(148): Symfony\\Component\\Console\\Application->doRun()
+#2 E:\\Work\\laravel-vuetify\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(90): Symfony\\Component\\Console\\Application->run()
+#3 E:\\Work\\laravel-vuetify\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(131): Illuminate\\Console\\Application->run()
+#4 E:\\Work\\laravel-vuetify\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle()
+#5 {main}
+"} 

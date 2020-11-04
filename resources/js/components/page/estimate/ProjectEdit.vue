@@ -3,118 +3,118 @@
 		<person-edit-form :person="project['person']" :leadid="leadid"></person-edit-form>
 
 		<v-container fluid>
-				<template f fluid v-if="!edit_project">
-						<v-row class="mx-4">
-								<font style="font-size:samller; color:grey">Status : </font>
-								<font style="font-size:large">&nbsp;&nbsp; {{ project['projectstatus'] }}</font>
-								<v-spacer></v-spacer>
-								<font style="font-size:samller; color:grey">Price : </font>
-								<font style="font-size:large">&nbsp;&nbsp; {{ price }}</font>
-								<v-spacer></v-spacer>
-								<v-btn color="blue" dark small @click="editProject">
-										<v-icon dark>edit</v-icon>
-								</v-btn>
-						</v-row>
-				</template>
-				<template v-if="edit_project">
-						<v-row>
-								<v-col cols="12" sm="4" class="py-0">
-										<v-select :items="status_type" label="Status" v-model="project_edit.projectstatus"></v-select>
-								</v-col>
-								<v-col cols="12" sm="4" class="py-0">
-										<v-menu
-												v-model="calen_install"
-												:close-on-content-click="false"
-												transition="scale-transition"
-												offset-y
-												max-width="290px"
-												min-width="290px"
-										>
-												<template v-slot:activator="{ on, attrs }">
-												<v-text-field
-														v-model="project_edit.install"
-														label="Installed"
-														persistent-hint
-														prepend-icon="event"
-														readonly
-														v-bind="attrs"
-														v-on="on"
-												></v-text-field>
-												</template>
-												<v-date-picker v-model="project_edit.install" no-title @input="calen_install = false"></v-date-picker>
-										</v-menu>
-								</v-col>
-								<v-col cols="12" sm="4" class="py-0">
-										<v-menu
-												v-model="calen_completed"
-												:close-on-content-click="false"
-												transition="scale-transition"
-												offset-y
-												max-width="290px"
-												min-width="290px"
-										>
-												<template v-slot:activator="{ on, attrs }">
-												<v-text-field
-														v-model="project_edit.completed"
-														label="Completed"
-														persistent-hint
-														prepend-icon="event"
-														readonly
-														v-bind="attrs"
-														v-on="on"
-												></v-text-field>
-												</template>
-												<v-date-picker v-model="project_edit.completed" no-title @input="calen_completed = false"></v-date-picker>
-										</v-menu>
-								</v-col>
-						</v-row>
-						<v-row>
-								<v-col cols="12" sm="4">
-										<v-checkbox v-model="project_edit.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-2 my-0">Acive</v-checkbox>
-								</v-col>
-								<v-col cols="12" sm="4">
-										<v-checkbox v-model="project_edit.share" label="Share" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-2 my-0">Share</v-checkbox>
-								</v-col>
-						</v-row>
-						<v-row>
-								<v-spacer></v-spacer>
-								<v-btn color="green" dark class="mx-2 my-2" @click="saveProject">Save</v-btn>
-								<v-btn class="mx-2 my-2" @click="edit_project=false">Cancel</v-btn>
-								<v-spacer></v-spacer>
-						</v-row>
-				</template>
+			<template f fluid v-if="!edit_project">
+				<v-row class="mx-4">
+					<font style="font-size:samller; color:grey">Status : </font>
+					<font style="font-size:large">&nbsp;&nbsp; {{ project['projectstatus'] }}</font>
+					<v-spacer></v-spacer>
+					<font style="font-size:samller; color:grey">Price : </font>
+					<font style="font-size:large">&nbsp;&nbsp; {{ getProjectPrice }}</font>
+					<v-spacer></v-spacer>
+					<v-btn color="blue" dark small @click="editProject">
+							<v-icon dark>edit</v-icon>
+					</v-btn>
+				</v-row>
+			</template>
+			<template v-if="edit_project">
+				<v-row>
+					<v-col cols="12" sm="4" class="py-0">
+							<v-select :items="status_type" label="Status" v-model="project_edit.projectstatus"></v-select>
+					</v-col>
+					<v-col cols="12" sm="4" class="py-0">
+						<v-menu
+								v-model="calen_install"
+								:close-on-content-click="false"
+								transition="scale-transition"
+								offset-y
+								max-width="290px"
+								min-width="290px"
+						>
+							<template v-slot:activator="{ on, attrs }">
+							<v-text-field
+									v-model="project_edit.install"
+									label="Installed"
+									persistent-hint
+									prepend-icon="event"
+									readonly
+									v-bind="attrs"
+									v-on="on"
+							></v-text-field>
+							</template>
+							<v-date-picker v-model="project_edit.install" no-title @input="calen_install = false"></v-date-picker>
+						</v-menu>
+					</v-col>
+						<v-col cols="12" sm="4" class="py-0">
+							<v-menu
+								v-model="calen_completed"
+								:close-on-content-click="false"
+								transition="scale-transition"
+								offset-y
+								max-width="290px"
+								min-width="290px"
+							>
+								<template v-slot:activator="{ on, attrs }">
+								<v-text-field
+										v-model="project_edit.completed"
+										label="Completed"
+										persistent-hint
+										prepend-icon="event"
+										readonly
+										v-bind="attrs"
+										v-on="on"
+								></v-text-field>
+								</template>
+								<v-date-picker v-model="project_edit.completed" no-title @input="calen_completed = false"></v-date-picker>
+							</v-menu>
+						</v-col>
+					</v-row>
+					<v-row>
+						<v-col cols="12" sm="4">
+								<v-checkbox v-model="project_edit.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-2 my-0">Acive</v-checkbox>
+						</v-col>
+						<v-col cols="12" sm="4">
+								<v-checkbox v-model="project_edit.share" label="Share" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-2 my-0">Share</v-checkbox>
+						</v-col>
+					</v-row>
+					<v-row>
+							<v-spacer></v-spacer>
+							<v-btn color="green" dark class="mx-2 my-2" @click="saveProject">Save</v-btn>
+							<v-btn class="mx-2 my-2" @click="edit_project=false">Cancel</v-btn>
+							<v-spacer></v-spacer>
+					</v-row>
+			</template>
 		</v-container>
 
 		<system-edit-form :leadid="leadid"></system-edit-form>
 
-		 <v-container fluid>
-				<template f fluid>
-						<v-btn block @click="edit_note=!edit_note" v-bind:color="edit_note == true ? 'rgb(236,151,31)' : 'primary'" dark>NOTES</v-btn>
-				</template>
+		<v-container fluid>
+			<template f fluid>
+					<v-btn block @click="edit_note=!edit_note" v-bind:color="edit_note == true ? 'rgb(236,151,31)' : 'primary'" dark>NOTES</v-btn>
+			</template>
 				<template v-if="edit_note">
-						<v-textarea
-								label="Note"
-								v-model="note_edit"
-								auto-grow
-								outlined
-								rows="2"
-								row-height="15"
-								class="mt-8"
-						></v-textarea>
-						<v-row>
-								<v-spacer></v-spacer>
-										<v-btn color="green" dark class="mx-2 my-2" @click="saveNote">Save</v-btn>
-								<v-spacer></v-spacer>
-						</v-row>
-								<v-simple-table dense v-if="note.length>0">
-										<template v-slot:default>
-												<tbody>
-												<tr v-for="(item, index) in note" :key="index">
-														<td>{{ item.note }}</td>
-												</tr>
-												</tbody>
-										</template>
-								</v-simple-table>
+					<v-textarea
+						label="Note"
+						v-model="note_edit"
+						auto-grow
+						outlined
+						rows="2"
+						row-height="15"
+						class="mt-8"
+					></v-textarea>
+					<v-row>
+							<v-spacer></v-spacer>
+									<v-btn color="green" dark class="mx-2 my-2" @click="saveNote">Save</v-btn>
+							<v-spacer></v-spacer>
+					</v-row>
+					<v-simple-table dense v-if="note.length>0">
+							<template v-slot:default>
+									<tbody>
+									<tr v-for="(item, index) in note" :key="index">
+											<td>{{ item.note }}</td>
+									</tr>
+									</tbody>
+							</template>
+					</v-simple-table>
 
 				</template>
 		</v-container>
@@ -173,6 +173,7 @@ import axios from 'axios'
 import { api } from '~/config'
 import PersonEditForm from '../component/PersonEditForm'
 import SystemEditForm from '../component/SystemEditForm'
+import store from '~/store/index'
 
 export default {
 
@@ -190,7 +191,7 @@ data: () => ({
 		note_edit: '',
 		edit_image: false,
 		new_image: false,
-		price: 0,
+
 		edit_project: false,
 		edit_note: false,
 		status_type:['estimate', 'current', 'complete'],
@@ -263,6 +264,14 @@ methods: {
 		}
 },
 
+computed: {
+ 	getProjectPrice: function(){
+		const project = store.getters['project/project']
+		if(!project) return;
+		return project['projectdetails'].reduce( (prev, item) => (prev += item['areaprice']), 0)
+    },
+},
+
 created() {
 		let data = {'title': 'Project'}
 		this.$store.dispatch('title/setTitle', data)
@@ -272,7 +281,7 @@ created() {
 				.then(res => {
 						if(res.data){
 								this.project = res.data
-								this.price = this.project['projectdetails'].reduce( (total, item) => { return total+item['areaprice'] }, 0)
+
 								this.$store.dispatch('project/setProject', res.data)
 								axios.get(api.path('projectnotelist') +'/'+ this.project['id'])
 										.then(res => {
