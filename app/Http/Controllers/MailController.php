@@ -5,46 +5,65 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Mail;
 use PDF;
+use App\Models\Lead;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectNoteController;
+use App\Http\Controllers\ProjectImageController;
 
 class MailController extends Controller
 {
-    //
-    public function test(){
-        $details = [
-            'title' => 'Mail from ItSolutionStuff.com',
-            'body' => 'This is for testing email using smtp'
-        ];
+		//
 
-        \Mail::to('sweetfigaro27@gmail.com')
-            ->send(new \App\Mail\TestMail($details));
+		protected $ProjectController, $ProjectImageController, $ProjectNoteController;
+    public function __construct(ProjectController $ProjectController, ProjectNoteController $ProjectNoteController,ProjectImageController $ProjectImageController)
+    {
+				$this->ProjectController = $ProjectController;
+				$this->ProjectNoteController = $ProjectNoteController;
+				$this->ProjectImageController = $ProjectImageController;
+		}
 
-        dd("Email is Sent.");
-    }
+  public function sendmail($id) {
+		$response['status'] = 'success';
 
-    public function sendmail() {
-        $response = 'ok';
+		$leadid = $id;
 
-        $details = [
-            'title' => 'Mail from ItSolutionStuff.com',
-            'body' => 'This is for testing email using smtp'
-        ];
+		$project = $this->ProjectController->getByLeadId($leadid);
 
-        $data['details'] = $details;
+		$projectdetails = $project['projectdetails'];
+		$estimateprice = 0;
+		foreach($projectdetails as $details) $estimateprice += $details['areaprice'];
+		$project['price'] = $estimateprice;
 
-        $pdf = PDF::loadView('emails.pdf', $data);
+		$project['images'] = $this->ProjectImageController->list($project['id']);
+		$project['notes'] = $this->ProjectNoteController->list($project['id']);
+		$images_url = array();
+		foreach($project['images'] as $image) {
+			$image_data['image'] = 'http://dev.myincredibleone.com/storage/images/1603738094.png';
+			array_push($images_url, $image_data);
+		}
+		$project['images'] = $images_url;
 
-        // \Mail::to('sweetfigaro27@gmail.com')
-        //     ->send(new \App\Mail\TestMail($details))
-        //     ->attachData($pdf->output(), "invoice.pdf");
+		if(!$project['email']) {
+			$response['status'] = 'error';
+			$response['message'] = "Input Email Address on 'LeadDetail'";
+			return $response;
+		}
+		$data = [
+				'title' => 'Mail from Contractor.',
+				'body' => 'This is your Estimate.',
+				'client_name' => $project['person']['firstname'],
+				'to' => $project['email']
+		];
 
-      Mail::send('emails.testMail', $data, function($message)use($data, $pdf) {
-        $message->to('sweetfigaro27@gmail.com', "client_name")
-              ->subject("subject")
-              ->attachData($pdf->output(), "invoice.pdf");
-        });
+		$pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('emails.pdf', $project);
 
-        return $response;
+		Mail::send('emails.testMail', $data, function($message)use($data, $pdf) {
+			$message->to($data['to'], $data['client_name'])
+						->subject("subject")
+						->attachData($pdf->output(), "Estimate.pdf");
+			});
 
-        dd("Email is Sent.");
-     }
+			return $response;
+
+		}
 }

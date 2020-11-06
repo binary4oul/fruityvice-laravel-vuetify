@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Address;
 use App\Models\ProjectDetail;
 use App\Models\ProjectDetailStyle;
+use App\Models\System;
 use App\Http\Controllers\LeadController;
 
 class ProjectController extends Controller
@@ -69,11 +70,14 @@ class ProjectController extends Controller
         $project = Project::find($id);
         $lead = $this->LeadController->show($project['leadid']);
         $project['person'] = $lead['person'];
+        $project['email'] = $lead['leaddetail']['email'];
         $address = Address::find($project['addressid']);
         $project['address'] = $address;
         $projectdetails = ProjectDetail::where('projectid', $project['id'])->get();
         foreach($projectdetails as $projectdetail){
             $projectdetailstyles = ProjectDetailStyle::where('projectdetailid', $projectdetail['id'])->get();
+            $system = System::find($projectdetail['systemid']);
+            $projectdetail['systemname'] = $system['name'];
             $projectdetail['projectdetailstyles'] = $projectdetailstyles;
         }
         $project['projectdetails'] = $projectdetails;

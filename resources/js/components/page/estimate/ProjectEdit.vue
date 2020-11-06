@@ -102,18 +102,18 @@
 						class="mt-8"
 					></v-textarea>
 					<v-row>
-							<v-spacer></v-spacer>
-									<v-btn color="green" dark class="mx-2 my-2" @click="saveNote">Save</v-btn>
-							<v-spacer></v-spacer>
+						<v-spacer></v-spacer>
+								<v-btn color="green" dark class="mx-2 my-2" @click="saveNote">Save</v-btn>
+						<v-spacer></v-spacer>
 					</v-row>
 					<v-simple-table dense v-if="note.length>0">
-							<template v-slot:default>
-									<tbody>
-									<tr v-for="(item, index) in note" :key="index">
-											<td>{{ item.note }}</td>
-									</tr>
-									</tbody>
-							</template>
+						<template v-slot:default>
+							<tbody>
+							<tr v-for="(item, index) in note" :key="index">
+								<td>{{ item.note }}</td>
+							</tr>
+							</tbody>
+						</template>
 					</v-simple-table>
 
 				</template>
@@ -204,37 +204,37 @@ data: () => ({
 
 methods: {
 		saveProject(){
-				let project_data = {}
-				project_data = this.project_edit
-				axios.put(api.path('project') +'/'+ this.project['id'], project_data)
-						.then(res => {
-										this.edit_project = false
-										this.project = res.data
-								})
-						.catch(err => {
-								this.handleErrors("Data Error!")
-				})
+			let project_data = {}
+			project_data = this.project_edit
+			axios.put(api.path('project') +'/'+ this.project['id'], project_data)
+					.then(res => {
+									this.edit_project = false
+									this.project = res.data
+							})
+					.catch(err => {
+							this.handleErrors("Data Error!")
+			})
 		},
 		editProject(){
-				this.edit_project = true
-				this.project_edit['projectstatus'] = this.project['projectstatus']
-				this.project_edit['install'] = this.project['install']
-				this.project_edit['completed'] = this.project['completed']
-				this.project_edit['active'] = this.project['active']
-				this.project_edit['share'] = this.project['share']
+			this.edit_project = true
+			this.project_edit['projectstatus'] = this.project['projectstatus']
+			this.project_edit['install'] = this.project['install']
+			this.project_edit['completed'] = this.project['completed']
+			this.project_edit['active'] = this.project['active']
+			this.project_edit['share'] = this.project['share']
 		},
 		saveNote(){
-				let project_note = {}
-				project_note['note'] = this.note_edit
-				project_note['projectid'] = this.project['id']
-				axios.post(api.path('projectnote') , project_note)
-						.then(res => {
-							this.note.push(res.data)
-							this.note_edit = ''
-							})
-						.catch(err => {
-								this.handleErrors("Data Error!")
-				})
+			let project_note = {}
+			project_note['note'] = this.note_edit
+			project_note['projectid'] = this.project['id']
+			axios.post(api.path('projectnote') , project_note)
+					.then(res => {
+						this.note.push(res.data)
+						this.note_edit = ''
+						})
+					.catch(err => {
+							this.handleErrors("Data Error!")
+			})
 
 		},
 		onImageChange(e){
@@ -253,14 +253,26 @@ methods: {
 				axios.post(api.path('projectimage'), formData, config)
 						.then(res =>{
 								this.image.push(res.data)
+								this.image_edit = null
 						})
 						.catch(err => {
 
 						})
 
 		},
-		sendEstimate(){
-
+		sendEstimate() {
+			this.$store.dispatch('loader/setLoader', { loader: true })
+			axios.get(api.path('sendEstimate') +'/'+ this.leadid, )
+						.then(res => {
+							const response_data = res.data;
+							this.$store.dispatch('loader/setLoader', { loader: false })
+							if(response_data['status'] === 'success') this.$toast.success('Sent successfully!')
+							else this.$toast.error(response_data['message'])
+						})
+						.catch(err => {
+							this.$store.dispatch('loader/setLoader', { loader: false })
+							this.$toast.error('Server Error!')
+						})
 		}
 },
 
@@ -276,7 +288,7 @@ created() {
 		let data = {'title': 'Project'}
 		this.$store.dispatch('title/setTitle', data)
 		this.leadid = this.$route.params.leadid
-	//  this.projectid = this.$route.params.projectid
+	  // this.projectid = this.$route.params.projectid
 		axios.get(api.path('getProjectByLeadId') +'/'+ this.leadid)
 				.then(res => {
 						if(res.data){

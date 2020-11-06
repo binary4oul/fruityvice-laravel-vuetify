@@ -1,4 +1,0 @@
-[2020-09-24 15:57:12] local.ERROR: Maximum execution time of 60 seconds exceeded {"userId":"648b5f34-eb0f-4454-a4ab-eef34b92b304","exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 1): Maximum execution time of 60 seconds exceeded at E:\\Work\\laravel-vuetify\\vendor\\swiftmailer\\swiftmailer\\lib\\classes\\Swift\\Transport\\StreamBuffer.php:162)
-[stacktrace]
-#0 {main}
-"} 

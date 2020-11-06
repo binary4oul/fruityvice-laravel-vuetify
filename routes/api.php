@@ -108,7 +108,7 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::delete('calendar/{id}', 'CalendarController@destroy');
     Route::get('calendars', 'CalendarController@list');
 
-    Route::get('send-mail', 'MailController@sendmail');
+    Route::get('sendestimate/{id}', 'MailController@sendmail');
 
 });
 
