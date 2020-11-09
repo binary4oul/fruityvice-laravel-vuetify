@@ -54,34 +54,35 @@ mounted() {
 
 methods: {
   getProjects() {
+    this.$store.dispatch('loader/setLoader', { loader: true })
     axios.get(api.path('leads'))
       .then(res => {
         this.leads  = res.data
-
-            let request = {}
-
-            request['projectstatus'] = 'estimate'
-            request['active'] = this.active
-            axios.get(api.path('getProjectsByStatus') +'/'+ 'estimate', )
-                .then(res => {
-                  let data_arr = res.data
-                  data_arr.map(data => {
-                    data['person']['fullname'] = data['person']['firstname'] +' '+ data['person']['lastname']
-                    data['area'] = 0
-                    data['price'] = 0
-                    data['projectdetails'].map( detail => {
-                      data['area'] += detail['area']
-                      data['price'] += detail['areaprice']
-                    })
-                    if(data['active'] == this.active) this.estimates.push(data)
-                    return data
-                  })
+        let request = {}
+        request['projectstatus'] = 'estimate'
+        request['active'] = this.active
+        axios.get(api.path('getProjectsByStatus') +'/'+ 'estimate', )
+            .then(res => {
+              let data_arr = res.data
+              data_arr.map(data => {
+                data['person']['fullname'] = data['person']['firstname'] +' '+ data['person']['lastname']
+                data['area'] = 0
+                data['price'] = 0
+                data['projectdetails'].map( detail => {
+                  data['area'] += detail['area']
+                  data['price'] += detail['areaprice']
                 })
+                if(data['active'] == this.active) this.estimates.push(data)
+                return data
+              })
 
-
+            })
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)
+      })
+      .then(() => {
+        this.$store.dispatch('loader/setLoader', { loader: false })
       })
 
     },

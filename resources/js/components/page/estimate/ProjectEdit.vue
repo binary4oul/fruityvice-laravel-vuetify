@@ -263,16 +263,17 @@ methods: {
 		sendEstimate() {
 			this.$store.dispatch('loader/setLoader', { loader: true })
 			axios.get(api.path('sendEstimate') +'/'+ this.leadid, )
-						.then(res => {
-							const response_data = res.data;
-							this.$store.dispatch('loader/setLoader', { loader: false })
-							if(response_data['status'] === 'success') this.$toast.success('Sent successfully!')
-							else this.$toast.error(response_data['message'])
-						})
-						.catch(err => {
-							this.$store.dispatch('loader/setLoader', { loader: false })
-							this.$toast.error('Server Error!')
-						})
+					.then(res => {
+						const response_data = res.data;
+						if(response_data['status'] === 'success') this.$toast.success('Sent successfully!')
+						else this.$toast.error(response_data['message'])
+					})
+					.catch(err => {
+						this.$toast.error('Server Error!')
+					})
+					.then(() => {
+						this.$store.dispatch('loader/setLoader', { loader: false })
+					})
 		}
 },
 
@@ -288,27 +289,31 @@ created() {
 		let data = {'title': 'Project'}
 		this.$store.dispatch('title/setTitle', data)
 		this.leadid = this.$route.params.leadid
-	  // this.projectid = this.$route.params.projectid
+		// this.projectid = this.$route.params.projectid
+		this.$store.dispatch('loader/setLoader', { loader: true })
 		axios.get(api.path('getProjectByLeadId') +'/'+ this.leadid)
 				.then(res => {
-						if(res.data){
-								this.project = res.data
+					if(res.data){
+						this.project = res.data
 
-								this.$store.dispatch('project/setProject', res.data)
-								axios.get(api.path('projectnotelist') +'/'+ this.project['id'])
-										.then(res => {
-												this.note = res.data
-										})
-								axios.get(api.path('projectimagelist')+'/'+this.project['id'])
-										.then(res => {
-												this.image = res.data
-										})
-						}
-						})
-				.catch(err => {
-						this.handleErrors("Data Error!")
+						this.$store.dispatch('project/setProject', res.data)
+						axios.get(api.path('projectnotelist') +'/'+ this.project['id'])
+								.then(res => {
+										this.note = res.data
+								})
+						axios.get(api.path('projectimagelist')+'/'+this.project['id'])
+								.then(res => {
+										this.image = res.data
+								})
+					}
 				})
+				.catch(err => {
+					this.$toast.error('Server Error!')
+				})
+				.then(() => {
+        	this.$store.dispatch('loader/setLoader', { loader: false })
+      	})
 
-},
+	},
 }
 </script>

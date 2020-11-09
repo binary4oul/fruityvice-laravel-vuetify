@@ -138,6 +138,7 @@ data: () => ({
 mounted() {
   let data = {'title': 'Home'}
   this.$store.dispatch('title/setTitle', data)
+  this.$store.dispatch('loader/setLoader', { loader: false })
 },
 
 methods:{

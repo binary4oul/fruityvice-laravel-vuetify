@@ -55,36 +55,36 @@ mounted() {
 
 methods: {
   getProjects() {
+    this.$store.dispatch('loader/setLoader', { loader: true })
     axios.get(api.path('leads'))
       .then(res => {
         this.leads  = res.data
         this.leads.map(lead => {
-            let request = {}
-            request['leadid'] = lead['id']
-            request['projectstatus'] = 'current'
-            request['active'] = this.active
-            axios.post(api.path('getByLeadIdProjectStatus'), request)
-                .then(res => {
-                  let data = res.data
-                  if(!('error' in data)) {
-                    data['person']['fullname'] = data['person']['firstname'] +' '+ data['person']['lastname']
-                    data['area'] = 0
-                    data['price'] = 0
-                    data['projectdetails'].map( detail => {
-                      data['area'] += detail['area']
-                      data['price'] += detail['areaprice']
-                    })
-                    this.estimates.push(data)
-                  }
-                })
+          let request = {}
+          request['leadid'] = lead['id']
+          request['projectstatus'] = 'current'
+          request['active'] = this.active
+          axios.post(api.path('getByLeadIdProjectStatus'), request)
+              .then(res => {
+                let data = res.data
+                if(!('error' in data)) {
+                  data['person']['fullname'] = data['person']['firstname'] +' '+ data['person']['lastname']
+                  data['area'] = 0
+                  data['price'] = 0
+                  data['projectdetails'].map( detail => {
+                    data['area'] += detail['area']
+                    data['price'] += detail['areaprice']
+                  })
+                  this.estimates.push(data)
+                }
+              })
         })
-
       })
       .catch(err => {
         this.handleErrors(err.response.data.errors)
       })
       .then(() => {
-        this.loading = false
+        this.$store.dispatch('loader/setLoader', { loader: false })
       })
     },
   selectEstimate(estimate){

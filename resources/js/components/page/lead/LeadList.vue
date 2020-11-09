@@ -53,6 +53,7 @@ created(){
 
 methods: {
   getLeads() {
+    this.$store.dispatch('loader/setLoader', { loader: true })
     axios.get(api.path('leads'))
       .then(res => {
         let res_leads  = res.data
@@ -65,7 +66,7 @@ methods: {
         this.handleErrors(err.response.data.errors)
       })
       .then(() => {
-        this.loading = false
+        this.$store.dispatch('loader/setLoader', { loader: false })
       })
     },
   selectLead(lead){

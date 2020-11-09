@@ -334,26 +334,30 @@ methods: {
         return detail
     },
     getProject(){
-        axios.get(api.path('getProjectByLeadId') +'/'+ this.leadid)
-            .then(res => {
-                if( 'error' in res.data){
-                    this.project['id'] = 'new'
-                }
-                else {
-                    this.project = res.data
-                    let proeject_data = {}
-                    proeject_data['project'] = res.data
-                    proeject_data['project']['projectdetails'].map(detail => {
-                        let idx = this.systems.findIndex(item => item['id'] == detail['systemid'])
-                        detail['system'] = this.systems[idx]['name']
-                    })
-                    this.$store.dispatch('project/setProject', proeject_data)
-                    this.edit_new = false
-                }
-            })
-            .catch(err => {
-                this.handleErrors("Lead Data Error!")
-            })
+      this.$store.dispatch('loader/setLoader', { loader: true })
+      axios.get(api.path('getProjectByLeadId') +'/'+ this.leadid)
+          .then(res => {
+            if( 'error' in res.data){
+              this.project['id'] = 'new'
+            }
+            else {
+              this.project = res.data
+              let proeject_data = {}
+              proeject_data['project'] = res.data
+              proeject_data['project']['projectdetails'].map(detail => {
+                  let idx = this.systems.findIndex(item => item['id'] == detail['systemid'])
+                  detail['system'] = this.systems[idx]['name']
+              })
+              this.$store.dispatch('project/setProject', proeject_data)
+              this.edit_new = false
+            }
+          })
+          .catch(err => {
+            this.handleErrors("Lead Data Error!")
+          })
+          .then( res => {
+            this.$store.dispatch('loader/setLoader', { loader: false })
+          })
     },
     editProjectDetail(detail) {
         this.edit_new = true
