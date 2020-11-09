@@ -36,18 +36,20 @@ class MailController extends Controller
 
 		$project['images'] = $this->ProjectImageController->list($project['id']);
 		$project['notes'] = $this->ProjectNoteController->list($project['id']);
-		$images_url = array();
-		foreach($project['images'] as $image) {
-			$image_data['image'] = 'http://dev.myincredibleone.com/storage/images/1603738094.png';
-			array_push($images_url, $image_data);
-		}
-		$project['images'] = $images_url;
+
+		// $images_url = array();
+		// foreach($project['images'] as $image) {
+		// 	$image_data['image'] = 'http://dev.myincredibleone.com/storage/images/1603738094.png';
+		// 	array_push($images_url, $image_data);
+		// }
+		// $project['images'] = $images_url;
 
 		if(!$project['email']) {
 			$response['status'] = 'error';
 			$response['message'] = "Input Email Address on 'LeadDetail'";
 			return $response;
 		}
+
 		$data = [
 				'title' => 'Mail from Contractor.',
 				'body' => 'This is your Estimate.',
