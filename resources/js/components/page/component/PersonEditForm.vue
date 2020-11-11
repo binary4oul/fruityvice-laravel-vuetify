@@ -81,7 +81,7 @@ methods: {
           this.edit = false
       })
       .catch(err => {
-          this.handleErrors("lead data error!")
+          this.$toast.error("lead data error!")
       })
   },
 },

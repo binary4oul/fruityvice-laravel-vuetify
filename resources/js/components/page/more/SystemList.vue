@@ -60,7 +60,7 @@ methods: {
         })
       })
       .catch(err => {
-        this.handleErrors(err.response.data.errors)
+        this.$toast.error(err.response.data.errors)
       })
       .then(() => {
         this.loading = false

@@ -60,7 +60,7 @@ methods: {
         this.ingredients.map((item, index)=> item['no'] = index + 1 )
       })
       .catch(err => {
-        this.handleErrors(err.response.data.errors)
+        this.$toast.error(err.response.data.errors)
       })
       .then(() => {
         this.loading = false

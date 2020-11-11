@@ -97,7 +97,7 @@ methods: {
           this.setIngredientList()
         })
         .catch(err => {
-          this.handleErrors("Ingredient data error!")
+          this.$toast.error("Ingredient data error!")
         })
   },
 
@@ -108,7 +108,7 @@ methods: {
             this.getIngredients()
         })
         .catch(err => {
-            this.handleErrors("System data error!")
+            this.$toast.error("System data error!")
         })
   },
 
@@ -162,7 +162,7 @@ methods: {
                   this.$router.push({ name: 'systems'})
               })
               .catch(err => {
-                  this.handleErrors("System data error!")
+                  this.$toast.error("System data error!")
               })
               .then(() => {
                 this.$store.dispatch('loader/setLoader', { loader: false })
@@ -194,7 +194,7 @@ methods: {
                     this.$router.push({name:'systems'})
             })
             .catch(err => {
-                this.handleErrors("System data error!")
+                this.$toast.error("System data error!")
         })
 
     },

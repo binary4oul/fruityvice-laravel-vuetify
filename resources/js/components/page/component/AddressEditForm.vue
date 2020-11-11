@@ -113,7 +113,7 @@ methods: {
                 data.map(item => { if(item['countryid'] == 'US') this.states.push(item['state']) })
             })
             .catch(err => {
-                this.handleErrors("address data error!")
+                this.$toast.error("address data error!")
             })
 
     },
@@ -157,7 +157,7 @@ methods: {
                 this.edit = false
             })
             .catch(err => {
-                this.handleErrors("address data error!")
+                this.$toast.error("address data error!")
             })
         }
         else{
@@ -168,7 +168,7 @@ methods: {
                 this.edit = false
             })
             .catch(err => {
-                this.handleErrors("address data error!")
+                this.$toast.error("address data error!")
             })
         }
     }

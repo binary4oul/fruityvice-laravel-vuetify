@@ -131,7 +131,7 @@ export default {
             this.$emit('success', res.data)
           })
           .catch(err => {
-            this.handleErrors("Data Error!")
+            this.$toast.error("Data Error!")
           })
           .then(() => {
             this.loading = false

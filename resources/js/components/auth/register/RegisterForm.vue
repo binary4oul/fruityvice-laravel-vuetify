@@ -107,7 +107,7 @@ export default {
             this.$emit('success', res.data)
           })
           .catch(err => {
-            this.handleErrors("User Information Error!")
+            this.$toast.error("User Information Error!")
           })
           .then(() => {
             this.loading = false

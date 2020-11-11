@@ -173,21 +173,21 @@ methods: {
                 this.color_list = res.data
             })
             .catch(err => {
-                this.handleErrors("Color Data Error!")
+                this.$toast.error("Color Data Error!")
             })
         axios.get(api.path('patterns'))
             .then(res => {
                 this.pattern_list  = res.data
             })
             .catch(err => {
-                this.handleErrors("Pattern Data Error!")
+                this.$toast.error("Pattern Data Error!")
             })
         axios.get(api.path('ingredients'))
             .then(res => {
                 this.ingredient_list  = res.data
             })
             .catch(err => {
-                this.handleErrors("Ingredients Data Error")
+                this.$toast.error("Ingredients Data Error")
             })
     },
     getSystems(){
@@ -200,7 +200,7 @@ methods: {
                 })
             })
             .catch(err => {
-                this.handleErrors("System Data Error!")
+                this.$toast.error("System Data Error!")
             })
     },
     getIngredients(systemId){
@@ -224,7 +224,7 @@ methods: {
                 })
             })
             .catch(err => {
-                this.handleErrors("System Data Error")
+                this.$toast.error("System Data Error")
             })
     },
     eidtSalePrice(){
@@ -276,7 +276,7 @@ methods: {
                         }
                         })
                     .catch(err => {
-                            this.handleErrors("Project data error!")
+                            this.$toast.error("Project data error!")
                     })
             }
             else{
@@ -353,7 +353,7 @@ methods: {
             }
           })
           .catch(err => {
-            this.handleErrors("Lead Data Error!")
+            this.$toast.error("Lead Data Error!")
           })
           .then( res => {
             this.$store.dispatch('loader/setLoader', { loader: false })

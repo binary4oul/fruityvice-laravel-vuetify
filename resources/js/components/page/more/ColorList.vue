@@ -77,7 +77,7 @@ methods: {
         this.colors.map((item, index)=> item['no'] = index + 1 )
       })
       .catch(err => {
-        this.handleErrors(err.response.data.errors)
+        this.$toast.error(err.response.data.errors)
       })
       .then(() => {
         this.loading = false
@@ -103,7 +103,7 @@ methods: {
 
               })
               .catch(err => {
-                  this.handleErrors("color data error!")
+                  this.$toast.error("color data error!")
               })
         }
         else if(this.color_select.hasOwnProperty('id')){
@@ -122,7 +122,7 @@ methods: {
                }
             })
             .catch(err => {
-                this.handleErrors("color data error!")
+                this.$toast.error("color data error!")
             })
         }
   },
@@ -141,7 +141,7 @@ methods: {
                }
             })
             .catch(err => {
-                this.handleErrors("color data error!")
+                this.$toast.error("color data error!")
       })
   },
 

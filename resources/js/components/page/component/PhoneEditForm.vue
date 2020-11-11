@@ -121,7 +121,7 @@ methods: {
                 this.edit = false
             })
             .catch(err => {
-                this.handleErrors("phone data error!")
+                this.$toast.error("phone data error!")
             })
         }
         else{
@@ -132,7 +132,7 @@ methods: {
                 this.edit = false
             })
             .catch(err => {
-                this.handleErrors("phone data error!")
+                this.$toast.error("phone data error!")
             })
         }
     }

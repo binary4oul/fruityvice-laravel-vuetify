@@ -212,7 +212,7 @@ methods: {
 									this.project = res.data
 							})
 					.catch(err => {
-							this.handleErrors("Data Error!")
+							this.$toast.error("Data Error!")
 			})
 		},
 		editProject(){
@@ -233,7 +233,7 @@ methods: {
 						this.note_edit = ''
 						})
 					.catch(err => {
-							this.handleErrors("Data Error!")
+							this.$toast.error("Data Error!")
 			})
 
 		},

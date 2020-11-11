@@ -74,7 +74,7 @@ methods: {
                 this.getPatterns()
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.$toast.error(err.response.data.errors)
             })
     },
     getPatterns(){
@@ -91,7 +91,7 @@ methods: {
 
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.$toast.error(err.response.data.errors)
             })
 
     },
@@ -109,7 +109,7 @@ methods: {
                 })
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.$toast.error(err.response.data.errors)
             })
             .then(() => {
                 this.loading = false
@@ -137,7 +137,7 @@ methods: {
                     this.$router.push({name:'ingredients'})
                 })
                 .catch(err => {
-                    this.handleErrors("Ingredient data error!")
+                    this.$toast.error("Ingredient data error!")
                 })
         }
         else
@@ -149,7 +149,7 @@ methods: {
 
                 })
                 .catch(err => {
-                    this.handleErrors("Ingredient data error!")
+                    this.$toast.error("Ingredient data error!")
                 })
         }
 
@@ -161,7 +161,7 @@ methods: {
                     this.$router.push({name:'ingredients'})
             })
             .catch(err => {
-                this.handleErrors("Ingredient data error!")
+                this.$toast.error("Ingredient data error!")
         })
 
     },

@@ -75,7 +75,7 @@ methods: {
         this.patterns.map((item, index)=> item['no'] = index + 1 )
       })
       .catch(err => {
-        this.handleErrors(err.response.data.errors)
+        this.$toast.error(err.response.data.errors)
       })
       .then(() => {
         this.loading = false
@@ -101,7 +101,7 @@ methods: {
 
               })
               .catch(err => {
-                  this.handleErrors("pattern data error!")
+                  this.$toast.error("pattern data error!")
               })
         }
         else if(this.pattern_select.hasOwnProperty('id')){
@@ -120,7 +120,7 @@ methods: {
                }
             })
             .catch(err => {
-                this.handleErrors("pattern data error!")
+                this.$toast.error("pattern data error!")
             })
         }
   },
@@ -139,7 +139,7 @@ methods: {
                }
             })
             .catch(err => {
-                this.handleErrors("pattern data error!")
+                this.$toast.error("pattern data error!")
       })
   },
 

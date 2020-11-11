@@ -78,7 +78,7 @@ methods: {
                 this.personid = this.lead['person']['id']
             })
             .catch(err => {
-                this.handleErrors(err.response.data.errors)
+                this.$toast.error(err.response.data.errors)
             })
             .then(() => {
               this.$store.dispatch('loader/setLoader', { loader: false })
@@ -94,7 +94,7 @@ methods: {
                 leadid = res.data['leadid']
             })
             .catch(err => {
-                this.handleErrors("lead data error!")
+                this.$toast.error("lead data error!")
             })
             .then(()=>{
               let lead_data = this.lead['lead']
@@ -103,7 +103,7 @@ methods: {
 
                   })
                   .catch(err =>{
-                      this.handleErrors('Lead data error!')
+                      this.$toast.error('Lead data error!')
                   })
 
                   this.phone['personid'] = personid
@@ -112,7 +112,7 @@ methods: {
                           .then(res => {
                           })
                           .catch(err => {
-                              this.handleErrors("phone data error!")
+                              this.$toast.error("phone data error!")
                           })
                   }
 
@@ -121,7 +121,7 @@ methods: {
                       axios.post(api.path('address'), this.address)
                           .then(res => { })
                           .catch(err => {
-                              this.handleErrors("address data error!")
+                              this.$toast.error("address data error!")
                           })
                   }
 
@@ -129,7 +129,7 @@ methods: {
                   axios.post(api.path('leaddetail'), this.leaddetail)
                       .then(res => {  })
                       .catch(err => {
-                          this.handleErrors("leaddetail data error!")
+                          this.$toast.error("leaddetail data error!")
                       })
 
                   let project = { 'leadid': leadid }
@@ -150,7 +150,7 @@ methods: {
                         })
                         })
                         .catch(err => {
-                            this.handleErrors("leaddetail data error!")
+                            this.$toast.error("leaddetail data error!")
                         })
 
                     this.$toast.success('Saved successfully!')
@@ -165,7 +165,7 @@ methods: {
 
               })
               .catch(err => {
-                  this.handleErrors("leaddetail data error!")
+                  this.$toast.error("leaddetail data error!")
               })
           let lead_data = this.lead['lead']
           axios.put(api.path('lead') +'/'+ this.leadid, lead_data)
@@ -173,7 +173,7 @@ methods: {
 
               })
               .catch(err =>{
-                  this.handleErrors('Lead data error!')
+                  this.$toast.error('Lead data error!')
               })
           this.$toast.success('Updated successfully!')
           this.$router.go(-1)

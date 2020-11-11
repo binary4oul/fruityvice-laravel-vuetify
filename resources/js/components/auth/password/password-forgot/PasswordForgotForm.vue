@@ -63,7 +63,7 @@ export default {
             this.$emit('success')
           })
           .catch(err => {
-            this.handleErrors("Error")
+            this.$toast.error("Error")
           })
           .then(() => {
             this.loading = false
