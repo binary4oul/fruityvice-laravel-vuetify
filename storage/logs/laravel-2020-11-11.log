@@ -1,0 +1,12 @@
+[2020-11-11 13:26:20] local.ERROR: Class 'Barryvdh\DomPDF\ServiceProvider' not found {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Class 'Barryvdh\\DomPDF\\ServiceProvider' not found at E:\\Work\\laravel_coating\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\ProviderRepository.php:208)
+[stacktrace]
+#0 E:\\Work\\laravel_coating\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\ProviderRepository.php(144): Illuminate\\Foundation\\ProviderRepository->createProvider()
+#1 E:\\Work\\laravel_coating\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\ProviderRepository.php(61): Illuminate\\Foundation\\ProviderRepository->compileManifest()
+#2 E:\\Work\\laravel_coating\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(585): Illuminate\\Foundation\\ProviderRepository->load()
+#3 E:\\Work\\laravel_coating\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\RegisterProviders.php(17): Illuminate\\Foundation\\Application->registerConfiguredProviders()
+#4 E:\\Work\\laravel_coating\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(211): Illuminate\\Foundation\\Bootstrap\\RegisterProviders->bootstrap()
+#5 E:\\Work\\laravel_coating\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(320): Illuminate\\Foundation\\Application->bootstrapWith()
+#6 E:\\Work\\laravel_coating\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(129): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#7 E:\\Work\\laravel_coating\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle()
+#8 {main}
+"} 

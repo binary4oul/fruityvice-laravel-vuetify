@@ -90,95 +90,103 @@ data: () => ({
 }),
 
 methods: {
-    getIngredients(){
-        axios.get(api.path('ingredients'))
-            .then(res => {
-                this.ingredients = res.data
-                this.setIngredientList()
-            })
-            .catch(err => {
-                 this.handleErrors("Ingredient data error!")
-            })
-    },
-
-    getSystem(systemid) {
-        axios.get(api.path('system') +"/"+ systemid)
-            .then(res => {
-                this.system = res.data
-                this.getIngredients()
-            })
-            .catch(err => {
-                this.handleErrors("System data error!")
-            })
-    },
-
-    setIngredientList(){
-        this.ingredients.map( ingredient => {
-            let ind = this.system.ingredients.findIndex( item => item['ingredientid'] == ingredient['id'])
-
-            let ingredientList_item = {}
-            ingredientList_item['ingredientid'] = ingredient['id']
-            ingredientList_item['name'] = ingredient['name']
-            ingredientList_item['purchaseprice'] = ingredient['purchaseprice']
-            if(ind != -1){
-                ingredientList_item['ingredientselect'] = true
-                ingredientList_item['factor'] = this.system.ingredients[ind]['factor']
-                ingredientList_item['extra'] = this.system.ingredients[ind]['extra']
-            }
-            else {
-                ingredientList_item['ingredientselect'] = false
-            }
-            this.ingredientList.push(ingredientList_item)
+  getIngredients(){
+    axios.get(api.path('ingredients'))
+        .then(res => {
+          this.ingredients = res.data
+          this.setIngredientList()
         })
-    },
-
-    saveSystem(){
-        let ingredient_system = []
-        this.ingredientList.map(ingredient => {
-            if(ingredient['ingredientselect'] == true){
-                let ingredient_item = {}
-                ingredient_item['ingredientid'] = ingredient['ingredientid']
-                ingredient_item['factor'] = ingredient['factor']
-                ingredient_item['price'] = ingredient['purchaseprice'] * ingredient['factor']
-                ingredient_item['extra'] = ingredient['extra']
-                ingredient_system.push(ingredient_item)
-            }
+        .catch(err => {
+          this.handleErrors("Ingredient data error!")
         })
-        this.system.ingredients = ingredient_system
+  },
 
-        let valid = this.checkData(this.system)
-        if(valid['status'] == 'error') {
-            console.log(valid['message'])
-            return
+  getSystem(systemid) {
+    axios.get(api.path('system') +"/"+ systemid)
+        .then(res => {
+            this.system = res.data
+            this.getIngredients()
+        })
+        .catch(err => {
+            this.handleErrors("System data error!")
+        })
+  },
+
+  setIngredientList(){
+    this.ingredients.map( ingredient => {
+      let ind = this.system.ingredients.findIndex( item => item['ingredientid'] == ingredient['id'])
+
+      let ingredientList_item = {}
+      ingredientList_item['ingredientid'] = ingredient['id']
+      ingredientList_item['name'] = ingredient['name']
+      ingredientList_item['purchaseprice'] = ingredient['purchaseprice']
+      if(ind != -1){
+          ingredientList_item['ingredientselect'] = true
+          ingredientList_item['factor'] = this.system.ingredients[ind]['factor']
+          ingredientList_item['extra'] = this.system.ingredients[ind]['extra']
+      }
+      else {
+          ingredientList_item['ingredientselect'] = false
+      }
+      this.ingredientList.push(ingredientList_item)
+    })
+  },
+
+  saveSystem(){
+      let ingredient_system = []
+      this.ingredientList.map(ingredient => {
+          if(ingredient['ingredientselect'] == true){
+              let ingredient_item = {}
+              ingredient_item['ingredientid'] = ingredient['ingredientid']
+              ingredient_item['factor'] = ingredient['factor']
+              ingredient_item['price'] = ingredient['purchaseprice'] * ingredient['factor']
+              ingredient_item['extra'] = ingredient['extra']
+              ingredient_system.push(ingredient_item)
+          }
+      })
+      this.system.ingredients = ingredient_system
+
+      let valid = this.checkData(this.system)
+      if(valid['status'] == 'error') {
+          console.log(valid['message'])
+          return
+      }
+      else {
+
+        if(this.systemid == 'new')
+        {
+          this.$store.dispatch('loader/setLoader', { loader: true })
+          axios.post(api.path('system'), this.system)
+              .then(res => {
+                  this.$toast.success('Saved successfully!')
+                  this.$router.push({ name: 'systems'})
+              })
+              .catch(err => {
+                  this.handleErrors("System data error!")
+              })
+              .then(() => {
+                this.$store.dispatch('loader/setLoader', { loader: false })
+              })
         }
-        else {
+        else
+        {
+          this.$store.dispatch('loader/setLoader', { loader: true })
+          axios.put(api.path('system') +'/'+ this.system['id'], this.system)
+              .then(res => {
+                  this.$toast.success('Updated successfully!')
+                  this.$router.push({ name: 'systems'})
+              })
+              .catch(err => {
+                  console.log('Error')
 
-            if(this.systemid == 'new')
-            {
-                axios.post(api.path('system'), this.system)
-                    .then(res => {
-                        this.$toast.success('Saved successfully!')
-                        this.$router.push({ name: 'systems'})
-                    })
-                    .catch(err => {
-                        this.handleErrors("System data error!")
-                    })
-            }
-            else        {
-
-                axios.put(api.path('system') +'/'+ this.system['id'], this.system)
-                    .then(res => {
-                        this.$toast.success('Updated successfully!')
-                        this.$router.push({ name: 'systems'})
-                    })
-                    .catch(err => {
-                        console.log('Error')
-
-                    })
-            }
+              })
+              .then(() => {
+                this.$store.dispatch('loader/setLoader', { loader: false })
+              })
         }
+      }
 
-    },
+  },
     deleteSystem(){
         axios.delete(api.path('system') +'/'+ this.system['id'], this.system)
             .then(res => {
