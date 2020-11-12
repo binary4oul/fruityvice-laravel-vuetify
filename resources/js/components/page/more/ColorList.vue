@@ -129,19 +129,19 @@ methods: {
 
   deleteColor(){
       axios.delete(api.path('color') +'/'+ this.color_select['id'], this.color_select)
-            .then(res => {
-               if(res.data.status == "success"){
+          .then(res => {
+              if(res.data.status == "success"){
 
-                let index = this.colors.findIndex(item => item['id'] == this.color_select['id'])
-                this.colors.splice(index, 1);
-                this.edit = false
-               }
-               else{
-                 this.$toast.error(res.data['message'])
-               }
-            })
-            .catch(err => {
-                this.$toast.error("color data error!")
+              let index = this.colors.findIndex(item => item['id'] == this.color_select['id'])
+              this.colors.splice(index, 1);
+              this.edit = false
+              }
+              else{
+                this.$toast.error(res.data['message'])
+              }
+          })
+          .catch(err => {
+              this.$toast.error("color data error!")
       })
   },
 
