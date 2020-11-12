@@ -344,10 +344,11 @@ methods: {
               this.project = res.data
               let proeject_data = {}
               proeject_data['project'] = res.data
+              console.log('res----------', proeject_data)
               proeject_data['project']['projectdetails'].map(detail => {
-                  let idx = this.systems.findIndex(item => item['id'] == detail['systemid'])
-                  detail['system'] = this.systems[idx]['name']
+                detail['system'] = detail['systemname']
               })
+              console.log('res2----------', proeject_data)
               this.$store.dispatch('project/setProject', proeject_data)
               this.edit_new = false
             }

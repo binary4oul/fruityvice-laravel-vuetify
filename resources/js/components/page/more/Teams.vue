@@ -43,7 +43,7 @@ data: () => ({
     }),
 
 mounted() {
-  let data = {'title': 'My Teams'}
+  let data = {'title': 'Teams'}
   this.$store.dispatch('title/setTitle', data)
   this.getTeams()
 },
