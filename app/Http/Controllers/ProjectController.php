@@ -9,6 +9,7 @@ use App\Models\ProjectDetail;
 use App\Models\ProjectDetailStyle;
 use App\Models\System;
 use App\Http\Controllers\LeadController;
+use App\Account;
 
 class ProjectController extends Controller
 {
@@ -42,6 +43,8 @@ class ProjectController extends Controller
 
     public function update(Request $request, $id)
     {
+      if(Account::checkOwner($id)==false && Account::checkTeamManager($id)==false) return;
+
         $input = $request->all();
         $res = Project::find($id)->update($input);
         $project = Project::find($id);

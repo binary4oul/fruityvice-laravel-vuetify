@@ -227,6 +227,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'PDF' => Barryvdh\DOMPDF\Facade::class,
 
+        'Account' => App\Account::class,
+
     ],
 
 ];

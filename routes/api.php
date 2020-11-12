@@ -95,9 +95,9 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::get('team', 'TeamController@getTeam');
 
     Route::post('teammember', 'TeamMemberController@create');
+    Route::put('teammember/{id}', 'TeamMemberController@update');
     Route::get('teammembers', 'TeamMemberController@getMembers');
     Route::delete('teammember/{id}', 'TeamMemberController@delete');
-
 
     Route::post('logout', 'Auth\LoginController@logout');
     Route::get('me', 'Auth\LoginController@me');

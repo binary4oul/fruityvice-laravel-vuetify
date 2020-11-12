@@ -19,25 +19,25 @@
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols="12" md="4">
-                        <v-text-field label="City" v-model="selectedAddress.city" @input="change"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="4">
-                        <v-select :items="states" label="State" v-model="selectedAddress.state" @input="change"></v-select>
-                    </v-col>
-                    <v-col cols="12" md="2">
-                        <v-text-field label="Zip" v-model="selectedAddress.zip" @input="change"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="2">
-                        <v-checkbox
-                            v-if="edit==true"
-                            v-model="selectedAddress.primary"
-                            label="primary"
-                            color="primary"
-                            value="true"
-                            hide-details
-                        ></v-checkbox>
-                    </v-col>
+                  <v-col cols="12" md="4">
+                    <v-text-field label="City" v-model="selectedAddress.city" @input="change"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="4">
+                    <v-select :items="states" label="State" v-model="selectedAddress.state" @input="change"></v-select>
+                  </v-col>
+                  <v-col cols="12" md="2">
+                    <v-text-field label="Zip" v-model="selectedAddress.zip" @input="change"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="2">
+                    <v-checkbox
+                      v-if="edit==true"
+                      v-model="selectedAddress.primary"
+                      label="primary"
+                      color="primary"
+                      value="true"
+                      hide-details
+                    ></v-checkbox>
+                  </v-col>
                 </v-row>
                 <v-row v-if="edit==true">
                     <v-spacer></v-spacer>
@@ -69,20 +69,20 @@ import { api } from '~/config'
 export default {
 
 data: () => ({
-    open: false,
-    address_types: ['Home', 'Office', 'Billing', 'Main'],
-    headers: [
-        { text: 'Address1', value: 'address1', sortable: false },
-        { text: 'Address2', value: 'address2', sortable: false },
-        { text: 'Type', value: 'type', sortable: false },
-        { text: 'City', value: 'city', sortable: false },
-        { text: 'State', value: 'state', sortable: false },
-        { text: 'Zip', value: 'zip', sortable: false },
-        { text: 'Primary', value: 'primary', sortable: false }
-      ],
-    edit: false,
-    selectedAddress:{},
-    states: []
+  open: false,
+  address_types: ['Home', 'Office', 'Billing', 'Main'],
+  headers: [
+    { text: 'Address1', value: 'address1', sortable: false },
+    { text: 'Address2', value: 'address2', sortable: false },
+    { text: 'Type', value: 'type', sortable: false },
+    { text: 'City', value: 'city', sortable: false },
+    { text: 'State', value: 'state', sortable: false },
+    { text: 'Zip', value: 'zip', sortable: false },
+    { text: 'Primary', value: 'primary', sortable: false }
+  ],
+  edit: false,
+  selectedAddress:{},
+  states: []
 }),
 props: ['address', 'personid'],
 
@@ -147,11 +147,11 @@ methods: {
         return new_address
     },
     saveAddress(){
-        if(this.selectedAddress['primary'] == 'true') this.selectedAddress['primary'] = 1
-        else this.selectedAddress['primary'] = 0
-        if(this.selectedAddress['id'] == 'new'){
-            delete this.selectedAddress['id'];
-            axios.post(api.path('address'), this.selectedAddress)
+      if(this.selectedAddress['primary'] == 'true') this.selectedAddress['primary'] = 1
+      else this.selectedAddress['primary'] = 0
+      if(this.selectedAddress['id'] == 'new'){
+        delete this.selectedAddress['id'];
+        axios.post(api.path('address'), this.selectedAddress)
             .then(res => {
                 this.address.push(res.data)
                 this.edit = false
@@ -159,9 +159,9 @@ methods: {
             .catch(err => {
                 this.$toast.error("address data error!")
             })
-        }
-        else{
-            axios.put(api.path('address') +'/'+ this.selectedAddress['id'], this.selectedAddress)
+      }
+      else{
+        axios.put(api.path('address') +'/'+ this.selectedAddress['id'], this.selectedAddress)
             .then(res => {
                 let index = this.address.findIndex(item => item['id'] == res.data['id'])
                 this.address.splice(index, 1, res.data);
@@ -170,7 +170,7 @@ methods: {
             .catch(err => {
                 this.$toast.error("address data error!")
             })
-        }
+      }
     }
 },
 

@@ -87,24 +87,24 @@ methods: {
     delete this.color_select['no'];
       if(!this.color_select['name']) return
         if(this.color_select['id'] == 'new'){
-            delete this.color_select['id'];
-            axios.post(api.path('color'), this.color_select)
-              .then(res => {
-                if(res.data.status == "success"){
-                  let color_new  = res.data
-                  color_new['no'] = this.colors.length + 1
-                  this.colors.push(color_new)
-                  this.edit = false
-                  this.$toast.success('Saved successfuly!')
-                }
-                else{
-                  this.$toast.error(res.data['message'])
-                }
+          delete this.color_select['id'];
+          axios.post(api.path('color'), this.color_select)
+            .then(res => {
+              if(res.data.status == "success"){
+                let color_new  = res.data
+                color_new['no'] = this.colors.length + 1
+                this.colors.push(color_new)
+                this.edit = false
+                this.$toast.success('Saved successfuly!')
+              }
+              else{
+                this.$toast.error(res.data['message'])
+              }
 
-              })
-              .catch(err => {
-                  this.$toast.error("color data error!")
-              })
+            })
+            .catch(err => {
+                this.$toast.error("color data error!")
+            })
         }
         else if(this.color_select.hasOwnProperty('id')){
             axios.put(api.path('color') +'/'+ this.color_select['id'], this.color_select)

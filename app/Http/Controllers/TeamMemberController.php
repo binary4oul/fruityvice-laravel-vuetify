@@ -29,26 +29,60 @@ class TeamMemberController extends Controller
     }
 
     public function create(Request $request){
-        $input = $request->all();
-        $email = $input['email'];
-        $member_user = User::where('email', $email)->first();
-
-        if($member_user){
-            $user = auth()->user();
-            $team = Team::where('owner', $user->id)->first();
-            $member_data['teamid'] = $team['id'];
-            $member_data['userid'] = $member_user['id'];
-            $member = TeamMember::create($member_data);
-            $member['name'] = $member_user['firstname'].' '.$member_user['lastname'];
-            $member['email'] = $member_user['email'];
-            $response['status'] = "success";
-            $response['member'] = $member;
-        }
-        else {
-            $response['status'] = "error";
-        }
+      $input = $request->all();
+      $email = $input['email'];
+      $member_user = User::where('email', $email)->first();
+      if($input['role'] != 'member' && $input['role'] != 'manager'){
+        $response['status'] = "error";
         return $response;
+      }
+      if($member_user){
+        $user = auth()->user();
+        $team = Team::where('owner', $user->id)->first();
+        $member_data['teamid'] = $team['id'];
+        $member_data['userid'] = $member_user['id'];
+        $member_data['role'] = $input['role'];
+        $member = TeamMember::create($member_data);
+        $member['name'] = $member_user['firstname'].' '.$member_user['lastname'];
+        $member['email'] = $member_user['email'];
+        $response['status'] = "success";
+        $response['member'] = $member;
+      }
+      else {
+          $response['status'] = "error";
+      }
+      return $response;
     }
+
+    public function update(Request $request, $id){
+      $input = $request->all();
+      $email = $input['email'];
+      $member_user = User::where('email', $email)->first();
+      if($input['role'] != 'member' && $input['role'] != 'manager'){
+        $response['status'] = "error";
+        $response['message'] = "Invalid Role!";
+        return $response;
+      }
+      if($member_user){
+        $user = auth()->user();
+        $team = Team::where('owner', $user->id)->first();
+        $member_data['teamid'] = $team['id'];
+        $member_data['userid'] = $member_user['id'];
+        $member_data['role'] = $input['role'];
+        $member = TeamMember::find($id)->update($member_data);
+        $member = TeamMember::find($id);
+        $member['name'] = $member_user['firstname'].' '.$member_user['lastname'];
+        $member['email'] = $member_user['email'];
+        $response['status'] = "success";
+        $response['member'] = $member;
+      }
+      else {
+          $response['status'] = "error";
+      }
+      return $response;
+    }
+
+
 
     public function delete($id){
         $member = TeamMember::find($id);

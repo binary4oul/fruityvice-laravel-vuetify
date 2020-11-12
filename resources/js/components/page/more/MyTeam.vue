@@ -19,51 +19,54 @@
     <v-spacer></v-spacer>
   </v-row>
 
-      <v-row class="d-flex flex-row-reverse">
-        <v-col sm="3" style="align:center">
-          <v-btn color="green" dark @click="addNew">
-            <v-icon dark>add</v-icon>Add New
-          </v-btn>
-        </v-col>
-        <v-col sm="4">
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-          ></v-text-field>
-        </v-col>
-      </v-row>
+  <v-row class="d-flex flex-row-reverse">
+    <v-col sm="3" style="align:center">
+      <v-btn color="green" dark @click="addNew">
+        <v-icon dark>add</v-icon>Add New
+      </v-btn>
+    </v-col>
+    <v-col sm="4">
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-col>
+  </v-row>
 
-      <v-row v-if="edit">
-        <v-spacer></v-spacer>
-        <v-col cols="12" sm="4">
-            <v-text-field
-                v-model="member_select.email"
-                label="Email"
-            ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6">
-            <v-btn color="green" dark class="mx-2" @click="saveMember" v-if="member_select['id'] == 'new'">Save</v-btn>
-            <v-btn color="error" dark class="mx-2" @click="deleteMember" v-if="member_select['id'] != 'new'">Delete</v-btn>
-            <v-btn class="mx-2" @click="edit=false">Cancel</v-btn>
-        </v-col>
-        <v-spacer></v-spacer>
-      </v-row>
+  <v-row v-if="edit">
+    <v-col cols="12" sm="4">
+      <v-text-field
+        v-model="member_select.email"
+        label="Email"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12" md="3">
+      <v-select :items="roles" label="Role" v-model="member_select.role" @input="change"></v-select>
+    </v-col>
+    <v-col cols="12" sm="5">
+      <v-btn color="green" dark class="mx-1" @click="saveMember">Save</v-btn>
+      <v-btn color="error" dark class="mx-1" @click="deleteMember" v-if="member_select['id'] != 'new'">Delete</v-btn>
+      <v-btn class="mx-1" @click="edit=false">Cancel</v-btn>
+    </v-col>
 
-        <v-data-table
-          :headers="headers"
-          :items="members"
-          :search="search">
-          <template v-slot:item="row">
-              <tr @click="selectMember(row.item)">
-                <td>{{row.item.name}}</td>
-                <td>{{row.item.email}}</td>
-                <td>{{row.item.created_at}}</td>
-              </tr>
-          </template>
-        </v-data-table>
+  </v-row>
+
+  <v-data-table
+    :headers="headers"
+    :items="members"
+    :search="search">
+    <template v-slot:item="row">
+        <tr @click="selectMember(row.item)">
+          <td>{{row.item.name}}</td>
+          <td>{{row.item.email}}</td>
+           <td>{{row.item.role}}</td>
+          <td>{{row.item.created_at}}</td>
+        </tr>
+    </template>
+  </v-data-table>
 </v-container>
 </template>
 
@@ -83,10 +86,15 @@ data: () => ({
     members: [],
     member_select: {},
     headers: [
-        { text: 'Name', value: 'name' },
-        { text: 'Email', value: 'email' },
-        { text: 'Created', value: 'create_at' },
-      ],
+      { text: 'Name', value: 'name' },
+      { text: 'Email', value: 'email' },
+      { text: 'Role', value: 'role' },
+      { text: 'Created', value: 'create_at' },
+    ],
+    roles: [
+      'manager',
+      'member'
+    ]
     }),
 
 mounted() {
@@ -120,25 +128,54 @@ methods: {
     this.edit = true
     this.member_select['id'] = 'new'
     this.member_select['email'] = ''
+    this.member_select['role'] = 'member'
   },
   saveMember(){
-    delete this.member_select['id'];
-    this.$store.dispatch('loader/setLoader', { loader: true })
-    axios.post(api.path('teamMember'), this.member_select)
-        .then(res => {
-          if(res.data.status == "success"){
-            let member_new  = res.data['member']
-            this.members.push(member_new)
-            this.edit = false
-            this.$toast.success('Saved successfuly!')
-          }
-          else{
-            this.$toast.error("Email does not exist")
-          }
-        })
-        .then(() => {
-          this.$store.dispatch('loader/setLoader', { loader: false })
-        })
+    if(this.member_select['id'] == 'new'){
+      delete this.member_select['id'];
+      this.$store.dispatch('loader/setLoader', { loader: true })
+      axios.post(api.path('teamMember'), this.member_select)
+          .then(res => {
+            if(res.data.status == "success"){
+              let member_new  = res.data['member']
+              this.members.push(member_new)
+              this.edit = false
+              this.$toast.success('Saved successfuly!')
+            }
+            else{
+              this.$toast.error("Email does not exist")
+            }
+          })
+          .catch( err => {
+            this.$toast.error(err);
+          })
+          .then(() => {
+            this.$store.dispatch('loader/setLoader', { loader: false })
+          })
+    }
+    else {
+      this.$store.dispatch('loader/setLoader', { loader: true })
+      axios.put(api.path('teamMember') +'/'+ this.member_select['id'], this.member_select)
+          .then(res => {
+            if(res.data.status == "success"){
+              let member_new  = res.data['member']
+              let index = this.members.findIndex(item => item['id'] == member_new['id'])
+              this.members.splice(index, 1, member_new);
+              this.edit = false
+              this.$toast.success('Saved successfuly!')
+            }
+            else{
+              this.$toast.error(res.data.message)
+            }
+          })
+          .catch( err => {
+            this.$toast.error(err);
+          })
+          .then(() => {
+            this.$store.dispatch('loader/setLoader', { loader: false })
+          })
+    }
+
   },
   deleteMember(){
     this.$store.dispatch('loader/setLoader', { loader: true })
@@ -186,6 +223,9 @@ methods: {
       .then(() => {
         this.$store.dispatch('loader/setLoader', { loader: false })
       })
+  },
+  change(){
+
   }
 },
 
