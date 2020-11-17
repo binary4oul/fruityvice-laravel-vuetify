@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProjectNote;
+use App\Account;
 
 class ProjectNoteController extends Controller
 {
     //
     public function create(Request $request)
     {
+        if(Account::checkOwner($request->projectid)==false && Account::checkTeamManager($request->projectid)==false) return;
+
         $projectNote = $request->all();
         $response = ProjectNote::create($projectNote);
         return $response;

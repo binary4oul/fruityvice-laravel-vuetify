@@ -1,7 +1,7 @@
 <template>
 
   <div class="fill-height">
-      <v-card class="mx-auto" max-width="800">
+      <v-card class="mx-auto" max-width="1000px">
 
           <div class="primary">
             <img :src="'/assets/image/logo.png'"  class="logoPng" center height="100px">

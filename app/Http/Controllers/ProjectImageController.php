@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ProjectImage;
 use Illuminate\Support\Facades\Storage;
+use App\Account;
 
 class ProjectImageController extends Controller
 {
     //
     public function create(Request $request)
     {
+      if(Account::checkOwner($request->projectid)==false && Account::checkTeamManager($request->projectid)==false) return;
+
         if ($request->hasFile('image')) {
             //  Let's do everything here
             if ($request->file('image')->isValid()) {
