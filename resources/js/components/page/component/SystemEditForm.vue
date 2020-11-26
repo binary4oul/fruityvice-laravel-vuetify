@@ -170,6 +170,7 @@ methods: {
         this.show_ingredients = !this.show_ingredients
         if(this.show_ingredients) this.icon_ingredientList = 'remove_circle'
         else this.icon_ingredientList = 'add_circle'
+        this.show_ingredientPrice = false
     },
     getData(){
         axios.get(api.path('colors'))
@@ -197,11 +198,11 @@ methods: {
     getSystems(){
         axios.get(api.path('systems'))
             .then(res => {
-                this.systems  = res.data
-                this.systems.map((item, ind, arr) => {
-                    let des = item['name']
-                    arr[ind]['description'] = des
-                })
+              this.systems  = res.data
+              this.systems.map((item, ind, arr) => {
+                  let des = item['name']
+                  arr[ind]['description'] = des
+              })
             })
             .catch(err => {
                 this.$toast.error("System Data Error!")
@@ -228,6 +229,9 @@ methods: {
               ingredient['coverage'] = this.ingredient_list[idx]['coverage']
               ingredient['purchaseprice'] = this.ingredient_list[idx]['purchaseprice']
             })
+            // this.show_ingredientPrice = false
+            // this.show_ingredients = false
+            // this.icon_ingredientList = 'add_circle'
           })
           .catch(err => {
               this.$toast.error("System Data Error")
@@ -280,6 +284,7 @@ methods: {
                     .then(res => {})
                     .catch(err => {})
                 }
+
                 })
               .catch(err => {
                       this.$toast.error("Project data error!")
@@ -301,6 +306,9 @@ methods: {
         }
       }
       this.edit_new = false
+      this.show_ingredientPrice = false
+      this.show_ingredients = false
+      this.icon_ingredientList = 'add_circle'
     },
     checkProjectDetail(){
         if(this.areaname == '') return false
@@ -367,37 +375,38 @@ methods: {
           })
     },
     editProjectDetail(detail) {
-        this.edit_new = true
-        this.id = detail['id']
-        this.projectid = detail['projectid']
-        this.areaname = detail['name']
-        this.width = detail['areawidth']
-        this.length = detail['arealength']
-        let idx = this.systems.findIndex(item => item['id'] == detail['systemid'])
-        this.system_des = this.systems[idx]['description']
-        this.saleprice = detail['saleprice']
-        this.ingredients = detail['projectdetailstyles']
+      this.edit_new = true
+      this.id = detail['id']
+      this.projectid = detail['projectid']
+      this.areaname = detail['name']
+      this.width = detail['areawidth']
+      this.length = detail['arealength']
+      let idx = this.systems.findIndex(item => item['id'] == detail['systemid'])
+      this.system_des = this.systems[idx]['description']
+      this.saleprice = detail['saleprice']
+      this.ingredients = detail['projectdetailstyles']
+      console.log(detail)
     },
     editNewProjectDetail(){
-        this.edit_new = true
-        this.id = 'new'
-        this.areaname = ''
-        this.width = 0
-        this.length = 0
-        this.system_des = ''
-        this.saleprice = 0
-        this.ingredients = []
+      this.edit_new = true
+      this.id = 'new'
+      this.areaname = ''
+      this.width = 0
+      this.length = 0
+      this.system_des = ''
+      this.saleprice = 0
+      this.ingredients = []
     }
 },
 
-created() {
-    this.getSystems()
-    this.getData()
-    if(this.leadid != 'new') this.getProject()
-    else {
-        this.project['projectdetails'] = []
-        this.title = "SYSTEMS"
-    }
+mounted() {
+  this.getSystems()
+  this.getData()
+  if(this.leadid != 'new') this.getProject()
+  else {
+      this.project['projectdetails'] = []
+      this.title = "SYSTEMS"
+  }
 },
 
 computed:{
@@ -427,11 +436,11 @@ computed:{
 }
 </script>
 <style>
-    #style1.vue-numeric-input.updown .btn {
-      background: green !important;
-    }
-    .v-text-field.v-text-field--solo .v-input__control{
-        min-height: 10px;
-    }
+  #style1.vue-numeric-input.updown .btn {
+    background: green !important;
+  }
+  .v-text-field.v-text-field--solo .v-input__control{
+      min-height: 10px;
+  }
 
 </style>

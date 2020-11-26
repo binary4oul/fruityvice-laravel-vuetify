@@ -5,6 +5,7 @@
         <v-btn block color="primary" class="my-2" @click="$router.push({name:'mymembership'})" dark>My Membership</v-btn>
         <v-btn block color="primary" class="my-2" @click="$router.push({name:'myteam'})" dark>My Team</v-btn>
         <v-btn block color="primary" class="my-2" @click="$router.push({name:'teams'})" dark>Teams</v-btn>
+        <v-btn block color="primary" class="my-2" @click="$router.push({name:'contract_templates'})" dark>Contract Templates</v-btn>
         <v-btn block color="primary" class="my-2" @click="$router.push({name:'systems'})" dark>Systems</v-btn>
         <v-btn block color="primary" class="my-2" @click="$router.push({name:'ingredients'})" dark>Ingredients</v-btn>
         <v-btn block color="primary" class="my-2" @click="$router.push({name:'colors'})" dark>Colors</v-btn>

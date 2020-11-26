@@ -45,6 +45,7 @@ export default [
         { path: 'ingredient/edit/:ingredientid', name: 'ingredient-edit', component: require('$comp/page/more/IngredientEdit').default},
         { path: 'system/list', name: 'systems', component: require('$comp/page/more/SystemList').default},
         { path: 'system/edit/:systemid', name: 'system-edit', component: require('$comp/page/more/SystemEdit').default},
+        { path: 'conctract_templates', name: 'contract_templates', component: require('$comp/page/more/ContractTemplate').default},
         { path: 'mymembership', name: 'mymembership', component: require('$comp/page/more/MyMembership').default},
         { path: 'myteam', name: 'myteam', component: require('$comp/page/more/MyTeam').default},
         { path: 'teams', name: 'teams', component: require('$comp/page/more/Teams').default},

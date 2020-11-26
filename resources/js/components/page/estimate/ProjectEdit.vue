@@ -1,5 +1,5 @@
 <template>
-<div>
+	<div>
 		<person-edit-form :person="project['person']" :leadid="leadid"></person-edit-form>
 
 		<v-container fluid>
@@ -85,87 +85,17 @@
 			</template>
 		</v-container>
 
-		<system-edit-form :leadid="leadid"></system-edit-form>
+		<system-edit-form v-if="leadid" :leadid="leadid"></system-edit-form>
 
-		<v-container fluid>
-			<template f fluid>
-					<v-btn block @click="edit_note=!edit_note" v-bind:color="edit_note == true ? 'rgb(236,151,31)' : 'primary'" dark>NOTES</v-btn>
-			</template>
-				<template v-if="edit_note">
-					<v-textarea
-						label="Note"
-						v-model="note_edit"
-						auto-grow
-						outlined
-						rows="2"
-						row-height="15"
-						class="mt-8"
-					></v-textarea>
-					<v-row>
-						<v-spacer></v-spacer>
-								<v-btn color="green" dark class="mx-2 my-2" @click="saveNote">Save</v-btn>
-						<v-spacer></v-spacer>
-					</v-row>
-					<v-simple-table dense v-if="note.length>0">
-						<template v-slot:default>
-							<tbody>
-							<tr v-for="(item, index) in note" :key="index">
-								<td>{{ item.note }}</td>
-							</tr>
-							</tbody>
-						</template>
-					</v-simple-table>
+		<project-note v-if="projectid" :projectid="projectid"></project-note>
+		<project-image-list v-if="projectid" :projectid="projectid"></project-image-list>
 
-				</template>
-		</v-container>
-
-		 <v-container fluid>
-				<template f fluid>
-						<v-btn block @click="edit_image=!edit_image" v-bind:color="edit_image == true ? 'rgb(236,151,31)' : 'primary'" dark>IMAGES</v-btn>
-				</template>
-				<template v-if="edit_image">
-						<v-btn color="green" dark @click="new_image=!new_image" class="mx-4 my-4">
-							<v-icon dark>add</v-icon>New Image
-						</v-btn>
-						<v-row v-if="new_image">
-								<v-spacer></v-spacer>
-								<v-file-input
-										:rules="image_size"
-										accept="image/png, image/jpeg, image/bmp"
-										placeholder="Upload an image"
-										prepend-icon="mdi-camera"
-										label="Image"
-										v-model="image_edit"
-										></v-file-input>
-								<v-btn color="green" dark class="mx-4 my-2" @click="saveImage">Save</v-btn>
-								<v-spacer></v-spacer>
-						</v-row>
-
-						<v-row>
-							<v-col
-								v-for="(item,idx) in image"
-								:key="idx"
-								class="d-flex child-flex"
-								cols="12" sm="4">
-								<v-card flat tile class="d-flex">
-									<v-img
-										:src="item.image"
-										aspect-ratio="1"
-										contain
-										class="grey lighten-2">
-									</v-img>
-								</v-card>
-							</v-col>
-						</v-row>
-
-				</template>
-		 </v-container>
 		<v-row>
 				<v-btn class="mx-8 my-4" color="green" dark @click="sendEstimate">Share with Client</v-btn>
 				<v-spacer></v-spacer>
 				<v-btn class="mx-8 my-4" @click="$router.go(-1)">Cancel</v-btn>
 		</v-row>
-</div>
+	</div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -173,33 +103,26 @@ import axios from 'axios'
 import { api } from '~/config'
 import PersonEditForm from '../component/PersonEditForm'
 import SystemEditForm from '../component/SystemEditForm'
+import ProjectImageList from '../component/ProjectImageList'
+import ProjectNote from '../component/ProjectNote'
 import store from '~/store/index'
 
 export default {
-
 components: {
-		PersonEditForm,
-		SystemEditForm,
+	PersonEditForm,
+	SystemEditForm,
+	ProjectImageList,
+	ProjectNote,
 },
 
 data: () => ({
-		project: {},
-		project_edit: {},
-		note: [],
-		image: [],
-		image_edit:null,
-		note_edit: '',
-		edit_image: false,
-		new_image: false,
-
-		edit_project: false,
-		edit_note: false,
-		status_type:['estimate', 'current', 'complete'],
-		image_size: [
-			value => !value || value.size < 2000000 || 'Image size should be less than 2 MB!',
-		],
-		calen_completed: false,
-		calen_install: false,
+	project: {},
+	project_edit: {},
+	edit_project: false,
+	status_type:['estimate', 'current', 'complete'],
+	calen_completed: false,
+	calen_install: false,
+	leadid: null,
 }),
 
 methods: {
@@ -221,43 +144,6 @@ methods: {
 			this.project_edit['completed'] = this.project['completed']
 			this.project_edit['active'] = this.project['active']
 			this.project_edit['share'] = this.project['share']
-		},
-		saveNote(){
-			let project_note = {}
-			project_note['note'] = this.note_edit
-			project_note['projectid'] = this.project['id']
-			axios.post(api.path('projectnote') , project_note)
-					.then(res => {
-						this.note.push(res.data)
-						this.note_edit = ''
-						})
-					.catch(err => {
-							this.$toast.error("Data Error!")
-			})
-
-		},
-		onImageChange(e){
-
-				this.image_edit = e.target.files[0];
-		},
-		saveImage(){
-				if(!this.image_edit) return
-				const config = {
-								headers: { 'content-type': 'multipart/form-data' }
-						}
-				let formData = new FormData();
-				formData.append('image', this.image_edit);
-				formData.append('projectid', this.project['id']);
-
-				axios.post(api.path('projectimage'), formData, config)
-						.then(res =>{
-								this.image.push(res.data)
-								this.image_edit = null
-						})
-						.catch(err => {
-
-						})
-
 		},
 		sendEstimate() {
 			this.$store.dispatch('loader/setLoader', { loader: true })
@@ -287,23 +173,17 @@ computed: {
 created() {
 		let data = {'title': 'Project'}
 		this.$store.dispatch('title/setTitle', data)
-		this.leadid = this.$route.params.leadid
-		// this.projectid = this.$route.params.projectid
+		// this.leadid = this.$route.params.leadid
+		this.projectid = this.$route.params.projectid
+		console.log(this.projectid)
 		this.$store.dispatch('loader/setLoader', { loader: true })
-		axios.get(api.path('getProjectByLeadId') +'/'+ this.leadid)
+		axios.get(api.path('project') +'/'+ this.projectid)
 				.then(res => {
 					if(res.data){
 						this.project = res.data
-
+						this.leadid = this.project['leadid']
+						console.log('leadid---------------', this.leadid)
 						this.$store.dispatch('project/setProject', res.data)
-						axios.get(api.path('projectnotelist') +'/'+ this.project['id'])
-								.then(res => {
-										this.note = res.data
-								})
-						axios.get(api.path('projectimagelist')+'/'+this.project['id'])
-								.then(res => {
-										this.image = res.data
-								})
 					}
 				})
 				.catch(err => {
