@@ -185,7 +185,7 @@ created() {
 				}
 			})
 			.catch(err => {
-				this.$toast.error('Server Error!')
+				this.$toast.error('Project Data Error!')
 			})
 			.then(() => {
 				this.$store.dispatch('loader/setLoader', { loader: false })
