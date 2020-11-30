@@ -83,6 +83,7 @@ export const api = Object.assign(new URL(apiUrl), {
   systems: {url: 'systems'},
   system: {url: 'system'},
   project: {url: 'project'},
+  projectlist: {url: 'projects'},
   projectdetail: {url: 'projectdetail'},
   projectnote: {url: 'project/note'},
   projectimage: {url: 'project/image'},

@@ -126,40 +126,41 @@ data: () => ({
 }),
 
 methods: {
-		saveProject(){
-			let project_data = {}
-			project_data = this.project_edit
-			axios.put(api.path('project') +'/'+ this.project['id'], project_data)
-					.then(res => {
-									this.edit_project = false
-							})
-					.catch(err => {
-							this.$toast.error("Data Error!")
-			})
-		},
-		editProject(){
-			this.edit_project = true
-			this.project_edit['projectstatus'] = this.project['projectstatus']
-			this.project_edit['install'] = this.project['install']
-			this.project_edit['completed'] = this.project['completed']
-			this.project_edit['active'] = this.project['active']
-			this.project_edit['share'] = this.project['share']
-		},
-		sendEstimate() {
-			this.$store.dispatch('loader/setLoader', { loader: true })
-			axios.get(api.path('sendEstimate') +'/'+ this.leadid, )
-					.then(res => {
-						const response_data = res.data;
-						if(response_data['status'] === 'success') this.$toast.success('Sent successfully!')
-						else this.$toast.error(response_data['message'])
-					})
-					.catch(err => {
-						this.$toast.error('Server Error!')
-					})
-					.then(() => {
-						this.$store.dispatch('loader/setLoader', { loader: false })
-					})
-		}
+	saveProject(){
+		let project_data = {}
+		project_data = this.project_edit
+		axios.put(api.path('project') +'/'+ this.project['id'], project_data)
+				.then(res => {
+					this.edit_project = false
+					this.project = res.data
+				})
+				.catch(err => {
+					this.$toast.error("Data Error!")
+		})
+	},
+	editProject(){
+		this.edit_project = true
+		this.project_edit['projectstatus'] = this.project['projectstatus']
+		this.project_edit['install'] = this.project['install']
+		this.project_edit['completed'] = this.project['completed']
+		this.project_edit['active'] = this.project['active']
+		this.project_edit['share'] = this.project['share']
+	},
+	sendEstimate() {
+		this.$store.dispatch('loader/setLoader', { loader: true })
+		axios.get(api.path('sendEstimate') +'/'+ this.leadid, )
+				.then(res => {
+					const response_data = res.data;
+					if(response_data['status'] === 'success') this.$toast.success('Sent successfully!')
+					else this.$toast.error(response_data['message'])
+				})
+				.catch(err => {
+					this.$toast.error('Server Error!')
+				})
+				.then(() => {
+					this.$store.dispatch('loader/setLoader', { loader: false })
+				})
+	}
 },
 
 computed: {
@@ -171,27 +172,24 @@ computed: {
 },
 
 created() {
-		let data = {'title': 'Project'}
-		this.$store.dispatch('title/setTitle', data)
-		// this.leadid = this.$route.params.leadid
-		this.projectid = this.$route.params.projectid
-		console.log(this.projectid)
-		this.$store.dispatch('loader/setLoader', { loader: true })
-		axios.get(api.path('project') +'/'+ this.projectid)
-				.then(res => {
-					if(res.data){
-						this.project = res.data
-						this.leadid = this.project['leadid']
-						console.log('leadid---------------', this.leadid)
-						this.$store.dispatch('project/setProject', res.data)
-					}
-				})
-				.catch(err => {
-					this.$toast.error('Server Error!')
-				})
-				.then(() => {
-        	this.$store.dispatch('loader/setLoader', { loader: false })
-      	})
+	let data = {'title': 'Project'}
+	this.$store.dispatch('title/setTitle', data)
+	this.projectid = this.$route.params.projectid
+	this.$store.dispatch('loader/setLoader', { loader: true })
+	axios.get(api.path('project') +'/'+ this.projectid)
+			.then(res => {
+				if(res.data){
+					this.project = res.data
+					this.leadid = this.project['leadid']
+					this.$store.dispatch('project/setProject', res.data)
+				}
+			})
+			.catch(err => {
+				this.$toast.error('Server Error!')
+			})
+			.then(() => {
+				this.$store.dispatch('loader/setLoader', { loader: false })
+			})
 
 	},
 }

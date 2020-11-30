@@ -33,7 +33,7 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::put('leaddetail/{id}', 'LeadDetailController@update');
 
     Route::post('project', 'ProjectController@create');
-    Route::get('projects', 'ProjectController@list');
+    Route::post('projects', 'ProjectController@list');
     Route::get('project/{id}', 'ProjectController@show');
     Route::put('project/{id}', 'ProjectController@update');
     Route::delete('project/{id}', 'ProjectController@destroy');

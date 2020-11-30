@@ -55,39 +55,33 @@ mounted() {
 methods: {
   getProjects() {
     this.$store.dispatch('loader/setLoader', { loader: true })
-    axios.get(api.path('leads'))
-      .then(res => {
-        this.leads  = res.data
-        let request = {}
-        request['projectstatus'] = 'estimate'
-        request['active'] = this.active
-        axios.get(api.path('getProjectsByStatus') +'/'+ 'estimate', )
-            .then(res => {
-              let data_arr = res.data
-              data_arr.map(data => {
-                data['person']['fullname'] = data['person']['firstname'] +' '+ data['person']['lastname']
-                data['area'] = 0
-                data['price'] = 0
-                data['projectdetails'].map( detail => {
-                  data['area'] += detail['area']
-                  data['price'] += detail['areaprice']
-                })
-                if(data['active'] == this.active) this.estimates.push(data)
-                return data
+    let request = {}
+    request['projectstatus'] = 'estimate'
+    request['active'] = this.active
+    axios.post(api.path('projectlist'), request)
+        .then(res => {
+          let data = res.data
+          if(!('error' in data)) {
+            data.map( (item) => {
+              item['person']['fullname'] = item['person']['firstname'] +' '+ item['person']['lastname']
+              item['area'] = 0
+              item['price'] = 0
+              item['projectdetails'].map( detail => {
+                item['area'] += detail['area']
+                item['price'] += detail['areaprice']
               })
-
             })
-      })
+            this.estimates = [...data]
+          }
+        })
       .catch(err => {
         this.$toast.error(err.response.data.errors)
       })
       .then(() => {
         this.$store.dispatch('loader/setLoader', { loader: false })
       })
-
     },
   selectEstimate(estimate){
-    console.log('estimate------------------', estimate['id'])
     this.$router.push({ name: 'project-edit', params:{ projectid: estimate['id']} })
   },
 },

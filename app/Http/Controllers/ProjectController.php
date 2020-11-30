@@ -55,17 +55,17 @@ class ProjectController extends Controller
     public function list(Request $request)
     {
         $user = auth()->user();
-        $projects = Project::where('created_by', $user->id)->get();
-
+        $input = $request->all();
+        $projects = Project::where('created_by', $user->id)
+            ->where('projectstatus', $input['projectstatus'])
+            ->where('active', $input['active'])->get();
+        $project_arr = array();
         foreach($projects as $project){
-            $lead = $this->LeadController->show($project['leadid']);
-            $project['person'] = $lead['person'];
-            $address = Address::find($project['addressid']);
-            $project['address'] = $address;
+            $project_item = $this->show($project['id']);
+            array_push($project_arr, $project_item);
         }
-
-        $response = $projects;
-        return $projects;
+        $response = $project_arr;
+        return $project_arr;
     }
 
     public function show($id)
