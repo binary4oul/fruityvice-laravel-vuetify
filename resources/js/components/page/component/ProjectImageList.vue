@@ -48,7 +48,7 @@ export default {
   data: () => ({
     edit_image: false,
     new_image: false,
-    image_edit:null,
+    image_edit: null,
     image: [],
     image_size: [
       value => !value || value.size < 2000000 || 'Image size should be less than 2 MB!',

@@ -36,7 +36,7 @@
     </v-col>
   </v-row>
 
-  <v-row v-if="edit">
+  <v-row v-if="edit" justify="center">
     <v-col cols="12" sm="4">
       <v-text-field
         v-model="member_select.email"
@@ -46,7 +46,7 @@
     <v-col cols="12" md="3">
       <v-select :items="roles" label="Role" v-model="member_select.role" @input="change"></v-select>
     </v-col>
-    <v-col cols="12" sm="5">
+    <v-col cols="12" sm="4" justify="center">
       <v-btn color="green" dark class="mx-1" @click="saveMember">Save</v-btn>
       <v-btn color="error" dark class="mx-1" @click="deleteMember" v-if="member_select['id'] != 'new'">Delete</v-btn>
       <v-btn class="mx-1" @click="edit=false">Cancel</v-btn>

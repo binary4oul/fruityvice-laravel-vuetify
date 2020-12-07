@@ -65,7 +65,7 @@
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left clickable" @click="show_ingredientPrice=!show_ingredientPrice">Amount</th>
+                <th class="text-left clickable" @click="show_ingredientPrice=!show_ingredientPrice"><a>Amount</a></th>
                 <th class="text-left" v-if="show_ingredientPrice">Price</th>
                 <th class="text-left">Ingredient</th>
                 <th class="text-left">Extra</th>
@@ -441,6 +441,11 @@ computed:{
   }
   .v-text-field.v-text-field--solo .v-input__control{
       min-height: 10px;
+  }
+
+  .underline_thead {
+    border-radius:50px;
+
   }
 
 </style>

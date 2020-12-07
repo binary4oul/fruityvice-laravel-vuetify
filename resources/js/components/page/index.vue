@@ -1,31 +1,31 @@
 <template>
 
   <div class="fill-height">
-      <v-card class="mx-auto" max-width="1000px">
+    <v-card class="mx-auto my-1" max-width="1000px" min-height="99%">
 
-          <div class="primary">
-            <img :src="'/assets/image/logo.png'"  class="logoPng" center height="100px">
-          </div>
+      <div class="primary">
+        <img :src="'/assets/image/logo.png'"  class="logoPng" center height="100px">
+      </div>
 
 
-        <v-toolbar color="second" dark>
-            <v-btn icon @click="$router.push({name:'setting'})">
-              <v-icon>mdi-settings</v-icon>
-            </v-btn>
-            <v-spacer></v-spacer>
+      <v-toolbar color="second" dark>
+        <v-btn icon @click="$router.push({name:'setting'})">
+          <v-icon>mdi-settings</v-icon>
+        </v-btn>
+        <v-spacer></v-spacer>
 
-            <v-toolbar-title>{{title}}</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn icon @click="$router.push({name:'index'})">
-              <v-icon>mdi-home</v-icon>
-            </v-btn>
-        </v-toolbar>
+        <v-toolbar-title>{{title}}</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn icon @click="$router.push({name:'index'})">
+          <v-icon>mdi-home</v-icon>
+        </v-btn>
+      </v-toolbar>
 
-          <transition name="fade" mode="out-in">
-            <router-view></router-view>
-          </transition>
+      <transition name="fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
 
-      </v-card>
+    </v-card>
 
   </div>
 </template>

@@ -108,11 +108,10 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::delete('calendar/{id}', 'CalendarController@destroy');
     Route::get('calendars', 'CalendarController@list');
 
-    Route::post('contracttemplate', 'API\ContractTemplateController@create');
-    Route::put('contracttemplate/{id}', 'API\ContractTemplateController@update');
-    Route::get('contracttemplate/{id}', 'API\ContractTemplateController@show');
-    Route::delete('contracttemplate/{id}', 'API\ContractTemplateController@destroy');
-    Route::get('contracttemplates', 'API\ContractTemplateController@list');
+    Route::post('contracttemplate', 'ContractTemplateController@create');
+    Route::post('contracttemplate/update', 'ContractTemplateController@update');
+    Route::get('contracttemplate', 'ContractTemplateController@show');
+    Route::delete('contracttemplate/{id}', 'ContractTemplateController@destroy');
 
     Route::get('sendestimate/{id}', 'MailController@sendmail');
 

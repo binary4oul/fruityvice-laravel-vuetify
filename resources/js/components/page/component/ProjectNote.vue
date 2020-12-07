@@ -55,7 +55,7 @@ export default {
 						this.note_edit = ''
 						})
 					.catch(err => {
-							this.$toast.error("Data Error!")
+						this.$toast.error("Data Error!")
 			})
 
 		},

@@ -61,12 +61,10 @@ methods: {
     axios.get(api.path('getTeamProject') +'/'+ this.teamid)
       .then(res => {
         this.projects  = res.data
-
-
       })
     },
   selectEstimate(estimate){
-    this.$router.push({ name: 'project-edit', params:{leadid: estimate['leadid'], projectid: estimate['projectid']} })
+    this.$router.push({ name: 'project-edit',  params:{ projectid: estimate['id']}  })
   },
 },
 created() {
