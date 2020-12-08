@@ -12,23 +12,24 @@ use App\Models\LeadDetail;
 class LeadController extends Controller
 {
     //
-    public function create(Request $request)
-    {
-        $user = auth()->user();
-        $input = $request->all();
-        $input['created_by'] = $user->id;
-        $input['updated_by'] = $user->id;
-        $person = Person::create($input);
+  public function create(Request $request)
+  {
+    $user = auth()->user();
+    $input = $request->all();
+    $input['created_by'] = $user->id;
+    $input['updated_by'] = $user->id;
+    $person = Person::create($input);
 
-        $new_lead['personid'] = $person['id'];
-        $new_lead['created_by'] = $user->id;
-        $new_lead['updated_by'] = $user->id;
-        $lead = Lead::create($new_lead);
+    $new_lead['personid'] = $person['id'];
+    $new_lead['created_by'] = $user->id;
+    $new_lead['updated_by'] = $user->id;
+    $lead = Lead::create($new_lead);
 
-        $response = $person;
-        $response['leadid'] = $lead['id'];
-        return $response;
-    }
+    $response = $person;
+    $response['leadid'] = $lead['id'];
+
+    return $response;
+  }
 
     public function update(Request $request, $id)
     {

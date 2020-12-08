@@ -43,7 +43,7 @@
         label="Email"
       ></v-text-field>
     </v-col>
-    <v-col cols="12" md="3">
+    <v-col cols="12" sm="3">
       <v-select :items="roles" label="Role" v-model="member_select.role" @input="change"></v-select>
     </v-col>
     <v-col cols="12" sm="4" justify="center">
@@ -59,12 +59,12 @@
     :items="members"
     :search="search">
     <template v-slot:item="row">
-        <tr @click="selectMember(row.item)">
-          <td>{{row.item.name}}</td>
-          <td>{{row.item.email}}</td>
-           <td>{{row.item.role}}</td>
-          <td>{{row.item.created_at}}</td>
-        </tr>
+      <tr @click="selectMember(row.item)">
+        <td>{{row.item.name}}</td>
+        <td>{{row.item.email}}</td>
+          <td>{{row.item.role}}</td>
+        <td>{{row.item.created_at}}</td>
+      </tr>
     </template>
   </v-data-table>
 </v-container>

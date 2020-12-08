@@ -39,15 +39,15 @@ import { api } from '~/config'
 
 export default {
 data: () => ({
-      search: '',
-      headers: [
-        { text: 'Customer', value: 'person.firstname' },
-        { text: 'Company', value: 'person.company' },
-        { text: 'Status', value: 'projectstatus'},
-        { text: 'Create_at', value: 'created_at' },
-      ],
-      projects:[]
-    }),
+  search: '',
+  headers: [
+    { text: 'Customer', value: 'person.firstname' },
+    { text: 'Company', value: 'person.company' },
+    { text: 'Status', value: 'projectstatus'},
+    { text: 'Create_at', value: 'created_at' },
+  ],
+  projects:[]
+}),
 
 mounted() {
   let data = {'title': 'Team Projects'}

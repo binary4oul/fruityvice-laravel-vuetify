@@ -58,7 +58,7 @@
 
     <template f fluid class="my-2">
       <v-btn block @click="open_condition=!open_condition" class="my-4"
-        v-bind:color="open_scope == true ? 'rgb(236,151,31)' : 'primary'" dark>
+        v-bind:color="open_condition == true ? 'rgb(236,151,31)' : 'primary'" dark>
         Some common conditions to be aware of</v-btn>
       <v-textarea
         label="Some common conditions to be aware of"
@@ -194,7 +194,6 @@ methods: {
     formData.append('conclusion', this.conclusion);
     formData.append('footer', this.footer);
 
-    console.log('id------------', this.id)
     if(this.id === 'new'){
       axios.post(api.path('contracttemplate'), formData, config)
       .then(res =>{
@@ -239,8 +238,6 @@ methods: {
 
       })
   }
-
-
 }
 }
 </script>

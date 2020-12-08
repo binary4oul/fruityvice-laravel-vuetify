@@ -5,6 +5,7 @@ export const SET_USER = 'SET_USER'
 export const LOGOUT = 'LOGOUT'
 export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE'
 export const SET_TOKEN = 'SET_TOKEN'
+export const SET_TEAM_ROLE = 'SET_TEAM_ROLE'
 
 export const SET_PERSON = 'SET_PERSON'
 export const SET_PHONE = 'SET_PHONE0'

@@ -68,7 +68,7 @@
 							</v-menu>
 						</v-col>
 					</v-row>
-					<v-row>
+					<v-row v-if="team_role == 'manager'">
 						<v-col cols="12" sm="4">
 								<v-checkbox v-model="project_edit.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-2 my-0">Acive</v-checkbox>
 						</v-col>
@@ -123,6 +123,7 @@ data: () => ({
 	calen_completed: false,
 	calen_install: false,
 	leadid: null,
+	team_role: 'manager',
 }),
 
 methods: {
@@ -173,6 +174,8 @@ computed: {
 
 created() {
 	let data = {'title': 'Project'}
+	this.team_role = store.getters['auth/team_role']
+	console.log(this.team_role)
 	this.$store.dispatch('title/setTitle', data)
 	this.projectid = this.$route.params.projectid
 	this.$store.dispatch('loader/setLoader', { loader: true })

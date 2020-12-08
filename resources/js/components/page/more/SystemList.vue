@@ -1,30 +1,30 @@
 <template>
-<v-container fluid>
-        <v-row class="mt-4">
-          <v-spacer></v-spacer>
-          <v-col sm="6">
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search"
-              single-line
-              hide-details
-            ></v-text-field>
-          </v-col>
-          <v-col sm="3" style="align:center">
-            <v-btn color="green" dark @click="addNew">
-              <v-icon dark>add</v-icon>Add New
-            </v-btn>
-          </v-col>
-          <v-spacer></v-spacer>
-        </v-row>
-        <v-data-table
-          :headers="headers"
-          :items="systems"
-          :search="search"
-          @click:row="selectSystem"
-        ></v-data-table>
-</v-container>
+  <v-container fluid>
+    <v-row class="mt-4">
+      <v-spacer></v-spacer>
+      <v-col sm="6">
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-col>
+      <v-col sm="3" style="align:center">
+        <v-btn color="green" dark @click="addNew">
+          <v-icon dark>add</v-icon>Add New
+        </v-btn>
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
+    <v-data-table
+      :headers="headers"
+      :items="systems"
+      :search="search"
+      @click:row="selectSystem"
+    ></v-data-table>
+  </v-container>
 </template>
 
 <script>
@@ -52,6 +52,7 @@ mounted() {
 
 methods: {
   getSystems() {
+    this.$store.dispatch('loader/setLoader', { loader: true })
     axios.get(api.path('systems'))
       .then(res => {
         this.systems  = res.data
@@ -63,7 +64,7 @@ methods: {
         this.$toast.error(err.response.data.errors)
       })
       .then(() => {
-        this.loading = false
+        this.$store.dispatch('loader/setLoader', { loader: false })
       })
     },
   selectSystem(system){

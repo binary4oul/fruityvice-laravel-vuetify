@@ -54,6 +54,7 @@ mounted() {
 
 methods: {
   getIngredients() {
+    this.$store.dispatch('loader/setLoader', { loader: true })
     axios.get(api.path('ingredients'))
       .then(res => {
         this.ingredients  = res.data
@@ -63,7 +64,7 @@ methods: {
         this.$toast.error(err.response.data.errors)
       })
       .then(() => {
-        this.loading = false
+        this.$store.dispatch('loader/setLoader', { loader: false })
       })
     },
   selectIngredient(ingredient){

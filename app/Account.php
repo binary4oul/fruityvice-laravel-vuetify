@@ -26,4 +26,15 @@ class Account
     else return false;
   }
 
+  public static function checkTeamMember($projectId){
+    $project = Project::find($projectId);
+    $user = auth()->user();
+    $teamLeader = $project['created_by'];
+    $team = Team::where('owner', $teamLeader)->first();
+    $teamMember = TeamMember::where('teamid', $team['id'])
+                    ->where('userid', $user['id'])->first();
+    if($teamMember) return true;
+    return false;
+  }
+
 }

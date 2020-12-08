@@ -21,51 +21,60 @@ class ProjectController extends Controller
 
     public function create(Request $request)
     {
-        $user = auth()->user();
-        $input = $request->all();
-        $input['created_by'] = $user->id;
-        $input['updated_by'] = $user->id;
+      $user = auth()->user();
+      $input = $request->all();
+      $input['created_by'] = $user->id;
+      $input['updated_by'] = $user->id;
 
-        $leadid = $request['leadid'];
-        $lead = $this->LeadController->show($leadid);
-        $addresses = $lead['address'];
-        foreach($addresses as $address){
-            if($address['primary'] == true){
-                $input['addressid'] = $address['id'];
-                break;
-            }
-        }
+      $leadid = $request['leadid'];
+      $lead = $this->LeadController->show($leadid);
+      $addresses = $lead['address'];
+      foreach($addresses as $address){
+          if($address['primary'] == true){
+              $input['addressid'] = $address['id'];
+              break;
+          }
+      }
 
-        $project = Project::create($input);
-        $response = $project;
-        return $response;
+      $project = Project::create($input);
+      $response = $project;
+      return $response;
     }
 
     public function update(Request $request, $id)
     {
-      if(Account::checkOwner($id)==false && Account::checkTeamManager($id)==false) return;
-
-        $input = $request->all();
-        $res = Project::find($id)->update($input);
-        $project = Project::find($id);
-        $response = $project;
-        return $response;
+      $project = Project::find($id);
+      $input = $request->all();
+      if(array_key_exists('install', $input)) $project_data['install'] = $input['install'];
+      if(array_key_exists('designconsult', $input)) $project_data['designconsult'] = $input['designconsult'];
+      if(array_key_exists('projectstatus', $input)) $project_data['projectstatus'] = $input['projectstatus'];
+      if(array_key_exists('completed', $input)) $project_data['completed'] = $input['completed'];
+      if(Account::checkTeamManager($id) == true){
+        if(array_key_exists('share', $input)) $project_data['share'] = $input['share'];
+        if(array_key_exists('active', $input)) $project_data['active'] = $input['active'];
+        if(array_key_exists('addressid', $input)) $project_data['addressid'] = $input['addressid'];
+      }
+      if(Account::checkTeamMember($id) == false) return $project;
+      $res = Project::find($id)->update($project_data);
+      $project = Project::find($id);
+      $response = $project;
+      return $response;
     }
 
     public function list(Request $request)
     {
-        $user = auth()->user();
-        $input = $request->all();
-        $projects = Project::where('created_by', $user->id)
-            ->where('projectstatus', $input['projectstatus'])
-            ->where('active', $input['active'])->get();
-        $project_arr = array();
-        foreach($projects as $project){
-            $project_item = $this->show($project['id']);
-            array_push($project_arr, $project_item);
-        }
-        $response = $project_arr;
-        return $project_arr;
+      $user = auth()->user();
+      $input = $request->all();
+      $projects = Project::where('created_by', $user->id)
+          ->where('projectstatus', $input['projectstatus'])
+          ->where('active', $input['active'])->get();
+      $project_arr = array();
+      foreach($projects as $project){
+          $project_item = $this->show($project['id']);
+          array_push($project_arr, $project_item);
+      }
+      $response = $project_arr;
+      return $project_arr;
     }
 
     public function show($id)

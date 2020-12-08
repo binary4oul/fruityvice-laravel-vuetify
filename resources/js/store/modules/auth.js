@@ -7,7 +7,8 @@ import * as types from '../mutation-types'
  */
 export const state = {
   user: null,
-  token: window.localStorage.getItem('token')
+  token: window.localStorage.getItem('token').anchor,
+  team_role : 'manager'
 }
 
 /**
@@ -21,17 +22,18 @@ export const mutations = {
   [types.LOGOUT](state) {
     state.user = null
     state.token = null
-    window.localStorage.removeItem('token')
   },
 
   [types.FETCH_USER_FAILURE](state) {
     state.user = null
-    window.localStorage.removeItem('token')
   },
 
   [types.SET_TOKEN](state, { token }) {
     state.token = token
-    window.localStorage.setItem('token', token)
+  },
+
+  [types.SET_TEAM_ROLE](state, { team_role }) {
+    state.team_role = team_role
   }
 }
 
@@ -56,6 +58,10 @@ export const actions = {
     commit(types.SET_USER, payload)
   },
 
+  setTeamRole({ commit }, payload) {
+    commit(types.SET_TEAM_ROLE, payload)
+  },
+
   async logout({ commit }) {
     await axios.post(api.path('logout'))
     commit(types.LOGOUT)
@@ -72,5 +78,6 @@ export const actions = {
 export const getters = {
   user: state => state.user,
   check: state => state.user !== null,
-  token: state => state.token
+  token: state => state.token,
+  team_role: state => state.team_role
 }

@@ -20,6 +20,7 @@
           <tr @click="selectTeam(row.item)">
             <td>{{row.item.name}}</td>
             <td>{{row.item.owner.firstname}} {{row.item.owner.lastname}}</td>
+             <td>{{row.item.role}}</td>
             <td>{{row.item.created_at}}</td>
           </tr>
       </template>
@@ -38,6 +39,7 @@ data: () => ({
     headers: [
         { text: 'Name', value: 'name' },
         { text: 'Leader', value: 'owner' },
+        { text: 'Role', value: 'role' },
         { text: 'Created', value: 'owner' },
       ],
     }),
@@ -60,6 +62,8 @@ methods: {
       })
     },
   selectTeam(team){
+    this.$store.dispatch('auth/setTeamRole', { team_role: team.role })
+    console.log(team.role)
     this.$router.push({ name: 'teamProject', params:{ teamid: team['id']} })
   },
 },

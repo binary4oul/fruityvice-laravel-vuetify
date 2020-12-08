@@ -82,6 +82,7 @@ methods: {
       })
     },
   selectEstimate(estimate){
+    this.$store.dispatch('auth/team_role', { team_role: 'manager' })
     this.$router.push({ name: 'project-edit', params:{ projectid: estimate['id']} })
   },
 },

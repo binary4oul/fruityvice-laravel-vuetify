@@ -12,20 +12,21 @@ class TeamMemberController extends Controller
 {
     //
     public function getMembers(){
-        $user = auth()->user();
-        $team = Team::where('owner', $user->id)->first();
-        if ($team) {
-            $team['member'] = TeamMember::where('teamid', $team->id)->get();
-            foreach($team['member'] as $team_member){
-                $member = User::where('id', $team_member['userid'])->first();
-                $team_member['name'] = $member['firstname'].' '.$member['lastname'];
-                $team_member['email'] = $member['email'];
-            }
-            $res['member'] = $team['member'];
-            $res['status'] = 'success';
+      $user = auth()->user();
+      $team = Team::where('owner', $user->id)->first();
+      if ($team) {
+        $team['member'] = TeamMember::where('teamid', $team->id)
+                          ->where('userid', '!=', $user->id)->get();
+        foreach($team['member'] as $team_member){
+          $member = User::where('id', $team_member['userid'])->first();
+          $team_member['name'] = $member['firstname'].' '.$member['lastname'];
+          $team_member['email'] = $member['email'];
         }
-        else $res['status'] = 'error';
-        return $res;
+        $res['member'] = $team['member'];
+        $res['status'] = 'success';
+      }
+      else $res['status'] = 'error';
+      return $res;
     }
 
     public function create(Request $request){
@@ -81,8 +82,6 @@ class TeamMemberController extends Controller
       }
       return $response;
     }
-
-
 
     public function delete($id){
         $member = TeamMember::find($id);
