@@ -7,7 +7,7 @@ import * as types from '../mutation-types'
  */
 export const state = {
   user: null,
-  token: window.localStorage.getItem('token').anchor,
+  token: window.localStorage.getItem('token'),
   team_role : 'manager'
 }
 

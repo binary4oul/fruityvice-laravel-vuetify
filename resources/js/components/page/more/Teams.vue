@@ -52,6 +52,7 @@ mounted() {
 
 methods: {
   getTeams() {
+    this.$store.dispatch('loader/setLoader', { loader: true })
     axios.get(api.path('getTeams'))
       .then(res => {
         this.teams  = res.data
@@ -60,10 +61,12 @@ methods: {
       .catch(err => {
 
       })
+      .then(res => {
+        this.$store.dispatch('loader/setLoader', { loader: false })
+      })
     },
   selectTeam(team){
     this.$store.dispatch('auth/setTeamRole', { team_role: team.role })
-    console.log(team.role)
     this.$router.push({ name: 'teamProject', params:{ teamid: team['id']} })
   },
 },

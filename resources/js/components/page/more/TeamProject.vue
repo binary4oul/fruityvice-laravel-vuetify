@@ -58,9 +58,14 @@ mounted() {
 
 methods: {
   getProjects() {
+    this.$store.dispatch('loader/setLoader', { loader: true })
     axios.get(api.path('getTeamProject') +'/'+ this.teamid)
       .then(res => {
         this.projects  = res.data
+      })
+      .catch(e => { })
+      .then(res => {
+        this.$store.dispatch('loader/setLoader', { loader: false })
       })
     },
   selectEstimate(estimate){
