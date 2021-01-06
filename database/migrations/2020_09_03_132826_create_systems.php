@@ -13,16 +13,16 @@ class CreateSystems extends Migration
      */
     public function up()
     {
-        Schema::create('systems', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('name');
-            $table->float('saleprice');
-            $table->boolean('active')->default(true);
-            $table->boolean('share')->default(true);
-            $table->string('created_by');
-            $table->string('updated_by');
-            $table->timestamps();
-        });
+      Schema::create('systems', function (Blueprint $table) {
+        $table->string('id');
+        $table->string('name');
+        $table->float('saleprice');
+        $table->boolean('active')->default(true);
+        $table->boolean('share')->default(true);
+        $table->string('created_by');
+        $table->string('updated_by');
+        $table->timestamps();
+      });
     }
 
     /**

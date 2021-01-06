@@ -13,15 +13,15 @@ class CreateSystemDetails extends Migration
      */
     public function up()
     {
-        Schema::create('system_details', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('systemid');
-            $table->string('ingredientid');
-            $table->string('extra')->default('');
-            $table->float('purchaseprice')->default(0);
-            $table->tinyInteger('factor')->default(1);
-            $table->timestamps();
-        });
+      Schema::create('system_details', function (Blueprint $table) {
+        $table->string('id');
+        $table->string('system_id');
+        $table->string('ingredient_id');
+        $table->string('extra')->nullable();
+        $table->float('price')->default(0);
+        $table->tinyInteger('factor')->default(1);
+        $table->timestamps();
+      });
     }
 
     /**

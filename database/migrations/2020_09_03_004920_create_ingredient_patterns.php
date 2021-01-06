@@ -13,14 +13,12 @@ class CreateIngredientPatterns extends Migration
      */
     public function up()
     {
-        Schema::create('ingredient_patterns', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('ingredientid');
-            $table->string('patternid');
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
-            $table->timestamps();
-        });
+      Schema::create('ingredient_pattern', function (Blueprint $table) {
+        $table->increments('id');
+        $table->string('ingredient_id');
+        $table->string('pattern_id');
+
+      });
     }
 
     /**
@@ -30,6 +28,6 @@ class CreateIngredientPatterns extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ingredient_patterns');
+        Schema::dropIfExists('ingredient_pattern');
     }
 }

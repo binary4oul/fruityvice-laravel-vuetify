@@ -48,19 +48,19 @@ class ColorController extends Controller
 
     public function list()
     {
-        $user = auth()->user();
-        $colors = Color::where('created_by', $user->id)->get();
-        $response = $colors;
-        return $response;
+      $user = auth()->user();
+      $colors = Color::where('created_by', $user->id)->get();
+      $response = $colors;
+      return $response;
     }
 
     public function destroy($id)
     {
-        $color = Color::findOrFail($id);
-        $color->delete();
-        $ingredient_colors = IngredientColor::where('colorid', $id)->get();
-        foreach($ingredient_colors as $ingredient_color) $ingredient_color->delete();
-        $response['status'] = 'success';
-        return $response;
+      $color = Color::findOrFail($id);
+      $color->delete();
+      $ingredient_colors = IngredientColor::where('colorid', $id)->get();
+      foreach($ingredient_colors as $ingredient_color) $ingredient_color->delete();
+      $response['status'] = 'success';
+      return $response;
     }
 }

@@ -6,8 +6,12 @@ use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
 
 class SystemDetail extends Model
 {
-    //
-    protected $fillable = [
-        'id', 'systemid', 'ingredientid', 'purchaseprice', 'factor'
-    ];
+  public function ingredient()
+  {
+    return $this->belongsTo(Ingredient::class);
+  }
+  public function system()
+  {
+    return $this->belongsTo(System::class);
+  }
 }

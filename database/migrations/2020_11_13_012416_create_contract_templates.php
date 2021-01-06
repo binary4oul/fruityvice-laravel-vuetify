@@ -17,15 +17,15 @@ class CreateContractTemplates extends Migration
         $table->string('id');
         $table->string('name');
         $table->string('logo')->nullable();
-        $table->string('notetocustomer')->nullable();
-        $table->string('scopeofwork')->nullable();
-        $table->string('commoncondition')->nullable();
-        $table->string('downpaymentterms')->nullable();
-        $table->string('note')->nullable();
-        $table->string('conclusion')->nullable();
-        $table->string('footer')->nullable();
-        $table->string('created_by')->nullable();
-        $table->string('updated_by')->nullable();
+        $table->string('notetocustomer')->default('');
+        $table->string('scopeofwork')->default('');
+        $table->string('commoncondition')->default('');
+        $table->string('downpaymentterms')->default('');
+        $table->string('note')->default('');
+        $table->string('conclusion')->default('');
+        $table->string('footer')->default('');
+        $table->string('created_by')->default('');
+        $table->string('updated_by')->default('');
         $table->timestamps();
       });
     }
