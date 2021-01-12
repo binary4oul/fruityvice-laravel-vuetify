@@ -13,16 +13,16 @@ class CreatePhones extends Migration
      */
     public function up()
     {
-        Schema::create('phones', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('personid');
-            $table->string('number');
-            $table->string('type');
-            $table->boolean('primary')->default(true);
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
-            $table->timestamps();
-        });
+      Schema::create('phones', function (Blueprint $table) {
+        $table->string('id');
+        $table->string('person_id');
+        $table->string('number');
+        $table->string('type');
+        $table->boolean('primary')->default(true);
+        $table->string('created_by')->nullable();
+        $table->string('updated_by')->nullable();
+        $table->timestamps();
+      });
     }
 
     /**

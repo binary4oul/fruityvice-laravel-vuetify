@@ -24,22 +24,13 @@ Route::group(['middleware' => ['guest:api']], function() {
 Route::group(['middleware' => ['jwt']], function() {
     Route::post('person', 'LeadController@create');
     Route::put('person/{id}', 'PersonController@update');
-    Route::get('lead/{id}', 'LeadController@show');
-    Route::put('lead/{id}', 'LeadController@update');
-    Route::get('leads', 'LeadController@list');
-    Route::delete('lead/{id}', 'LeadController@destroy');
-
-    Route::post('leaddetail', 'LeadDetailController@create');
-    Route::put('leaddetail/{id}', 'LeadDetailController@update');
+    Route::get('leads/{active}', 'ProjectController@leads');
 
     Route::post('project', 'ProjectController@create');
     Route::post('projects', 'ProjectController@list');
     Route::get('project/{id}', 'ProjectController@show');
     Route::put('project/{id}', 'ProjectController@update');
     Route::delete('project/{id}', 'ProjectController@destroy');
-    Route::get('project/getbyleadid/{id}', 'ProjectController@getByLeadId');
-    Route::post('project/getbyleadidprojectstatus', 'ProjectController@getByLeadIdProjectStatus');
-    Route::get('project/getprojectsbystatus/{status}', 'ProjectController@getProjectsByProjectStatus');
 
     Route::post('projectdetail', 'ProjectDetailController@create');
     Route::put('projectdetail/{id}', 'ProjectDetailController@update');

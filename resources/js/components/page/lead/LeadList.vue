@@ -1,28 +1,27 @@
 <template>
-<div>
-         <v-row>
-           <v-spacer></v-spacer>
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search"
-              single-line
-              hide-details
-              class="mx-4 my-4"
-            ></v-text-field>
-             <v-btn color="green" dark @click="addNew" class="mx-4 my-4">
-              <v-icon dark>add</v-icon>Add New
-            </v-btn>
-            <v-spacer></v-spacer>
-
-        </v-row>
-        <v-data-table
-          :headers="headers"
-          :items="leads"
-          :search="search"
-          @click:row="selectLead"
-        ></v-data-table>
-</div>
+  <div>
+    <v-row>
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+        class="mx-4 my-4"
+      ></v-text-field>
+        <v-btn color="green" dark @click="addNew" class="mx-4 my-4">
+        <v-icon dark>add</v-icon>Add New
+      </v-btn>
+      <v-spacer></v-spacer>
+    </v-row>
+    <v-data-table
+      :headers="headers"
+      :items="leads"
+      :search="search"
+      @click:row="selectLead"
+    ></v-data-table>
+  </div>
 </template>
 
 <script>
@@ -32,14 +31,14 @@ import { api } from '~/config'
 export default {
 
 data: () => ({
-      search: '',
-      headers: [
-        { text: 'Person', value: 'name' },
-        { text: 'Company', value: 'person.company' },
-        { text: 'Created_at', value: 'created_at' }
-      ],
-      leads:[]
-    }),
+    search: '',
+    headers: [
+      { text: 'Person', value: 'name' },
+      { text: 'Company', value: 'person.company' },
+      { text: 'Created_at', value: 'created_at' }
+    ],
+    leads:[]
+  }),
 
 mounted() {
   let data = {'title': 'Leads'}
@@ -54,16 +53,16 @@ created(){
 methods: {
   getLeads() {
     this.$store.dispatch('loader/setLoader', { loader: true })
-    axios.get(api.path('leads'))
+    axios.get(api.path('leads') +'/'+ this.active)
       .then(res => {
         let res_leads  = res.data
-        res_leads.map(item => {
+        res_leads.forEach(item => {
           item['name'] = item['person']['firstname'] +" "+ item['person']['lastname']
-          if(item['active'] == this.active) this.leads.push(item)
+          this.leads.push(item)
           })
       })
       .catch(err => {
-        this.$toast.error(err.response.data.errors)
+        this.$toast.error('Server Error')
       })
       .then(() => {
         this.$store.dispatch('loader/setLoader', { loader: false })

@@ -22,7 +22,7 @@
         <v-text-field label="Area Name" v-model="areaname"></v-text-field>
         <v-row>
           <v-col cols="12" sm="6">
-            <p style="text-align:center">Length (ft.) :
+            <p style="text-align:center" >Length (ft.) :
             <vue-numeric-input v-model="length" :value="0" :min="0" controls-type="updown"></vue-numeric-input>
             </p>
           </v-col>

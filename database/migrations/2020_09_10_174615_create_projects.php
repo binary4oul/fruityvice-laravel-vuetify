@@ -13,20 +13,22 @@ class CreateProjects extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('leadid');
-            $table->string('install')->nullable();
-            $table->string('completed')->nullable();
-            $table->string('addressid')->nullable();
-            $table->string('projectstatus')->default('estimate');
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
-            $table->string('designconsult')->nullable();
-            $table->boolean('active')->default(true);
-            $table->boolean('share')->default(false);
-            $table->timestamps();
-        });
+      Schema::create('projects', function (Blueprint $table) {
+        $table->string('id');
+        $table->string('email')->nullable();
+        $table->string('besttimetocall')->nullable();
+        $table->string('hearaboutus')->nullable();
+        $table->string('howcanwehelp')->nullable();
+        $table->string('install')->nullable();
+        $table->string('completed')->nullable();
+        $table->string('projectstatus')->default('estimate');
+        $table->string('designconsult')->nullable();
+        $table->boolean('active')->default(true);
+        $table->boolean('share')->default(false);
+        $table->string('created_by')->nullable();
+        $table->string('updated_by')->nullable();
+        $table->timestamps();
+      });
     }
 
     /**

@@ -4,40 +4,46 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\Person;
+use App\Models\Phone;
 use App\Models\Address;
 use App\Models\ProjectDetail;
 use App\Models\ProjectDetailStyle;
 use App\Models\System;
-use App\Http\Controllers\LeadController;
 use App\Account;
 
 class ProjectController extends Controller
 {
-    protected $LeadController;
-    public function __construct(LeadController $LeadController)
-    {
-        $this->LeadController = $LeadController;
-    }
-
     public function create(Request $request)
     {
       $user = auth()->user();
       $input = $request->all();
-      $input['created_by'] = $user->id;
-      $input['updated_by'] = $user->id;
+      $project_data['email'] = $input['email'];
+      $project_data['besttimetocall'] = $input['besttimetocall'];
+      $project_data['hearaboutus'] = $input['hearaboutus'];
+      $project_data['howcanwehelp'] = $input['howcanwehelp'];
+      $project_data['created_by'] = $user->id;
+      $project_data['updated_by'] = $user->id;
+      $res_project = Project::create($project_data);
 
-      $leadid = $request['leadid'];
-      $lead = $this->LeadController->show($leadid);
-      $addresses = $lead['address'];
-      foreach($addresses as $address){
-          if($address['primary'] == true){
-              $input['addressid'] = $address['id'];
-              break;
-          }
-      }
+      $person_data = $input['person'];
+      $person_data['project_id'] = $res_project['id'];
+      $res_person = Person::create($person_data);
+      $res_person->project()->associate($res_project)->save();
 
-      $project = Project::create($input);
-      $response = $project;
+      $phone_data = $input['phone'];
+      $phone_data['person_id'] = $res_person['id'];
+      $phone_data['primary'] = true;
+      $res_phone = Phone::create($phone_data);
+      $res_phone->person()->associate($res_person)->save();
+
+      $address_data = $input['address'];
+      $address_data['person_id'] = $res_person['id'];
+      $address_data['primary'] = true;
+      $res_address = Address::create($address_data);
+      $res_address->person()->associate($res_person)->save();
+
+      $response = $res_project;
       return $response;
     }
 
@@ -68,32 +74,27 @@ class ProjectController extends Controller
       $projects = Project::where('created_by', $user->id)
           ->where('projectstatus', $input['projectstatus'])
           ->where('active', $input['active'])->get();
-      $project_arr = array();
-      foreach($projects as $project){
-          $project_item = $this->show($project['id']);
-          array_push($project_arr, $project_item);
-      }
-      $response = $project_arr;
-      return $project_arr;
+      $response = $projects;
+      return $projects;
+    }
+
+    public function leads($active)
+    {
+      $user = auth()->user();
+      $projects = Project::where('created_by', $user->id)
+          ->where('active',$active)->with('person')->get();
+      $response = $projects;
+      return $projects;
     }
 
     public function show($id)
     {
-        $project = Project::find($id);
-        $lead = $this->LeadController->show($project['leadid']);
-        $project['person'] = $lead['person'];
-        $project['email'] = $lead['leaddetail']['email'];
-        $address = Address::find($project['addressid']);
-        $project['address'] = $address;
-        $projectdetails = ProjectDetail::where('projectid', $project['id'])->get();
-        foreach($projectdetails as $projectdetail){
-            $projectdetailstyles = ProjectDetailStyle::where('projectdetailid', $projectdetail['id'])->get();
-            $system = System::find($projectdetail['systemid']);
-            $projectdetail['systemname'] = $system['name'];
-            $projectdetail['projectdetailstyles'] = $projectdetailstyles;
-        }
-        $project['projectdetails'] = $projectdetails;
-        return $project;
+      $project = Project::with('person')->find($id);
+      $person = Person::with('phones')->with('addresses')->find($project['person']['id']);
+      $res = $project;
+      unset($res['person']);
+      $res['person'] = $person;
+      return $res;
     }
 
     public function destroy($id)
@@ -109,34 +110,4 @@ class ProjectController extends Controller
         $project['projectdetails'] = $projectdetails;
         return $project;
     }
-
-    public function getByLeadId($leadid){
-        $project = Project::where('leadid', $leadid)->first();
-        if($project){
-            $res_project = $this->show($project->id);
-            return $res_project;
-        }
-        $res['error'] = true;
-        return $res;
-    }
-    public function getByLeadIdProjectStatus(Request $request){
-        $input = $request->all();
-        $project = Project::where('leadid', $input['leadid'])->where('projectstatus', $input['projectstatus'])
-            ->where('active', $input['active'])->first();
-        if($project){
-            $res_project = $this->show($project->id);
-            return $res_project;
-        }
-        $res['error'] = true;
-        return $res;
-    }
-
-    public function getProjectsByProjectStatus($status){
-        $user = auth()->user();
-        $projects = Project::where('created_by', $user->id)->where('projectstatus', $status)->get();
-        $res_projects = array();
-        foreach($projects as $project) array_push($res_projects, $this->show($project->id));
-        return $res_projects;
-    }
-
 }

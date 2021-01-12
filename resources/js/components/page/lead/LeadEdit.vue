@@ -1,23 +1,23 @@
 <template>
-<div>
-    <person-edit-form :person="lead['person']" :leadid="leadid"></person-edit-form>
+  <div>
+    <person-edit-form :person="lead['person']" :project_id="lead_id"></person-edit-form>
 
-    <v-row v-if="leadid!='new' && lead.lead">
-        <v-col cols="12" sm="3">
-          <v-checkbox v-model="lead.lead.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-8 my-0">Acive</v-checkbox>
-        </v-col>
+    <v-row v-if="lead_id!='new' && lead.lead">
+      <v-col cols="12" sm="3">
+        <v-checkbox v-model="lead.lead.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-8 my-0">Acive</v-checkbox>
+      </v-col>
     </v-row>
 
-    <system-edit-form :leadid="leadid"></system-edit-form>
-    <lead-detail :leaddetail="lead['leaddetail']" :leadid="leadid"></lead-detail>
-    <phone-edit-form :personid="personid" :phone="lead['phone']"></phone-edit-form>
-    <address-edit-form :personid="personid" :address="lead['address']" ></address-edit-form>
+    <system-edit-form :lead_id="lead_id"></system-edit-form>
+    <lead-detail :leaddetail="lead['leaddetail']"></lead-detail>
+    <phone-edit-form v-if="lead['person']" :project_id="lead_id" :phone="lead['person']['phones']"></phone-edit-form>
+    <address-edit-form v-if="lead['person']" :project_id="lead_id" :address="lead['person']['addresses']" ></address-edit-form>
     <v-row>
-        <v-spacer></v-spacer>
-        <v-btn color="green" dark class="mx-2 my-4" @click="saveLead">Save</v-btn>
-        <v-btn color="error" dark class="mx-2 my-4" v-if="leadid != 'new'" @click="deleteLead">Delete</v-btn>
-        <v-btn class="mx-2 my-4" @click="$router.go(-1)">Cancel</v-btn>
-        <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-btn color="green" dark class="mx-2 my-4" @click="saveLead">Save</v-btn>
+      <v-btn color="error" dark class="mx-2 my-4" v-if="lead_id != 'new'" @click="deleteLead">Delete</v-btn>
+      <v-btn class="mx-2 my-4" @click="$router.go(-1)">Cancel</v-btn>
+      <v-spacer></v-spacer>
     </v-row>
 </div>
 </template>
@@ -43,26 +43,24 @@ components: {
 },
 
 computed: mapGetters({
-    person: 'person/person',
-    address: 'person/address',
-    phone: 'person/phone',
-    leaddetail: 'leaddetail/leaddetail',
-    project_store: 'project/project'
+  person: 'person/person',
+  address: 'person/address',
+  phone: 'person/phone',
+  leaddetail: 'leaddetail/leaddetail',
+  project_store: 'project/project'
 }),
 
 created() {
-    this.leadid = this.$route.params.leadid
-    if(this.leadid != 'new') this.getLead(this.leadid)
-    else this.personid = 'new'
+    this.lead_id = this.$route.params.leadid
+    if(this.lead_id != 'new') this.getLead(this.lead_id)
 
     let data = {'title': 'Lead'}
-    if(this.leadid == 'new') data['title'] = "New Lead"
+    if(this.lead_id == 'new') data['title'] = "New Lead"
     this.$store.dispatch('title/setTitle', data)
 },
 
 data: () => ({
     lead: {},
-    personid: '',
     items: ['Home', 'Office', 'Mobile'],
 }),
 
@@ -70,113 +68,62 @@ methods: {
     success(data) {
 
     },
-    getLead(leadid) {
+    getLead(lead_id) {
       this.$store.dispatch('loader/setLoader', { loader: true })
-        axios.get(api.path('lead') +"/"+ leadid)
+        axios.get(api.path('project') +"/"+ lead_id)
             .then(res => {
-                this.lead  = res.data
-                this.personid = this.lead['person']['id']
+              this.lead  = res.data
+              this.lead['leaddetail'] = {}
+              this.lead['leaddetail']['email'] = this.lead['email']
+              this.lead['leaddetail']['hearaboutus'] = this.lead['hearaboutus']
+              this.lead['leaddetail']['besttimetocall'] = this.lead['besttimetocall']
+              this.lead['leaddetail']['howcanwehelp'] = this.lead['howcanwehelp']
             })
             .catch(err => {
-                this.$toast.error(err.response.data.errors)
+                this.$toast.error('Server Error!')
             })
             .then(() => {
               this.$store.dispatch('loader/setLoader', { loader: false })
         })
     },
     saveLead(){
-      let personid, leadid
-      if(this.leadid == 'new')
+      if(this.lead_id == 'new')
       {
-        axios.post(api.path('person'), this.person)
+        let project_data = { ...this.leaddetail }
+        project_data['person'] = this.person
+        project_data['phone'] = this.phone
+        project_data['address'] = this.address
+
+        this.$store.dispatch('loader/setLoader', { loader: true })
+        axios.post(api.path('project'), project_data)
             .then(res => {
-                personid = res.data.id
-                leadid = res.data['leadid']
+              lead_id = res.data['id']
+              this.$toast.success('Saved successfully!')
+              this.$router.go(-1)
             })
             .catch(err => {
                 this.$toast.error("lead data error!")
             })
             .then(()=>{
-              let lead_data = this.lead['lead']
-              axios.put(api.path('lead') +'/'+ leadid, lead_data)
-                  .then(res => {
-
-                  })
-                  .catch(err =>{
-                      this.$toast.error('Lead data error!')
-                  })
-
-                  this.phone['personid'] = personid
-                  if('number' in this.phone){
-                      axios.post(api.path('phone'), this.phone)
-                          .then(res => {
-                          })
-                          .catch(err => {
-                              this.$toast.error("phone data error!")
-                          })
-                  }
-
-                  this.address['personid'] = personid
-                  if('address1' in this.address){
-                      axios.post(api.path('address'), this.address)
-                          .then(res => { })
-                          .catch(err => {
-                              this.$toast.error("address data error!")
-                          })
-                  }
-
-                  this.leaddetail['leadid'] = leadid
-                  axios.post(api.path('leaddetail'), this.leaddetail)
-                      .then(res => {  })
-                      .catch(err => {
-                          this.$toast.error("leaddetail data error!")
-                      })
-
-                  let project = { 'leadid': leadid }
-                  axios.post(api.path('project'), project)
-                      .then(res => {
-                        project = res.data
-                        this.project_store.projectdetails.map(detail => {
-                            detail['projectid'] = project['id']
-                            axios.post(api.path('projectdetail'), detail)
-                                .then(res => {
-
-                                })
-                        })
-                        let projectnote = { note: project_store['note'], projectid: project['id']}
-                        axios.post(api.path('projectdetail'), detail)
-                                .then(res => {
-
-                        })
-                        })
-                        .catch(err => {
-                            this.$toast.error("leaddetail data error!")
-                        })
-
-                    this.$toast.success('Saved successfully!')
-                    this.$router.go(-1)
-                })
+              this.$store.dispatch('loader/setLoader', { loader: false })
+            })
 
         }
         else
         {
-          axios.put(api.path('leaddetail') +'/'+ this.leaddetail['id'], this.leaddetail)
+          let project_data = { ...this.leaddetail }
+          this.$store.dispatch('loader/setLoader', { loader: true })
+          axios.put(api.path('project') +'/'+ this.lead_id, project_data)
               .then(res => {
-
+                this.$toast.success('Updated successfully!')
+                this.$router.go(-1)
               })
               .catch(err => {
-                  this.$toast.error("leaddetail data error!")
+                  this.$toast.error("Lead data error!")
               })
-          let lead_data = this.lead['lead']
-          axios.put(api.path('lead') +'/'+ this.leadid, lead_data)
-              .then(res => {
-
+              .then(()=>{
+                this.$store.dispatch('loader/setLoader', { loader: false })
               })
-              .catch(err =>{
-                  this.$toast.error('Lead data error!')
-              })
-          this.$toast.success('Updated successfully!')
-          this.$router.go(-1)
         }
     },
     deleteLead(){

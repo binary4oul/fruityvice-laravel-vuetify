@@ -13,21 +13,21 @@ class CreateProjectDetails extends Migration
      */
     public function up()
     {
-        Schema::create('project_details', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('projectid');
-            $table->string('systemid');
-            $table->float('areaprice');
-            $table->float('area');
-            $table->float('arealength');
-            $table->float('areawidth');
-            $table->string('name');
-            $table->float('systemprice');
-            $table->float('saleprice')->nullable();
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
-            $table->timestamps();
-        });
+      Schema::create('project_details', function (Blueprint $table) {
+        $table->string('id');
+        $table->string('project_id');
+        $table->string('system_id');
+        $table->float('areaprice');
+        $table->float('area');
+        $table->float('arealength');
+        $table->float('areawidth');
+        $table->string('name');
+        $table->float('systemprice');
+        $table->float('saleprice')->nullable();
+        $table->string('created_by')->nullable();
+        $table->string('updated_by')->nullable();
+        $table->timestamps();
+      });
     }
 
     /**

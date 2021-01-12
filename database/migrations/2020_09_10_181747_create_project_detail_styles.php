@@ -13,18 +13,18 @@ class CreateProjectDetailStyles extends Migration
      */
     public function up()
     {
-        Schema::create('project_detail_styles', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('ingredientid');
-            $table->string('projectdetailid');
-            $table->string('colorid')->nullable();
-            $table->string('patternid')->nullable();
-            $table->float('purchaseprice')->nullable();
-            $table->float('chargeprice')->nullable();
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
-            $table->timestamps();
-        });
+      Schema::create('project_detail_styles', function (Blueprint $table) {
+        $table->string('id');
+        $table->string('ingredient_id');
+        $table->string('projectdetail_id');
+        $table->string('color_id')->nullable();
+        $table->string('pattern_id')->nullable();
+        $table->float('purchaseprice')->nullable();
+        $table->float('chargeprice')->nullable();
+        $table->string('created_by')->nullable();
+        $table->string('updated_by')->nullable();
+        $table->timestamps();
+      });
     }
 
     /**

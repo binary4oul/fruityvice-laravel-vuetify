@@ -13,15 +13,16 @@ class CreatePerson extends Migration
      */
     public function up()
     {
-        Schema::create('person', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('firstname')->default('');
-            $table->string('lastname')->default('');
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
-            $table->string('company')->nullable();
-            $table->timestamps();
-        });
+      Schema::create('person', function (Blueprint $table) {
+        $table->string('id');
+        $table->string('project_id');
+        $table->string('firstname')->default('');
+        $table->string('lastname')->default('');
+        $table->string('company')->nullable();
+        $table->string('created_by')->nullable();
+        $table->string('updated_by')->nullable();
+        $table->timestamps();
+      });
     }
 
     /**

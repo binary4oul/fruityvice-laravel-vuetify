@@ -13,19 +13,19 @@ class CreateAddresses extends Migration
      */
     public function up()
     {
-        Schema::create('addresses', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('personid');
-            $table->string('address1')->nullable();
-            $table->string('address2')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('zip')->nullable();
-            $table->string('type')->default('');
-            $table->boolean('primary')->default(false);
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
-            $table->timestamps();
+      Schema::create('addresses', function (Blueprint $table) {
+        $table->string('id');
+        $table->string('person_id');
+        $table->string('address1')->nullable();
+        $table->string('address2')->nullable();
+        $table->string('city')->nullable();
+        $table->string('state')->nullable();
+        $table->string('zip')->nullable();
+        $table->string('type')->default('');
+        $table->boolean('primary')->default(false);
+        $table->string('created_by')->nullable();
+        $table->string('updated_by')->nullable();
+        $table->timestamps();
         });
     }
 
