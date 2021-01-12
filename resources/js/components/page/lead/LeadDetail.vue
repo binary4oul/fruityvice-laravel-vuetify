@@ -59,7 +59,7 @@ methods: {
     }
 },
 
-created() {
+mounted() {
   setTimeout(() => {
     if(this.leaddetail == null){
         this.detail['email'] =''

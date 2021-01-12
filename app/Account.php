@@ -20,6 +20,7 @@ class Account
     $user = auth()->user();
     $teamLeader = $project['created_by'];
     $team = Team::where('owner', $teamLeader)->first();
+    if(!$team) return false;
     $teamMember = TeamMember::where('teamid', $team['id'])
                     ->where('userid', $user['id'])->first();
     if($teamMember['role'] == 'manager') return true;
@@ -31,6 +32,7 @@ class Account
     $user = auth()->user();
     $teamLeader = $project['created_by'];
     $team = Team::where('owner', $teamLeader)->first();
+    if(!$team) return false;
     $teamMember = TeamMember::where('teamid', $team['id'])
                     ->where('userid', $user['id'])->first();
     if($teamMember) return true;

@@ -112,6 +112,7 @@ methods: {
         else
         {
           let project_data = { ...this.leaddetail }
+           console.log(project_data)
           this.$store.dispatch('loader/setLoader', { loader: true })
           axios.put(api.path('project') +'/'+ this.lead_id, project_data)
               .then(res => {

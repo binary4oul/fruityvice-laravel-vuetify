@@ -49,18 +49,24 @@ class ProjectController extends Controller
 
     public function update(Request $request, $id)
     {
+      $user = auth()->user();
       $project = Project::find($id);
       $input = $request->all();
+      if(Account::checkTeamMember($id) == false && $project['created_by'] != $user->id) return $project;
+
       if(array_key_exists('install', $input)) $project_data['install'] = $input['install'];
       if(array_key_exists('designconsult', $input)) $project_data['designconsult'] = $input['designconsult'];
       if(array_key_exists('projectstatus', $input)) $project_data['projectstatus'] = $input['projectstatus'];
       if(array_key_exists('completed', $input)) $project_data['completed'] = $input['completed'];
-      if(Account::checkTeamManager($id) == true){
+
+      if(Account::checkTeamManager($id) == true || $project['created_by'] == $user->id){
         if(array_key_exists('share', $input)) $project_data['share'] = $input['share'];
         if(array_key_exists('active', $input)) $project_data['active'] = $input['active'];
-        if(array_key_exists('addressid', $input)) $project_data['addressid'] = $input['addressid'];
+        if(array_key_exists('email', $input)) $project_data['email'] = $input['email'];
+        if(array_key_exists('besttimetocall', $input)) $project_data['besttimetocall'] = $input['besttimetocall'];
+        if(array_key_exists('hearaboutus', $input)) $project_data['hearaboutus'] = $input['hearaboutus'];
+        if(array_key_exists('howcanwehelp', $input)) $project_data['howcanwehelp'] = $input['howcanwehelp'];
       }
-      if(Account::checkTeamMember($id) == false) return $project;
       $res = Project::find($id)->update($project_data);
       $project = Project::find($id);
       $response = $project;
@@ -99,15 +105,15 @@ class ProjectController extends Controller
 
     public function destroy($id)
     {
-        $project = Project::find($id);
-        $projectdetails = ProjectDetail::where('projectid', $project['id'])->get();
-        foreach($projectdetails as $projectdetail){
-            $projectdetailstyles = ProjectDetailStyle::where('projectdetailid', $projectdetail['id'])->get();
-            foreach($projectdetailstyles as $projectdetailstyle) $projectdetailstyle->delete();
-            $projectdetail->delete();
-        }
-        $project->delete();
-        $project['projectdetails'] = $projectdetails;
-        return $project;
+      $project = Project::find($id);
+      $projectdetails = ProjectDetail::where('projectid', $project['id'])->get();
+      foreach($projectdetails as $projectdetail){
+          $projectdetailstyles = ProjectDetailStyle::where('projectdetailid', $projectdetail['id'])->get();
+          foreach($projectdetailstyles as $projectdetailstyle) $projectdetailstyle->delete();
+          $projectdetail->delete();
+      }
+      $project->delete();
+      $project['projectdetails'] = $projectdetails;
+      return $project;
     }
 }

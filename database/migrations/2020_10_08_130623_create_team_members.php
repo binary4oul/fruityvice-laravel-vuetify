@@ -13,13 +13,13 @@ class CreateTeamMembers extends Migration
      */
     public function up()
     {
-        Schema::create('team_members', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('teamid');
-            $table->string('userid');
-            $table->string('role');
-            $table->timestamps();
-        });
+      Schema::create('team_members', function (Blueprint $table) {
+        $table->string('id');
+        $table->string('team_id');
+        $table->string('user_id');
+        $table->string('role');
+        $table->timestamps();
+      });
     }
 
     /**

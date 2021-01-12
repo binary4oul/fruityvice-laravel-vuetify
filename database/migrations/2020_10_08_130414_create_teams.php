@@ -13,12 +13,12 @@ class CreateTeams extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('name');
-            $table->string('owner');
-            $table->timestamps();
-        });
+      Schema::create('teams', function (Blueprint $table) {
+        $table->string('id');
+        $table->string('name');
+        $table->string('owner');
+        $table->timestamps();
+      });
     }
 
     /**

@@ -10,11 +10,11 @@ class PersonController extends Controller
     //
     public function update(Request $request, $id)
     {
-        $input = $request->all();
-        $result = Person::find($id)->update($input);
-        $person = Person::find($id);
-        $response = $person;
-        return $response;
+      $input = $request->all();
+      $result = Person::find($id)->update($input);
+      $person = Person::find($id);
+      $response = $person;
+      return $response;
     }
 
 }

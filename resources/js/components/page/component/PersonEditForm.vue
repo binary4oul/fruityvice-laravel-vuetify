@@ -91,7 +91,7 @@ methods: {
           this.edit = false
       })
       .catch(err => {
-          this.$toast.error("lead data error!")
+        this.$toast.error("Person data error!")
       })
   },
 },
@@ -99,14 +99,20 @@ computed: mapGetters({
 
 }),
 
-created() {
+mounted() {
   setTimeout(() => {
     if(this.person == null){
       this.personValue['firstname'] = ''
       this.personValue['lastname'] = ''
       this.personValue['company'] = ''
     }
-    else this.personValue = {...this.person}
+    else{
+      this.personValue = {}
+      this.personValue['id'] = this.person['id']
+      this.personValue['firstname'] = this.person['firstname']
+      this.personValue['lastname'] = this.person['lastname']
+      this.personValue['company'] = this.person['company']
+    }
     if(this.project_id == 'new') this.edit = true
   }, 500)
 },
