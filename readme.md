@@ -18,8 +18,11 @@ Starter SPA built with Laravel 6.0, JWT Auth, Vue 2, Vue Router 3, Vuex 3, Axios
 * Run `php artisan key:generate`
 * Run `php artisan jwt:secret`
 * Run `php artisan migrate`
+* Run `php aritsan db:seed`
 * Run `npm install`
 * Make sure `storage/framework/cache`, `storage/framework/sessions`, `storage/framework/views` directories exist. Run `mkdir -p storage/framework/{sessions,views,cache}`
+
+## It need to excute sql files in sql directory.
 
 ## Usage
 * Run `npm run watch` for live reloading using BrowserSync
