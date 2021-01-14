@@ -150,7 +150,7 @@ methods: {
 	},
 	sendEstimate() {
 		this.$store.dispatch('loader/setLoader', { loader: true })
-		axios.get(api.path('sendEstimate') +'/'+ this.leadid, )
+		axios.get(api.path('sendEstimate') +'/'+ this.projectid, )
 				.then(res => {
 					const response_data = res.data;
 					if(response_data['status'] === 'success') this.$toast.success('Sent successfully!')

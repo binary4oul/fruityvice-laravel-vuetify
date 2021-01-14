@@ -56,8 +56,6 @@ class PatternController extends Controller
     {
         $pattern = Pattern::findOrFail($id);
         $pattern->delete();
-        $ingredient_patterns = IngredientPattern::where('patternid', $id)->get();
-        foreach($ingredient_patterns as $ingredient_pattern) $ingredient_pattern->delete();
         $response['status'] = 'success';
         return $response;
     }

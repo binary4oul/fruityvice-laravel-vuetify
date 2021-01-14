@@ -23,6 +23,11 @@ class SystemController extends Controller
     $system['saleprice'] = $input['saleprice'];
     $system['created_by'] = $user->id;
     $system['updated_by'] = $user->id;
+    if($user->role > 4){
+      $system['created_by'] = 'admin';
+      $system['updated_by'] = 'admin';
+    }
+    else $system['share'] = true;
     if(array_key_exists('active', $input)) $system['active'] = $input['active'];
     if(array_key_exists('share', $input)) $system['share'] = $input['share'];
     $res_system = System::create($system);
@@ -76,7 +81,8 @@ class SystemController extends Controller
   public function list()
   {
     $user = auth()->user();
-    $system = System::where('created_by', $user->id)->orWhere('created_by', 'admin')->get();
+    $system = System::where('created_by', $user->id)->orWhere('created_by', 'admin')->where('share', 1)->get();
+    if($user->role > 4) $system = System::where('created_by', 'admin')->orWhere('created_by', 'admin')->get();
     $response = $system;
     return $response;
   }

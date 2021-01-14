@@ -19,7 +19,7 @@
       <v-spacer></v-spacer>
     </v-row>
     <v-data-table
-      :headers="headers"
+      :headers="getHeaders"
       :items="systems"
       :search="search"
       @click:row="selectSystem"
@@ -30,24 +30,42 @@
 <script>
 import axios from 'axios'
 import { api } from '~/config'
+import { mapGetters } from 'vuex'
+import store from '~/store'
 
 export default {
 data: () => ({
-      search: '',
-      headers: [
-        { text: 'No', value: 'no' },
-        { text: 'Name', value: 'name' },
-        { text: 'Price', value: 'saleprice' },
-        { text: 'Created_at', value: 'created_at' },
-        { text: 'Active', value: 'active' },
-      ],
-      systems:[]
-    }),
+  search: '',
+  systems:[],
+  user: {}
+}),
 
 mounted() {
   this.getSystems()
   let data = {'title': 'Systems'}
   this.$store.dispatch('title/setTitle', data)
+
+},
+created() {
+  this.user = store.getters['auth/user']
+},
+
+computed: {
+  getUser: function() {
+    return store.getters['auth/user']
+  },
+  getHeaders: function() {
+    return [
+            { text: 'No', value: 'no' },
+            { text: 'Name', value: 'name' },
+            { text: 'Price', value: 'saleprice' },
+            { text: 'Created_at', value: 'created_at' },
+            {
+              text: this.getUser['role'] > 4 ? 'Share': 'Active',
+              value: this.getUser['role'] > 4 ? 'share': 'active'
+            },
+          ]
+  }
 },
 
 methods: {

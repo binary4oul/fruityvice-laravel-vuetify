@@ -24,6 +24,10 @@ class IngredientController extends Controller
     $ingredient['purchaseprice'] = $request['purchaseprice'];
     $ingredient['created_by'] = $user->id;
     $ingredient['updated_by'] = $user->id;
+    if($user->role > 4){
+      $ingredient['created_by'] = 'admin';
+      $ingredient['updated_by'] = 'admin';
+    }
     $res_ingredient = Ingredient::create($ingredient);
     $res_ingredient->colors()->sync($request['colors']);
     $res_ingredient->patterns()->sync($request['patterns']);
@@ -56,6 +60,7 @@ class IngredientController extends Controller
   {
     $user = auth()->user();
     $ingredients = Ingredient::where('created_by', $user->id)->with('colors')->with('patterns')->get();
+    if($user->role > 4) $ingredients = Ingredient::where('created_by', 'admin')->with('colors')->with('patterns')->get();
     $response = $ingredients;
     return $response;
   }
@@ -69,9 +74,8 @@ class IngredientController extends Controller
       return $res;
     }
     $ingredient = Ingredient::findOrFail($id);
-    $this->destroyDetail($id);
     $ingredient->delete();
-    $system_details = SystemDetail::where('ingredientid', $id)->get();
+    $system_details = SystemDetail::where('ingredient_id', $id)->get();
     foreach($system_details as $system_detail) $system_detail->delete();
     $response['status'] = 'success';
     return $response;

@@ -20,7 +20,6 @@
           <v-spacer></v-spacer>
         </v-row>
 
-
         <v-data-table
           :headers="headers"
           :items="ingredients"

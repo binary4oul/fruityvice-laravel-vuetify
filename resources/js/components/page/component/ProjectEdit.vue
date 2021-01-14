@@ -221,6 +221,9 @@ methods: {
             }
             else {
               this.$toast.success('Saved successfully!')
+              this.editNewProjectDetail()
+              this.edit_new = false
+              this.project_details.push(res.data)
             }
           })
           .catch(err => {
@@ -239,6 +242,12 @@ methods: {
             }
             else {
               this.$toast.success('Saved successfully!')
+              let detail = res.data
+              let index = this.project_details.findIndex(item => item['id'] === detail['id'])
+              this.project_details.splice(index, 1, detail);
+              this.project_details.map((item, index)=> item['no'] = index + 1 )
+              this.editNewProjectDetail()
+              this.edit_new = false
             }
           })
           .catch(err => {
@@ -255,7 +264,7 @@ methods: {
     this.name = detail['name']
     this.areawidth = detail['areawidth']
     this.arealength = detail['arealength']
-    this.saleprice = detail['areaprice']
+    this.saleprice = detail['saleprice']
     this.selected_system = this.getSystemName(detail['system_id'])
   }
 }

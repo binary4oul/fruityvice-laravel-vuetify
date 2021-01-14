@@ -19,6 +19,7 @@
         </v-col>
         <v-col cols="12" sm="6">
           <v-img
+            v-if="logo_url"
             :src="logo_url"
             aspect-ratio="1"
             contain

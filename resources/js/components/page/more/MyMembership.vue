@@ -83,6 +83,7 @@ methods: {
     axios.post(api.path('membership'), data)
         .then(res => {
           this.$toast.success('Updated successfully!')
+          this.$store.dispatch('auth/setUser', { user: res.data })
         })
         .catch(err => {
           this.$toast.error('Data Error!')

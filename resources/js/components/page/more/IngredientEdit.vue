@@ -124,14 +124,14 @@ methods: {
 
       if(this.ingredientid == 'new')
       {
-          axios.post(api.path('ingredient'), this.ingredient)
-              .then(res => {
-                  this.$toast.success('Saved successfully!')
-                  this.$router.push({name:'ingredients'})
-              })
-              .catch(err => {
-                  this.$toast.error("Ingredient data error!")
-              })
+        axios.post(api.path('ingredient'), this.ingredient)
+            .then(res => {
+                this.$toast.success('Saved successfully!')
+                this.$router.push({name:'ingredients'})
+            })
+            .catch(err => {
+                this.$toast.error("Ingredient data error!")
+            })
       }
       else
       {

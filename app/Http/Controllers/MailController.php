@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Mail;
 use PDF;
-use App\Models\Lead;
+use App\Models\Project;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectNoteController;
 use App\Http\Controllers\ProjectImageController;
@@ -24,18 +24,29 @@ class MailController extends Controller
 
   public function sendmail($id) {
 		$response['status'] = 'success';
-
-		$leadid = $id;
-
-		$project = $this->ProjectController->getByLeadId($leadid);
-
-		$projectdetails = $project['projectdetails'];
+		$project = Project::with('person')->with('projectDetails')->find($id);
+		$projectdetails = $project['project_details'];
 		$estimateprice = 0;
 		foreach($projectdetails as $details) $estimateprice += $details['areaprice'];
 		$project['price'] = $estimateprice;
 
-		$project['images'] = $this->ProjectImageController->list($project['id']);
-		$project['notes'] = $this->ProjectNoteController->list($project['id']);
+		$contracttemplate = ContractTemplate::where('created_by', $project->created_by)->first();
+		if(!$contracttemplate)
+		{
+			$contracttemplate['name'] = '';
+			$contracttemplate['logo'] = '';
+			$contracttemplate['notetocustomer'] = '';
+			$contracttemplate['scopeofwork'] = '';
+			$contracttemplate['commoncondition'] = '';
+			$contracttemplate['downpaymentterms'] = '';
+			$contracttemplate['note'] = '';
+			$contracttemplate['conclusion'] = '';
+			$contracttemplate['footer'] = '';
+		}
+
+		$project['contracttemplate'] = $contracttemplate;
+		$project['images'] = $this->ProjectImageController->list($id);
+		$project['notes'] = $this->ProjectNoteController->list($id);
 
 		// $images_url = array();
 		// foreach($project['images'] as $image) {
