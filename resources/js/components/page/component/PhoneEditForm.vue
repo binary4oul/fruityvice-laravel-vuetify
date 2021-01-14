@@ -75,7 +75,7 @@ computed: {
   }
 },
 
-created(){
+mounted(){
   this.change()
 },
 

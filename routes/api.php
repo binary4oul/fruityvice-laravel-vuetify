@@ -80,19 +80,21 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::get('systems', 'SystemController@list');
 
     Route::post('team', 'TeamController@create');
+    Route::get('myteam', 'TeamController@getMyTeam');
+    Route::put('myteam/{id}', 'TeamController@updateMyTeam');
+    Route::post('myteam/member', 'TeamController@addNewMember');
+    Route::put('myteam/member/{id}', 'TeamController@updateMember');
+    Route::delete('myteam/member/{id}', 'TeamController@deleteMember');
+
     Route::put('team/{id}', 'TeamController@update');
     Route::get('teams', 'TeamController@getTeamList');
     Route::get('team/project/{id}', 'TeamController@getTeamProjects');
-    Route::get('team', 'TeamController@getTeam');
 
-    Route::post('teammember', 'TeamMemberController@create');
-    Route::put('teammember/{id}', 'TeamMemberController@update');
-    Route::get('teammembers', 'TeamMemberController@getMembers');
-    Route::delete('teammember/{id}', 'TeamMemberController@delete');
 
     Route::post('logout', 'Auth\LoginController@logout');
     Route::get('me', 'Auth\LoginController@me');
     Route::put('profile', 'ProfileController@update');
+    Route::post('membership', 'MembershipController@updateMembership');
 
     Route::post('calendar', 'CalendarController@create');
     Route::put('calendar/{id}', 'CalendarController@update');

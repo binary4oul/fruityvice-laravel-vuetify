@@ -15,15 +15,14 @@ class TeamController extends Controller
   public function create(Request $request)
   {
     $user = auth()->user();
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
+    }
     $input = $request->all();
     $input['owner'] = $user->id;
     $team = Team::create($input);
-
-    $member_data['teamid'] = $team['id'];
-    $member_data['userid'] = $user['id'];
-    $member_data['role'] = 'manager';
-    $member = TeamMember::create($member_data);
-
     return $team;
   }
 
@@ -31,6 +30,11 @@ class TeamController extends Controller
   {
     $input = $request->all();
     $user = auth()->user();
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
+    }
     $result = Team::find($id)->update($input);
     $response = Team::find($id);
     $response['status'] = "success";
@@ -39,10 +43,10 @@ class TeamController extends Controller
 
   public function getTeamList(){
     $user = auth()->user();
-    $user_teams = TeamMember::where('userid', $user->id)->get();
+    $user_teams = TeamMember::where('user_id', $user->id)->get();
     $teams = array();
     foreach($user_teams as $user_team) {
-      $team = Team::where('id', $user_team['teamid'])->first();
+      $team = Team::where('id', $user_team['team_id'])->first();
       $owner = User::where('id', $team->owner)->first();
       if($team->owner == $user->id) continue;
       $team['owner'] = $owner;
@@ -56,13 +60,9 @@ class TeamController extends Controller
     $team = Team::findOrFail($teamid);
     $owner = $team['owner'];
 
-    $projects = Project::where('created_by', $owner)->get();
+    $projects = Project::with('person')->where('created_by', $owner)->get();
     $res_projects = array();
     foreach($projects as $project){
-      $lead = $this->LeadController->show($project['leadid']);
-      $project['person'] = $lead['person'];
-      $address = Address::find($project['addressid']);
-      $project['address'] = $address;
       if($project['share'] == true) array_push($res_projects, $project);
     }
 
@@ -70,14 +70,92 @@ class TeamController extends Controller
     return $response;
   }
 
-  public function getTeam(){
+  public function getMyTeam(){
     $user = auth()->user();
-    $team = Team::where('owner', $user->id)->first();
-    if($team){
-        $response['status'] = 'success';
-        $response['team'] = $team;
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
     }
-    else $response['status'] = 'error';
+    $team = Team::with('teamMembers')->where('owner', $user->id)->first();
+    if(!$team){
+      $input['owner'] = $user->id;
+      $input['name'] = $user->firstname.' Team';
+      $team = Team::create($input);
+      $team = Team::with('teamMembers')->where('owner', $user->id)->first();
+    }
+    $members = array();
+    foreach ($team->teamMembers as $teamMember){
+      $member = TeamMember::with('user')->find($teamMember['id']);
+      array_push($members, $member);
+    }
+    $response = $team;
+    $response['members'] = $members;
+    return $response;
+  }
+
+  public function updateMyTeam(Request $request, $id) {
+    $input = $request->all();
+    $team['name'] = $input['name'];
+    $team = Team::find($id)->update($team);
+    return Team::find($id);
+  }
+
+  public function addNewMember(Request $request) {
+    $response['status'] = 'error';
+    $response['message'] = 'User Data Error!';
+    $user = auth()->user();
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
+    }
+    $input = $request->all();
+    $team = Team::with('teamMembers')->where('owner', $user->id)->first();
+    $member = User::where('email', $input['email'])->first();
+    if(!$member) return $response;
+    foreach($team->teamMembers as $teamMember) {
+      if($teamMember['user_id'] == $member['id']) return $response;
+    }
+    $teamMember_data['team_id'] = $team['id'];
+    $teamMember_data['user_id'] = $member['id'];
+    $teamMember_data['role'] = $input['role'];
+    $res_member = TeamMember::create($teamMember_data);
+    $res_member->team()->associate($team)->save();
+    $res_member->user()->associate($member)->save();
+    return $res_member;
+  }
+
+  public function updateMember(Request $request, $id) {
+    $user = auth()->user();
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
+    }
+    $input = $request->all();
+    $teamMember = TeamMember::with('user')->find($id);
+    if($teamMember['user']['email'] != $input['email']){
+      $response['status'] = 'error';
+      $response['message'] = 'Cannot change User Email!';
+      return $response;
+    }
+    $member['role'] = $input['role'];
+    $teamMember = TeamMember::find($id)->update($member);
+    $teamMember = TeamMember::with('user')->find($id);
+    return $teamMember;
+  }
+
+  public function deleteMember($id) {
+    $user = auth()->user();
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
+    }
+    $teamMember = TeamMember::find($id);
+    $teamMember->delete();
+    $response['status'] = 'success';
     return $response;
   }
 

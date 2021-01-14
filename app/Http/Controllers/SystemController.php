@@ -11,6 +11,11 @@ class SystemController extends Controller
   public function create(Request $request)
   {
     $user = auth()->user();
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
+    }
     $input = $request->all();
     $res_check = $this->checkData($input);
     if($res_check['status'] != 'success') return $res_check;
@@ -36,6 +41,11 @@ class SystemController extends Controller
   {
     $input = $request->all();
     $user = auth()->user();
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
+    }
     $res_check = $this->checkData($input);
     if($res_check['status'] != 'success') return $res_check;
     $system['name'] = $input['name'];
@@ -73,6 +83,12 @@ class SystemController extends Controller
 
   public function destroy($id)
   {
+    $user = auth()->user();
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
+    }
     $system = System::findOrFail($id);
     $this->destroyDetail($system->id);
     $system->delete();

@@ -60,8 +60,8 @@
     :search="search">
     <template v-slot:item="row">
       <tr @click="selectMember(row.item)">
-        <td>{{row.item.name}}</td>
-        <td>{{row.item.email}}</td>
+        <td>{{row.item.user.firstname}} {{row.item.user.lastname}}</td>
+        <td>{{row.item.user.email}}</td>
           <td>{{row.item.role}}</td>
         <td>{{row.item.created_at}}</td>
       </tr>
@@ -100,7 +100,6 @@ data: () => ({
 mounted() {
   let data = {'title': 'My Team'}
   this.$store.dispatch('title/setTitle', data)
-  this.getMembers()
   this.getTeam()
 },
 
@@ -109,20 +108,22 @@ computed: mapGetters({
 }),
 
 methods: {
-  getMembers() {
+  getTeam() {
     this.$store.dispatch('loader/setLoader', { loader: true })
-    axios.get(api.path('getMembers'))
-      .then(res => {
-          if(res.data['status'] == 'success') this.members = res.data['member']
-          else this.teamexist = false
-      })
-      .then(() => {
-        this.$store.dispatch('loader/setLoader', { loader: false })
-      })
+    axios.get(api.path('getMyTeam'))
+        .then(res => {
+          this.team = res.data
+          this.members = this.team['members']
+        })
+        .then(() => {
+          this.$store.dispatch('loader/setLoader', { loader: false })
+        })
     },
   selectMember(member){
     this.edit = true
-    this.member_select = {...member}
+    this.member_select['id'] = member.id
+    this.member_select['email'] = member.user.email
+    this.member_select['role'] = member.role
   },
   addNew(){
     this.edit = true
@@ -131,19 +132,20 @@ methods: {
     this.member_select['role'] = 'member'
   },
   saveMember(){
-    if(this.member_select['id'] == 'new'){
+    if(this.member_select['id'] === 'new'){
+
       delete this.member_select['id'];
       this.$store.dispatch('loader/setLoader', { loader: true })
-      axios.post(api.path('teamMember'), this.member_select)
+      axios.post(api.path('addNewMember'), this.member_select)
           .then(res => {
-            if(res.data.status == "success"){
-              let member_new  = res.data['member']
+            if(res.data.status === "error"){
+              this.$toast.error("User Data Error")
+            }
+            else{
+              let member_new  = res.data
               this.members.push(member_new)
               this.edit = false
               this.$toast.success('Saved successfuly!')
-            }
-            else{
-              this.$toast.error("Email does not exist")
             }
           })
           .catch( err => {
@@ -155,17 +157,17 @@ methods: {
     }
     else {
       this.$store.dispatch('loader/setLoader', { loader: true })
-      axios.put(api.path('teamMember') +'/'+ this.member_select['id'], this.member_select)
+      axios.put(api.path('addNewMember') +'/'+ this.member_select['id'], this.member_select)
           .then(res => {
-            if(res.data.status == "success"){
-              let member_new  = res.data['member']
-              let index = this.members.findIndex(item => item['id'] == member_new['id'])
+            if(res.data.status === "error"){
+              this.$toast.error(res.data.message)
+            }
+            else{
+              let member_new  = res.data
+              let index = this.members.findIndex(item => item['id'] === member_new['id'])
               this.members.splice(index, 1, member_new);
               this.edit = false
               this.$toast.success('Saved successfuly!')
-            }
-            else{
-              this.$toast.error(res.data.message)
             }
           })
           .catch( err => {
@@ -179,13 +181,12 @@ methods: {
   },
   deleteMember(){
     this.$store.dispatch('loader/setLoader', { loader: true })
-    axios.delete(api.path('teamMember') +'/'+ this.member_select['id'])
+    axios.delete(api.path('addNewMember') +'/'+ this.member_select['id'])
         .then(res => {
-          if(res.data.status == "success"){
-
-          let index = this.members.findIndex(item => item['id'] == this.member_select['id'])
-          this.members.splice(index, 1);
-          this.edit = false
+          if(res.data.status === "success"){
+            let index = this.members.findIndex(item => item['id'] == this.member_select['id'])
+            this.members.splice(index, 1);
+            this.edit = false
           }
           else{
             this.$toast.error(res.data['message'])
@@ -195,28 +196,9 @@ methods: {
           this.$store.dispatch('loader/setLoader', { loader: false })
         })
   },
-  getTeam(){
-    this.$store.dispatch('loader/setLoader', { loader: true })
-    axios.get(api.path('team') )
-      .then(res => {
-        if(res.data.status == "success"){
-          this.team = res.data.team
-        }
-        else{
-          this.team['name'] = this.auth.firstname + ' Team'
-          axios.post(api.path('team'), this.team)
-            .then(res => {
-              this.team = res.data
-          })
-        }
-      })
-      .then(() => {
-        this.$store.dispatch('loader/setLoader', { loader: false })
-      })
-  },
   saveTeamName(){
     this.$store.dispatch('loader/setLoader', { loader: true })
-    axios.put(api.path('team') +'/'+ this.team['id'], this.team)
+    axios.put(api.path('getMyTeam') +'/'+ this.team['id'], this.team)
       .then(res => {
           this.edit_team_name = false
       })

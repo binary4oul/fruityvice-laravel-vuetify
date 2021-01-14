@@ -14,6 +14,11 @@ class IngredientController extends Controller
   public function create(Request $request)
   {
     $user = auth()->user();
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
+    }
     $ingredient['name'] = $request['name'];
     $ingredient['coverage'] = $request['coverage'];
     $ingredient['purchaseprice'] = $request['purchaseprice'];
@@ -28,8 +33,13 @@ class IngredientController extends Controller
 
   public function update(Request $request, $id)
   {
-    $input = $request->all();
     $user = auth()->user();
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
+    }
+    $input = $request->all();
     $input['updated_by'] = $user->id;
     $ingredient['name'] = $request['name'];
     $ingredient['coverage'] = $request['coverage'];
@@ -52,6 +62,12 @@ class IngredientController extends Controller
 
   public function destroy($id)
   {
+    $user = auth()->user();
+    if($user->role < 1) {
+      $res['status'] = 'error';
+      $res['message'] = 'You need to update your Membership.';
+      return $res;
+    }
     $ingredient = Ingredient::findOrFail($id);
     $this->destroyDetail($id);
     $ingredient->delete();

@@ -18,6 +18,12 @@ class ProjectController extends Controller
     {
       $user = auth()->user();
       $input = $request->all();
+      if(!array_key_exists('person', $input)) {
+        $response['status'] = 'error';
+        $response['message'] = 'Input Person Information';
+        return $response;
+      }
+
       $project_data['email'] = $input['email'];
       $project_data['besttimetocall'] = $input['besttimetocall'];
       $project_data['hearaboutus'] = $input['hearaboutus'];
@@ -31,18 +37,33 @@ class ProjectController extends Controller
       $res_person = Person::create($person_data);
       $res_person->project()->associate($res_project)->save();
 
-      $phone_data = $input['phone'];
-      $phone_data['person_id'] = $res_person['id'];
-      $phone_data['primary'] = true;
-      $res_phone = Phone::create($phone_data);
-      $res_phone->person()->associate($res_person)->save();
-
-      $address_data = $input['address'];
-      $address_data['person_id'] = $res_person['id'];
-      $address_data['primary'] = true;
-      $res_address = Address::create($address_data);
-      $res_address->person()->associate($res_person)->save();
-
+      if(array_key_exists('number', $input['phone'])) {
+        $phone_data = $input['phone'];
+        $phone_data['person_id'] = $res_person['id'];
+        $phone_data['primary'] = true;
+        $res_phone = Phone::create($phone_data);
+        $res_phone->person()->associate($res_person)->save();
+      }
+      if(array_key_exists('address1', $input['address'])) {
+        $address_data = $input['address'];
+        $address_data['person_id'] = $res_person['id'];
+        $address_data['primary'] = true;
+        $res_address = Address::create($address_data);
+        $res_address->person()->associate($res_person)->save();
+      }
+      if(array_key_exists('project_detail', $input)) {
+        $project_detail = $input['project_detail'];
+        $project_detail_styles = $project_detail['project_detail_styles'];
+        unset($project_detail['project_detail_styles']);
+        $project_detail['project_id'] = $res_project['id'];
+        $res_project_detail = ProjectDetail::create($project_detail);
+        $res_project_detail->project()->associate($res_project)->save();
+        foreach($project_detail_styles as $project_detail_style){
+          $project_detail_style['project_detail_id'] = $res_project_detail['id'];
+          $res_project_detail_style = ProjectDetailStyle::create($project_detail_style);
+          $res_project_detail_style->projectDetail()->associate($res_project_detail)->save();
+        }
+      }
       $response = $res_project;
       return $response;
     }
@@ -68,7 +89,11 @@ class ProjectController extends Controller
         if(array_key_exists('howcanwehelp', $input)) $project_data['howcanwehelp'] = $input['howcanwehelp'];
       }
       $res = Project::find($id)->update($project_data);
-      $project = Project::find($id);
+      $project = Project::with('person')->with('projectDetails')->find($id);
+      $person = Person::with('phones')->with('addresses')->find($project['person']['id']);
+      $res = $project;
+      unset($res['person']);
+      $res['person'] = $person;
       $response = $project;
       return $response;
     }
@@ -78,6 +103,8 @@ class ProjectController extends Controller
       $user = auth()->user();
       $input = $request->all();
       $projects = Project::where('created_by', $user->id)
+          ->with('person')
+          ->with('projectDetails')
           ->where('projectstatus', $input['projectstatus'])
           ->where('active', $input['active'])->get();
       $response = $projects;
@@ -95,7 +122,7 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-      $project = Project::with('person')->find($id);
+      $project = Project::with('person')->with('projectDetails')->find($id);
       $person = Person::with('phones')->with('addresses')->find($project['person']['id']);
       $res = $project;
       unset($res['person']);

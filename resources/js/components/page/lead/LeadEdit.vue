@@ -1,6 +1,6 @@
 <template>
   <div>
-    <person-edit-form :person="lead['person']" :project_id="lead_id"></person-edit-form>
+    <person-edit-form v-if="lead" :person="lead['person']" :project_id="lead_id"></person-edit-form>
 
     <v-row v-if="lead_id!='new' && lead.lead">
       <v-col cols="12" sm="3">
@@ -8,10 +8,16 @@
       </v-col>
     </v-row>
 
-    <system-edit-form :lead_id="lead_id"></system-edit-form>
+    <project-edit :project_id="lead_id"></project-edit>
     <lead-detail :leaddetail="lead['leaddetail']"></lead-detail>
-    <phone-edit-form v-if="lead['person']" :project_id="lead_id" :phone="lead['person']['phones']"></phone-edit-form>
-    <address-edit-form v-if="lead['person']" :project_id="lead_id" :address="lead['person']['addresses']" ></address-edit-form>
+    <template v-if="lead_id != 'new'">
+      <phone-edit-form v-if="lead['person']" :project_id="lead_id" :phone="lead['person']['phones']"></phone-edit-form>
+      <address-edit-form v-if="lead['person']" :project_id="lead_id" :address="lead['person']['addresses']" ></address-edit-form>
+    </template>
+    <template v-else>
+      <phone-edit-form :project_id="lead_id" :phone="[]"></phone-edit-form>
+      <address-edit-form :project_id="lead_id" :address="[]" ></address-edit-form>
+    </template>
     <v-row>
       <v-spacer></v-spacer>
       <v-btn color="green" dark class="mx-2 my-4" @click="saveLead">Save</v-btn>
@@ -28,7 +34,7 @@ import store from '~/store'
 import axios from 'axios'
 import { api } from '~/config'
 import PersonEditForm from '../component/PersonEditForm'
-import SystemEditForm from '../component/SystemEditForm'
+import ProjectEdit from '../component/ProjectEdit'
 import PhoneEditForm from '../component/PhoneEditForm'
 import AddressEditForm from '../component/AddressEditForm'
 import LeadDetail from './LeadDetail'
@@ -36,7 +42,7 @@ import LeadDetail from './LeadDetail'
 export default {
 components: {
     PersonEditForm,
-    SystemEditForm,
+    ProjectEdit,
     LeadDetail,
     PhoneEditForm,
     AddressEditForm,
@@ -46,8 +52,7 @@ computed: mapGetters({
   person: 'person/person',
   address: 'person/address',
   phone: 'person/phone',
-  leaddetail: 'leaddetail/leaddetail',
-  project_store: 'project/project'
+  leaddetail: 'leaddetail/leaddetail'
 }),
 
 created() {
@@ -70,21 +75,21 @@ methods: {
     },
     getLead(lead_id) {
       this.$store.dispatch('loader/setLoader', { loader: true })
-        axios.get(api.path('project') +"/"+ lead_id)
-            .then(res => {
-              this.lead  = res.data
-              this.lead['leaddetail'] = {}
-              this.lead['leaddetail']['email'] = this.lead['email']
-              this.lead['leaddetail']['hearaboutus'] = this.lead['hearaboutus']
-              this.lead['leaddetail']['besttimetocall'] = this.lead['besttimetocall']
-              this.lead['leaddetail']['howcanwehelp'] = this.lead['howcanwehelp']
-            })
-            .catch(err => {
-                this.$toast.error('Server Error!')
-            })
-            .then(() => {
-              this.$store.dispatch('loader/setLoader', { loader: false })
-        })
+      axios.get(api.path('project') +"/"+ lead_id)
+          .then(res => {
+            this.lead  = res.data
+            this.lead['leaddetail'] = {}
+            this.lead['leaddetail']['email'] = this.lead['email']
+            this.lead['leaddetail']['hearaboutus'] = this.lead['hearaboutus']
+            this.lead['leaddetail']['besttimetocall'] = this.lead['besttimetocall']
+            this.lead['leaddetail']['howcanwehelp'] = this.lead['howcanwehelp']
+          })
+          .catch(err => {
+              this.$toast.error('Server Error!')
+          })
+          .then(() => {
+            this.$store.dispatch('loader/setLoader', { loader: false })
+      })
     },
     saveLead(){
       if(this.lead_id == 'new')
@@ -93,26 +98,31 @@ methods: {
         project_data['person'] = this.person
         project_data['phone'] = this.phone
         project_data['address'] = this.address
+        project_data['project_detail'] = store.getters['project/projectDetail']
+        project_data['project_detail']['project_detail_styles'] = store.getters['project/projectDetailStyles']
 
         this.$store.dispatch('loader/setLoader', { loader: true })
         axios.post(api.path('project'), project_data)
             .then(res => {
-              lead_id = res.data['id']
-              this.$toast.success('Saved successfully!')
-              this.$router.go(-1)
+              if(res.data['status']){
+                if(res.data.status === 'error') this.$toast.error(res.data.message)
+              }
+              else {
+                this.lead_id = res.data['id']
+                this.$toast.success('Saved successfully!')
+                this.$router.go(-1)
+              }
             })
             .catch(err => {
-                this.$toast.error("lead data error!")
+                this.$toast.error("Lead data error!")
             })
             .then(()=>{
               this.$store.dispatch('loader/setLoader', { loader: false })
             })
-
         }
         else
         {
           let project_data = { ...this.leaddetail }
-           console.log(project_data)
           this.$store.dispatch('loader/setLoader', { loader: true })
           axios.put(api.path('project') +'/'+ this.lead_id, project_data)
               .then(res => {

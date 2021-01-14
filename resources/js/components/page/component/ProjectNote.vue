@@ -1,7 +1,7 @@
 <template >
 	<v-container fluid>
     <template f fluid>
-        <v-btn block @click="edit_note=!edit_note" v-bind:color="edit_note == true ? 'rgb(236,151,31)' : 'primary'" dark>NOTES</v-btn>
+      <v-btn block @click="edit_note=!edit_note" v-bind:color="edit_note == true ? 'rgb(236,151,31)' : 'primary'" dark>NOTES</v-btn>
     </template>
 
     <template v-if="edit_note">
@@ -16,7 +16,7 @@
       ></v-textarea>
       <v-row>
         <v-spacer></v-spacer>
-            <v-btn color="green" dark class="mx-2 my-2" @click="saveNote">Save</v-btn>
+          <v-btn color="green" dark class="mx-2 my-2" @click="saveNote">Save</v-btn>
         <v-spacer></v-spacer>
       </v-row>
       <v-simple-table dense v-if="note.length>0">

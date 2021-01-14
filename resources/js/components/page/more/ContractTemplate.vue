@@ -221,7 +221,6 @@ methods: {
   getConTem(){
     axios.get(api.path('contracttemplate'))
       .then(res =>{
-        console.log(res.data)
         if(res.data['status'] === 'error') return
         this.id = res.data['id']
         this.name = res.data['name']

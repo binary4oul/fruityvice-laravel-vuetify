@@ -34,7 +34,6 @@ export default {
   }),
   methods: {
     deleteImage(){
-      console.log('delete click')
       axios.delete(api.path('projectimage') +'/'+ this.imageid)
         .then(res => {
           if(res.data['status'] === 'success') {

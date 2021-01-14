@@ -89,12 +89,13 @@ export const api = Object.assign(new URL(apiUrl), {
   projectimage: {url: 'project/image'},
   projectnotelist: {url: 'project/note/list'},
   projectimagelist: {url: 'project/image/list'},
-  team: {url: 'team'},
   getTeams: {url: 'teams'},
+  getMyTeam: {url: 'myteam'},
+  addNewMember: {url: 'myteam/member'},
   getTeamProject: {url: 'team/project'},
   getMembers: {url: 'teammembers'},
   teamMember: {url: 'teammember'},
   sendEstimate: {url: 'sendestimate'},
   contracttemplate: {url: 'contracttemplate'},
-
+  membership: {url: 'membership'}
 })

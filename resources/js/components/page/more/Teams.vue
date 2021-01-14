@@ -17,12 +17,12 @@
       :items="teams"
       :search="search">
       <template v-slot:item="row">
-          <tr @click="selectTeam(row.item)">
-            <td>{{row.item.name}}</td>
-            <td>{{row.item.owner.firstname}} {{row.item.owner.lastname}}</td>
-             <td>{{row.item.role}}</td>
-            <td>{{row.item.created_at}}</td>
-          </tr>
+        <tr @click="selectTeam(row.item)">
+          <td>{{row.item.name}}</td>
+          <td>{{row.item.owner.firstname}} {{row.item.owner.lastname}}</td>
+            <td>{{row.item.role}}</td>
+          <td>{{row.item.created_at}}</td>
+        </tr>
       </template>
     </v-data-table>
   </v-container>
@@ -56,7 +56,6 @@ methods: {
     axios.get(api.path('getTeams'))
       .then(res => {
         this.teams  = res.data
-
       })
       .catch(err => {
 

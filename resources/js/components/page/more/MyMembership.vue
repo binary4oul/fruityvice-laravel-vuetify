@@ -2,19 +2,19 @@
 <v-container fluid>
   <v-row>
     <v-col cols="12" sm="6">
-      <v-card class="mx-5 my-5">
+      <v-card class="mx-5 my-5 px-5">
         <v-card-title class="headline card_headline">
           $10 per month
         </v-card-title>
 
         <v-card-subtitle style="display: flex; justify-content:center">
-          - Edit Systems for your Estimates.
+          - Create your team and add members.
           <br/>
-          - Upload images for your Estimates.
+          - Share your projects to team members and members can manage your project.
         </v-card-subtitle>
 
         <v-card-actions style="display: flex; justify-content:center">
-          <v-btn color="orange" text>
+          <v-btn color="orange" text @click="updateMembership(1)">
             Accept
           </v-btn>
         </v-card-actions>
@@ -28,13 +28,15 @@
         </v-card-title>
 
         <v-card-subtitle style="display: flex; justify-content:center">
-          - Create your team and add members.
+          - Add Systems for your Estimates.
           <br/>
           - Edit Ingredients for your Systems.
+          <br/>
+          - Add new colors and patterns for your Ingredients.
         </v-card-subtitle>
 
         <v-card-actions style="display: flex; justify-content:center">
-          <v-btn color="orange" text>
+          <v-btn color="orange" text @click="updateMembership(2)">
             Accept
           </v-btn>
         </v-card-actions>
@@ -52,7 +54,6 @@
 import axios from 'axios'
 import { api } from '~/config'
 import { mapGetters } from 'vuex'
-
 export default {
 data: () => ({
     search: '',
@@ -62,7 +63,6 @@ data: () => ({
     team: {},
     members: [],
     member_select: {},
-
     }),
 
 mounted() {
@@ -71,16 +71,21 @@ mounted() {
 },
 
 computed: mapGetters({
-    auth: 'auth/user'
+    user: 'auth/user'
 }),
 
 methods: {
-
-  saveTeamName(){
+  updateMembership(role) {
     this.$store.dispatch('loader/setLoader', { loader: true })
-    axios.put(api.path('team') +'/'+ this.team['id'], this.team)
+    const data = {
+      role: role
+    }
+    axios.post(api.path('membership'), data)
         .then(res => {
-            this.edit_team_name = false
+          this.$toast.success('Updated successfully!')
+        })
+        .catch(err => {
+          this.$toast.error('Data Error!')
         })
         .then(() => {
           this.$store.dispatch('loader/setLoader', { loader: false })

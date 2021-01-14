@@ -93,7 +93,7 @@ computed: {
     return addresses
   }
 },
-created() {
+mounted() {
   this.getStates()
   this.change()
 },

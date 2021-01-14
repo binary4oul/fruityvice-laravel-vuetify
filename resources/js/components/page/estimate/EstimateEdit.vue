@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<person-edit-form :person="project['person']" :leadid="leadid"></person-edit-form>
+		<person-edit-form v-if="project['person']" :person="project['person']" :project_id="projectid"></person-edit-form>
 
 		<v-container fluid>
 			<template f fluid v-if="!edit_project">
@@ -9,7 +9,7 @@
 					<font style="font-size:large">&nbsp;&nbsp; {{ project['projectstatus'] }}</font>
 					<v-spacer></v-spacer>
 					<font style="font-size:samller; color:grey">Price : </font>
-					<font style="font-size:large">&nbsp;&nbsp; {{ getProjectPrice }}</font>
+					<font style="font-size:large">&nbsp;&nbsp; {{ area_price }}</font>
 					<v-spacer></v-spacer>
 					<v-btn color="blue" dark small @click="editProject">
 							<v-icon dark>edit</v-icon>
@@ -70,22 +70,22 @@
 					</v-row>
 					<v-row v-if="team_role == 'manager'">
 						<v-col cols="12" sm="4">
-								<v-checkbox v-model="project_edit.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-2 my-0">Acive</v-checkbox>
+							<v-checkbox v-model="project_edit.active" label="Active" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-2 my-0">Acive</v-checkbox>
 						</v-col>
 						<v-col cols="12" sm="4">
 								<v-checkbox v-model="project_edit.share" label="Share" v-bind:false-value=0 v-bind:true-value=1 hide-details class="mx-2 my-0">Share</v-checkbox>
 						</v-col>
 					</v-row>
 					<v-row>
-							<v-spacer></v-spacer>
-							<v-btn color="green" dark class="mx-2 my-2" @click="saveProject">Save</v-btn>
-							<v-btn class="mx-2 my-2" @click="edit_project=false">Cancel</v-btn>
-							<v-spacer></v-spacer>
+						<v-spacer></v-spacer>
+						<v-btn color="green" dark class="mx-2 my-2" @click="saveProject">Save</v-btn>
+						<v-btn class="mx-2 my-2" @click="edit_project=false">Cancel</v-btn>
+						<v-spacer></v-spacer>
 					</v-row>
 			</template>
 		</v-container>
 
-		<system-edit-form v-if="leadid" :leadid="leadid"></system-edit-form>
+		<project-edit :project_id="projectid"></project-edit>
 
 		<project-note v-if="projectid" :projectid="projectid"></project-note>
 		<project-image-list v-if="projectid" :projectid="projectid"></project-image-list>
@@ -102,7 +102,7 @@ import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { api } from '~/config'
 import PersonEditForm from '../component/PersonEditForm'
-import SystemEditForm from '../component/SystemEditForm'
+import ProjectEdit from '../component/ProjectEdit'
 import ProjectImageList from '../component/ProjectImageList'
 import ProjectNote from '../component/ProjectNote'
 import store from '~/store/index'
@@ -110,7 +110,7 @@ import store from '~/store/index'
 export default {
 components: {
 	PersonEditForm,
-	SystemEditForm,
+	ProjectEdit,
 	ProjectImageList,
 	ProjectNote,
 },
@@ -124,6 +124,7 @@ data: () => ({
 	calen_install: false,
 	leadid: null,
 	team_role: 'manager',
+	area_price: 0,
 }),
 
 methods: {
@@ -166,16 +167,14 @@ methods: {
 
 computed: {
  	getProjectPrice: function(){
-		const project = store.getters['project/project']
+		const projectDetails = store.getters['project/projectDetail']
 		if(!project) return;
 		return project['projectdetails'].reduce( (prev, item) => (prev += item['areaprice']), 0)
     },
 },
-
 created() {
 	let data = {'title': 'Project'}
 	this.team_role = store.getters['auth/team_role']
-	console.log(this.team_role)
 	this.$store.dispatch('title/setTitle', data)
 	this.projectid = this.$route.params.projectid
 	this.$store.dispatch('loader/setLoader', { loader: true })
@@ -183,8 +182,7 @@ created() {
 			.then(res => {
 				if(res.data){
 					this.project = res.data
-					this.leadid = this.project['leadid']
-					this.$store.dispatch('project/setProject', res.data)
+					this.area_price = this.project['project_details'].reduce( (total, item) => (total + item['areaprice']), 0)
 				}
 			})
 			.catch(err => {

@@ -16,7 +16,7 @@ class CreateProjectDetailStyles extends Migration
       Schema::create('project_detail_styles', function (Blueprint $table) {
         $table->string('id');
         $table->string('ingredient_id');
-        $table->string('projectdetail_id');
+        $table->string('project_detail_id');
         $table->string('color_id')->nullable();
         $table->string('pattern_id')->nullable();
         $table->float('purchaseprice')->nullable();

@@ -69,10 +69,10 @@ methods: {
       })
     },
   selectLead(lead){
-    this.$router.push({ name: 'lead-edit', params:{leadid: lead['id']} })
+    this.$router.push({ name: 'lead-edit', params: { leadid: lead['id'] } })
   },
   addNew(){
-    this.$router.push({ name: 'lead-edit', params:{leadid: 'new'} })
+    this.$router.push({ name: 'lead-edit', params: { leadid: 'new' } })
   }
 }
 }

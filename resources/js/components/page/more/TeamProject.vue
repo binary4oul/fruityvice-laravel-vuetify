@@ -1,36 +1,36 @@
 <template>
-    <v-container fluid>
-      <v-row class="d-flex flex-row-reverse">
-          <v-col sm="6">
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search"
-              single-line
-              hide-details
-            ></v-text-field>
-          </v-col>
-      </v-row>
+  <v-container fluid>
+    <v-row class="d-flex flex-row-reverse">
+      <v-col sm="6">
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-col>
+    </v-row>
 
-        <v-data-table
-          :headers="headers"
-          :items="projects"
-          :search="search">
-          <template v-slot:item="row">
-              <tr @click="selectEstimate(row.item)">
-                <td>{{row.item.person.firstname}} {{row.item.person.lastname}}</td>
-                <td>{{row.item.person.company}}</td>
-                <td>{{row.item.projectstatus}}</td>
-                <td>{{row.item.created_at}}</td>
-              </tr>
-          </template>
-        </v-data-table>
+    <v-data-table
+      :headers="headers"
+      :items="projects"
+      :search="search">
+      <template v-slot:item="row">
+        <tr @click="selectEstimate(row.item)">
+          <td>{{row.item.person.firstname}} {{row.item.person.lastname}}</td>
+          <td>{{row.item.person.company}}</td>
+          <td>{{row.item.projectstatus}}</td>
+          <td>{{row.item.created_at}}</td>
+        </tr>
+      </template>
+    </v-data-table>
 
-      <v-row>
-        <v-spacer></v-spacer>
-        <v-btn class="mx-2 my-2" @click="$router.go(-1)">Cancel</v-btn>
-      </v-row>
-    </v-container>
+    <v-row>
+      <v-spacer></v-spacer>
+      <v-btn class="mx-2 my-2" @click="$router.go(-1)">Cancel</v-btn>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -69,12 +69,12 @@ methods: {
       })
     },
   selectEstimate(estimate){
-    this.$router.push({ name: 'project-edit',  params:{ projectid: estimate['id']}  })
+    this.$router.push({ name: 'estimate-edit',  params:{ projectid: estimate['id']}  })
   },
 },
 created() {
-    this.status = this.$route.params.status
-    this.active = this.$route.params.active
+  this.status = this.$route.params.status
+  this.active = this.$route.params.active
 }
 }
 </script>
