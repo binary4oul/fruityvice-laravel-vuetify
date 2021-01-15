@@ -146,7 +146,7 @@ methods: {
       }
     },
     deleteIngredient(){
-        axios.delete(api.path('ingredient') +'/'+ this.ingredient['id'], this.ingredient)
+        axios.delete(api.path('ingredient') +'/'+ this.ingredient['id'])
             .then(res => {
                     this.$toast.success('Deleted successfully!')
                     this.$router.push({name:'ingredients'})

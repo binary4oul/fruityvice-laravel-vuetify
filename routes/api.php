@@ -102,8 +102,9 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::get('calendars', 'CalendarController@list');
 
     Route::post('contracttemplate', 'ContractTemplateController@create');
-    Route::post('contracttemplate/update', 'ContractTemplateController@update');
-    Route::get('contracttemplate', 'ContractTemplateController@show');
+    Route::put('contracttemplate/{id}', 'ContractTemplateController@update');
+    Route::get('contracttemplate/list', 'ContractTemplateController@list');
+    Route::get('contracttemplate/{id}', 'ContractTemplateController@show');
     Route::delete('contracttemplate/{id}', 'ContractTemplateController@destroy');
 
     Route::get('sendestimate/{id}', 'MailController@sendmail');

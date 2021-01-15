@@ -36,7 +36,7 @@ class ContractTemplateController extends Controller
 
   }
 
-  public function update(Request $request)
+  public function update(Request $request, $id)
   {
     $input = $request->all();
     $user = auth()->user();
@@ -56,34 +56,35 @@ class ContractTemplateController extends Controller
 
     $input['updated_by'] = $user->id;
 
-    $result = ContractTemplate::find($input['id'])->update($input);
-    $contracttemplate = ContractTemplate::find($input['id']);
+    $result = ContractTemplate::find($id)->update($input);
+    $contracttemplate = ContractTemplate::find($id);
     $response = $contracttemplate;
     return $response;
   }
+  public function show($id)
+  {
+    $user = auth()->user();
+    $contracttemplate = ContractTemplate::find($id);
+    $response = $contracttemplate;
+    if($contracttemplate) $response['status'] = 'success';
+    else $response['status'] = 'error';
+    return $response;
+  }
 
-    // public function show($id){
-    //     $contractTemplate = ContractTemplate::find($id);
-    //     $response = $contractTemplate;
-    //     return $response;
-    // }
-
-    public function show()
-    {
-      $user = auth()->user();
-      $contracttemplate = ContractTemplate::where('created_by', $user->id)->first();
-      $response = $contracttemplate;
-      if($contracttemplate) $response['status'] = 'success';
-      else $response['status'] = 'error';
+  public function destroy($id)
+  {
+      $contracttemplate = ContractTemplate::findOrFail($id);
+      $contracttemplate->delete();
+      $response['status'] = 'success';
       return $response;
-    }
+  }
 
-    public function destroy($id)
-    {
-        $contracttemplate = ContractTemplate::findOrFail($id);
-        $contracttemplate->delete();
-        $response['status'] = 'success';
-        return $response;
-    }
+  public function list()
+  {
+    $user = auth()->user();
+    $contracttemplates = ContractTemplate::where('created_by', $user->id)->get();
+    return $contracttemplates;
+
+  }
 
 }

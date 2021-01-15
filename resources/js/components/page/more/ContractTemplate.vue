@@ -134,6 +134,7 @@
     <v-row>
       <v-spacer></v-spacer>
       <v-btn color="green" dark class="mx-2 my-2" @click="saveConTem">Save</v-btn>
+      <v-btn color="error" dark class="mx-2 my-2" v-if="id != 'new'" @click="deleteConTem">Delete</v-btn>
       <v-btn class="mx-2 my-2" @click="$router.go(-1)">Cancel</v-btn>
       <v-spacer></v-spacer>
     </v-row>
@@ -176,9 +177,9 @@ data: () => ({
 mounted() {
   let data = {'title': 'Contract Templates'}
   this.$store.dispatch('title/setTitle', data)
-  this.getConTem()
+  this.id = this.$route.params.id
+  if(this.id != 'new') this.getConTem()
 },
-
 methods: {
   saveConTem(){
     const config = {
@@ -196,48 +197,72 @@ methods: {
     formData.append('footer', this.footer);
 
     if(this.id === 'new'){
+       this.$store.dispatch('loader/setLoader', { loader: true })
       axios.post(api.path('contracttemplate'), formData, config)
-      .then(res =>{
-        this.logo_url = res.data['logo']
-        this.id = res.data['id']
-        this.$toast.success('Saved Successfully!')
-      })
-      .catch(err => {
-
-      })
+          .then(res =>{
+            this.logo_url = res.data['logo']
+            this.id = res.data['id']
+            this.$toast.success('Saved Successfully!')
+            this.$router.push({name:'contract_templates'})
+          })
+          .catch(err => {
+            this.$toast.error("User Information Error!")
+          })
+          .then(res => {
+              this.$store.dispatch('loader/setLoader', { loader: false })
+          })
     }
     else {
       formData.append('id', this.id)
-      axios.post(api.path('contracttemplate') +'/update', formData, config)
-      .then(res =>{
-        this.logo_url = res.data['logo']
-        this.$toast.success('Updated Successfully!')
-      })
-      .catch(err => {
-
-      })
+       this.$store.dispatch('loader/setLoader', { loader: true })
+      axios.put(api.path('contracttemplate') +'/'+ this.id, formData, config)
+          .then(res =>{
+            this.logo_url = res.data['logo']
+            this.$toast.success('Updated Successfully!')
+            this.$router.push({name:'contract_templates'})
+          })
+          .catch(err => {
+            this.$toast.error("User Information Error!")
+          })
+          .then(res => {
+              this.$store.dispatch('loader/setLoader', { loader: false })
+          })
     }
 
   },
   getConTem(){
-    axios.get(api.path('contracttemplate'))
-      .then(res =>{
-        if(res.data['status'] === 'error') return
-        this.id = res.data['id']
-        this.name = res.data['name']
-        this.logo_url = res.data['logo']
-        this.note_customer = res.data['notetocustomer']
-        this.scope = res.data['scopeofwork']
-        this.condition = res.data['commoncondition']
-        this.payment = res.data['downpaymentterms']
-        this.note = res.data['note']
-        this.conclusion = res.data['conclusion']
-        this.footer = res.data['footer']
-      })
-      .catch(err => {
-
-      })
-  }
+     this.$store.dispatch('loader/setLoader', { loader: true })
+    axios.get(api.path('contracttemplate') +'/'+ this.id)
+        .then(res =>{
+          if(res.data['status'] === 'error') return
+          this.id = res.data['id']
+          this.name = res.data['name']
+          this.logo_url = res.data['logo']
+          this.note_customer = res.data['notetocustomer']
+          this.scope = res.data['scopeofwork']
+          this.condition = res.data['commoncondition']
+          this.payment = res.data['downpaymentterms']
+          this.note = res.data['note']
+          this.conclusion = res.data['conclusion']
+          this.footer = res.data['footer']
+        })
+        .catch(err => {
+          this.$toast.error("User Information Error!")
+        })
+        .then(res => {
+          this.$store.dispatch('loader/setLoader', { loader: false })
+        })
+  },
+  deleteConTem() {
+    axios.delete(api.path('contracttemplate') +'/'+ this.id)
+        .then(res => {
+          this.$toast.success('Deleted successfully!')
+          this.$router.push({name:'contract_templates'})
+        })
+        .catch(err => {
+            this.$toast.error("Contract Template data error!")
+        })
+  },
 }
 }
 </script>

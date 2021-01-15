@@ -1,31 +1,31 @@
 <template>
 <v-container fluid>
 
-        <v-row class="mt-4">
-          <v-spacer></v-spacer>
-          <v-col sm="6">
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search"
-              single-line
-              hide-details
-            ></v-text-field>
-          </v-col>
-          <v-col sm="3" style="align:center">
-            <v-btn color="green" dark @click="addNew">
-              <v-icon dark>add</v-icon>Add New
-            </v-btn>
-          </v-col>
-          <v-spacer></v-spacer>
-        </v-row>
+  <v-row class="mt-4">
+    <v-spacer></v-spacer>
+    <v-col sm="6">
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-col>
+    <v-col sm="3" style="align:center">
+      <v-btn color="green" dark @click="addNew">
+        <v-icon dark>add</v-icon>Add New
+      </v-btn>
+    </v-col>
+    <v-spacer></v-spacer>
+  </v-row>
 
-        <v-data-table
-          :headers="headers"
-          :items="ingredients"
-          :search="search"
-          @click:row="selectIngredient"
-        ></v-data-table>
+  <v-data-table
+    :headers="headers"
+    :items="ingredients"
+    :search="search"
+    @click:row="selectIngredient"
+  ></v-data-table>
 </v-container>
 </template>
 
