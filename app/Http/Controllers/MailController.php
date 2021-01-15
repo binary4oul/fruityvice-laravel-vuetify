@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Mail;
 use PDF;
 use App\Models\Project;
+use App\Models\ContractTemplate;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectNoteController;
 use App\Http\Controllers\ProjectImageController;
@@ -25,7 +26,7 @@ class MailController extends Controller
   public function sendmail($id) {
 		$response['status'] = 'success';
 		$project = Project::with('person')->with('projectDetails')->find($id);
-		$projectdetails = $project['project_details'];
+		$projectdetails = $project['projectDetails'];
 		$estimateprice = 0;
 		foreach($projectdetails as $details) $estimateprice += $details['areaprice'];
 		$project['price'] = $estimateprice;
