@@ -23,6 +23,7 @@ class Account
     if(!$team) return false;
     $teamMember = TeamMember::where('team_id', $team['id'])
                     ->where('user_id', $user['id'])->first();
+    if(!$teamMember) return false;
     if($teamMember['role'] == 'manager') return true;
     else return false;
   }

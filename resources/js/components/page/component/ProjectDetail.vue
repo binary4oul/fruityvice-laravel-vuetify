@@ -95,15 +95,15 @@ export default {
                   .then(res => {
                     const ingredient = res.data
                     this.ingredients.push(ingredient)
-                    const detail_style = {}
+                    let detail_style = {}
                     detail_style['factor'] = item_style['factor']
                     detail_style['ingredient_id'] = item_style['ingredient_id']
-                    const style = this.project_detail_styles.find( item => item[ingredient_id] == ingredient.id )
-                    if(style){
-                      detail_style['extra'] = style['extra']
-                      const color = ingredient.colors.find( item => item.name === style.color_id)
+                    const old_style = this.project_detail_styles.find( item => item['ingredient_id'] === ingredient.id )
+                    if(old_style) {
+                      detail_style['extra'] = old_style['extra']
+                      const color = ingredient.colors.find( item => item.id === old_style.color_id)
                       detail_style['color'] = color ? color.name: null
-                      const pattern = ingredient.patterns.find( item => item.name === style.pattern_id)
+                      const pattern = ingredient.patterns.find( item => item.id === old_style.pattern_id)
                       detail_style['pattern'] = pattern ? pattern.name: null
                     }
                     else{

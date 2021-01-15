@@ -47,7 +47,7 @@ class ProjectDetailController extends Controller
       $res_project_detail = ProjectDetail::find($id);
       $res_project_detail->project()->associate($project)->save();
       if(count($project_detail_styles) > 0){
-        $old_styles = $res_project_detail->projectDetailStyles();
+        $old_styles = ProjectDetailStyle::where('project_detail_id', $id)->get();
         foreach($old_styles as $old_style) $old_style->delete();
         foreach($project_detail_styles as $project_detail_style){
           $project_detail_style['project_detail_id'] = $res_project_detail['id'];
@@ -60,6 +60,12 @@ class ProjectDetailController extends Controller
     $response['status'] = 'error';
     $response['message'] = "You can't update Project";
     return $response;
+  }
+
+  public function show($id)
+  {
+    $res_project_detail_styles = ProjectDetail::with('projectDetailStyles')->find($id);
+    return $res_project_detail_styles;
   }
 
   public function destroy($id)

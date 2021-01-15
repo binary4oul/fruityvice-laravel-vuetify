@@ -57,7 +57,7 @@
             SystemPrice: ${{ getAreaPrice }}
           </v-col>
         </v-row>
-        <project-detail v-if="show_ingredients" :project_detail_styles="[]" />
+        <project-detail v-if="show_ingredients" :project_detail_styles="project_detail_styles" />
 
         <v-row v-if="project_id!='new'">
           <v-spacer></v-spacer>
@@ -102,6 +102,7 @@ data: () => ({
   open: false,
   edit_new: true,
   project_details: [],
+  project_detail_styles: [],
   note: '',
   detail_id: 'new',
   name: '',
@@ -155,6 +156,7 @@ methods: {
     this.arealength = 0
     this.saleprice = 0
     this.selected_system = null
+    this.project_detail_styles = []
   },
   getSystems(){
     axios.get(api.path('systems'))
@@ -191,6 +193,7 @@ methods: {
     else this.show_edit_salePrice = true
   },
   changeShowIngredients(){
+
     this.show_ingredients = !this.show_ingredients
     if(this.show_ingredients) this.icon_ingredientList = 'remove_circle'
     else this.icon_ingredientList = 'add_circle'
@@ -212,6 +215,8 @@ methods: {
     let project_detail = store.getters['project/projectDetail']
     project_detail['project_id'] = this.project_id
     project_detail['project_detail_styles'] = store.getters['project/projectDetailStyles']
+    delete project_detail['no']
+    delete project_detail['project']
     if( this.detail_id === 'new') {
       this.$store.dispatch('loader/setLoader', { loader: true })
       axios.post(api.path('projectdetail'), project_detail)
@@ -266,6 +271,15 @@ methods: {
     this.arealength = detail['arealength']
     this.saleprice = detail['saleprice']
     this.selected_system = this.getSystemName(detail['system_id'])
+    let data = {'project_detail': detail }
+    this.$store.dispatch('project/setProjectDetail', data)
+    axios.get(api.path('projectdetail') +'/'+ this.detail_id)
+        .then(res => {
+          this.project_detail_styles = res.data['project_detail_styles']
+        })
+        .catch(err => {
+          this.$toast.error("System data error!")
+        })
   }
 }
 }
