@@ -119,7 +119,7 @@ data: () => ({
 	project: {},
 	project_edit: {},
 	edit_project: false,
-	status_type:['estimate', 'current', 'complete'],
+	status_type:['Estimate', 'Current', 'Complete'],
 	calen_completed: false,
 	calen_install: false,
 	leadid: null,
@@ -131,10 +131,12 @@ methods: {
 	saveProject(){
 		let project_data = {}
 		project_data = this.project_edit
+		project_data['projectstatus'] = project_data['projectstatus'].toLowerCase()
 		axios.put(api.path('project') +'/'+ this.project['id'], project_data)
 				.then(res => {
 					this.edit_project = false
 					this.project = res.data
+					this.project['projectstatus'] = this.project['projectstatus'].charAt(0).toUpperCase() + this.project['projectstatus'].slice(1)
 				})
 				.catch(err => {
 					this.$toast.error("Data Error!")
@@ -183,6 +185,7 @@ created() {
 				if(res.data){
 					this.project = res.data
 					this.area_price = this.project['project_details'].reduce( (total, item) => (total + item['areaprice']), 0)
+					this.project['projectstatus'] = this.project['projectstatus'].charAt(0).toUpperCase() + this.project['projectstatus'].slice(1)
 				}
 			})
 			.catch(err => {
