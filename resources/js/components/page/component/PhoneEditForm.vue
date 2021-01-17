@@ -112,7 +112,7 @@ methods: {
     savePhone(){
       if(this.selectedPhone['primary'] == 'true') this.selectedPhone['primary'] = 1
       else this.selectedPhone['primary'] = 0
-      if(this.selectedPhone['id'] == 'new'){
+      if(!this.selectedPhone['id'] || this.selectedPhone['id'] === 'new'){
         delete this.selectedPhone['id'];
         axios.post(api.path('phone'), this.selectedPhone)
             .then(res => {

@@ -132,8 +132,7 @@ methods: {
     this.member_select['role'] = 'member'
   },
   saveMember(){
-    if(this.member_select['id'] === 'new'){
-
+    if(!this.member_select['id'] || this.member_select['id'] === 'new'){
       delete this.member_select['id'];
       this.$store.dispatch('loader/setLoader', { loader: true })
       axios.post(api.path('addNewMember'), this.member_select)

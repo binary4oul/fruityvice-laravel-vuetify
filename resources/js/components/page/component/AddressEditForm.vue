@@ -149,7 +149,7 @@ methods: {
   saveAddress(){
     if(this.selectedAddress['primary'] == 'true') this.selectedAddress['primary'] = 1
     else this.selectedAddress['primary'] = 0
-    if(this.selectedAddress['id'] == 'new'){
+    if(!this.selectedAddress['id'] || this.selectedAddress['id'] === 'new'){
       delete this.selectedAddress['id'];
       axios.post(api.path('address'), this.selectedAddress)
           .then(res => {
