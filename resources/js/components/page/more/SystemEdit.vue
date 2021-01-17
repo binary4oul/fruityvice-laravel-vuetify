@@ -155,6 +155,7 @@ methods: {
 
     let valid = this.checkData(this.system)
     if(valid['status'] == 'error') {
+      this.$toast.error(valid['message'])
       return
     }
     if(this.systemid == 'new')
@@ -162,7 +163,7 @@ methods: {
       this.$store.dispatch('loader/setLoader', { loader: true })
       axios.post(api.path('system'), this.system)
           .then(res => {
-            if(res.data['status'] == 'error') this.$toast.error(res.data['message'])
+            if(res.data['status'] === 'error') this.$toast.error(res.data.message)
             else {
               this.$toast.success('Saved successfully!')
               this.$router.push({ name: 'systems'})
@@ -180,7 +181,7 @@ methods: {
       this.$store.dispatch('loader/setLoader', { loader: true })
       axios.put(api.path('system') +'/'+ this.system['id'], this.system)
           .then(res => {
-            if(res.data['status'] == 'error') this.$toast.error(res.data['message'])
+            if(res.data['status'] === 'error') this.$toast.error(res.data.message)
             else {
               this.$toast.success('Saved successfully!')
               this.$router.push({ name: 'systems'})
@@ -206,7 +207,7 @@ methods: {
   },
   checkData(data_system){
     let res = { status: 'success', message: ''}
-    if(data_system['name'] == ''){
+    if(!data_system['name'] || data_system['name'] === ''){
         res['status'] = 'error'
         res['message'] = 'Input Name'
         return res
@@ -216,7 +217,7 @@ methods: {
         res['message'] = 'Input Price'
         return res
     }
-    if(data_system['system_details'].length == 0){
+    if(data_system['system_details'].length === 0){
         res['status'] = 'error'
         res['message'] = 'Select Ingredients'
         return res

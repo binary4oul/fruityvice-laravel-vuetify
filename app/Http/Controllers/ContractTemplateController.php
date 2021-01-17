@@ -57,8 +57,7 @@ class ContractTemplateController extends Controller
     $input['updated_by'] = $user->id;
 
     $result = ContractTemplate::find($id)->update($input);
-    $contracttemplate = ContractTemplate::find($id);
-    $response = $contracttemplate;
+    $response = ContractTemplate::find($id);
     return $response;
   }
   public function show($id)

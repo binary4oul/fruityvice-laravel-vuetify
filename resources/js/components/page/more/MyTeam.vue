@@ -138,8 +138,8 @@ methods: {
       this.$store.dispatch('loader/setLoader', { loader: true })
       axios.post(api.path('addNewMember'), this.member_select)
           .then(res => {
-            if(res.data.status === "error"){
-              this.$toast.error("User Data Error")
+            if(res.data.status === 'error'){
+              this.$toast.error(res.data.message)
             }
             else{
               let member_new  = res.data
@@ -159,7 +159,7 @@ methods: {
       this.$store.dispatch('loader/setLoader', { loader: true })
       axios.put(api.path('addNewMember') +'/'+ this.member_select['id'], this.member_select)
           .then(res => {
-            if(res.data.status === "error"){
+            if(res.data.status === 'error'){
               this.$toast.error(res.data.message)
             }
             else{

@@ -118,9 +118,18 @@ methods: {
         return this.patterns[index]['id']
     })
 
-      if(!this.ingredient['name']) return
-      if(!this.ingredient['coverage']) return
-      if(!this.ingredient['purchaseprice']) return
+      if(!this.ingredient['name']) {
+        this.$toast.error("Input Ingredient Name!")
+        return
+      }
+      if(!this.ingredient['coverage']) {
+        this.$toast.error("Input Coverage Area!")
+        return
+      }
+      if(!this.ingredient['purchaseprice']) {
+        this.$toast.error("Input Purchase Price!")
+        return
+      }
 
       if(this.ingredientid == 'new')
       {

@@ -183,7 +183,7 @@ mounted() {
 methods: {
   saveConTem(){
     const config = {
-        headers: { 'content-type': 'multipart/form-data' }
+        headers: { 'content-type': 'multipart/form-data' },
     }
     let formData = new FormData();
     formData.append('name', this.name);
@@ -197,7 +197,7 @@ methods: {
     formData.append('footer', this.footer);
 
     if(this.id === 'new'){
-       this.$store.dispatch('loader/setLoader', { loader: true })
+      this.$store.dispatch('loader/setLoader', { loader: true })
       axios.post(api.path('contracttemplate'), formData, config)
           .then(res =>{
             this.logo_url = res.data['logo']
@@ -213,9 +213,10 @@ methods: {
           })
     }
     else {
-      formData.append('id', this.id)
-       this.$store.dispatch('loader/setLoader', { loader: true })
-      axios.put(api.path('contracttemplate') +'/'+ this.id, formData, config)
+      formData.append('_method', 'PUT');
+      // formData.append('id', this.id)
+      this.$store.dispatch('loader/setLoader', { loader: true })
+      axios.post(api.path('contracttemplate') +'/'+ this.id, formData, config)
           .then(res =>{
             this.logo_url = res.data['logo']
             this.$toast.success('Updated Successfully!')

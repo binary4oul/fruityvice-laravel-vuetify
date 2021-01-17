@@ -103,10 +103,9 @@ class TeamController extends Controller
 
   public function addNewMember(Request $request) {
     $response['status'] = 'error';
-    $response['message'] = 'User Data Error!';
+    $response['message'] = 'Team member must be an app user!';
     $user = auth()->user();
     if($user->role < 1) {
-      $res['status'] = 'error';
       $res['message'] = 'You need to update your Membership.';
       return $res;
     }
