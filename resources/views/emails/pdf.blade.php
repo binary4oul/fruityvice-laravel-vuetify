@@ -1,14 +1,23 @@
-<div>
+<div style="padding:20px 10px 10px 20px">
+  <div style="text-align:center">
+    <img src="{{ $contracttemplate['logo'] }}" style="width:40%; height:auto" alt="" />
+  </div>
   <p>{{ $contracttemplate['name'] }}</p>
   <p>{{ $contracttemplate['notetocustomer'] }}</p>
-  <p>{{ $contracttemplate['scopeofwork'] }}</p>
-  <p>{{ $contracttemplate['commoncondition'] }}</p>
+  <div>
+    <h3>Scope of work: </h3>
+    <p style="padding-left:10px">{{ $contracttemplate['scopeofwork'] }}</p>
+  </div>
+  <div>
+    <h3>Some common conditions to be aware of:</h3>
+    <p style="padding-left:10px">{{ $contracttemplate['commoncondition'] }}</p>
+  </div>
   <p>{{ $contracttemplate['downpaymentterms'] }}</p>
   <p>{{ $contracttemplate['note'] }}</p>
   <p>{{ $contracttemplate['conclusion'] }}</p>
 </div>
 
-<div>
+<div style="padding:10px 10px 10px 20px">
   <h4>Estimates</h4>
   <table>
     <tr>

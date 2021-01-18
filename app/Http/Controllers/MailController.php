@@ -44,17 +44,16 @@ class MailController extends Controller
 			$contracttemplate['conclusion'] = '';
 			$contracttemplate['footer'] = '';
 		}
+		if(empty($contracttemplate['notetocustomer'])) $contracttemplate['notetocustomer'] = '';
+		if(empty($contracttemplate['scopeofwork'])) $contracttemplate['scopeofwork'] = '';
+		if(empty($contracttemplate['commoncondition'])) $contracttemplate['commoncondition'] = '';
+		if(empty($contracttemplate['downpaymentterms'])) $contracttemplate['downpaymentterms'] = '';
+		if(empty($contracttemplate['note'])) $contracttemplate['note'] = '';
+		if(empty($contracttemplate['conclusion'])) $contracttemplate['conclusion'] = '';
 
 		$project['contracttemplate'] = $contracttemplate;
 		$project['images'] = $this->ProjectImageController->list($id);
 		$project['notes'] = $this->ProjectNoteController->list($id);
-
-		// $images_url = array();
-		// foreach($project['images'] as $image) {
-		// 	$image_data['image'] = 'http://dev.myincredibleone.com/storage/images/1603738094.png';
-		// 	array_push($images_url, $image_data);
-		// }
-		// $project['images'] = $images_url;
 
 		if(!$project['email']) {
 			$response['status'] = 'error';
