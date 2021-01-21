@@ -13,6 +13,6 @@ class ProjectDetail extends Model
   }
   public function projectDetailStyles()
   {
-    return $this->hasMany(projectDetailStyle::class);
+    return $this->hasMany(ProjectDetailStyle::class);
   }
 }
