@@ -108,7 +108,7 @@
         Conclusion to customer</v-btn>
       <v-textarea
         label="Conclusion to customer"
-        v-model="cnoclusion"
+        v-model="conclusion"
         v-if="open_conclusion"
         auto-grow
         outlined
@@ -164,7 +164,7 @@ data: () => ({
   open_payment: false,
   note: '',
   open_note: false,
-  cnoclusion: '',
+  conclusion: '',
   open_conclusion: false,
   footer: '',
   open_footer: false,

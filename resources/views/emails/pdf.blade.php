@@ -17,6 +17,10 @@
   <p>{{ $contracttemplate['conclusion'] }}</p>
 </div>
 
+<div style="position:fixed; bottom:-60px; left: 0px; right: 0px; height: 50px;">
+  {{ $contracttemplate['footer'] }}
+</div>
+
 <div style="padding:10px 10px 10px 20px">
   <h4>Estimates</h4>
   <table>
@@ -35,16 +39,4 @@
   </table>
 
   <h4>Total Price : {{ $price }}</h4>
-
-  <h4>Notes</h4>
-  @foreach($notes as $note)
-    <p style="margin-left: 5px">{{ $note['note'] }}</p>
-  @endforeach
-
-  <h4>Images</h4>
-  <div style="padding-top:30px">
-  @foreach($images as $image)
-    <img src="{{ $image['image'] }}" style="width:30%"/>
-  @endforeach
-  </div>
 </div>
