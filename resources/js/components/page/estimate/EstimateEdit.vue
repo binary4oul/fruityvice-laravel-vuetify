@@ -89,9 +89,8 @@
 
 		<project-note v-if="projectid" :projectid="projectid"></project-note>
 		<project-image-list v-if="projectid" :projectid="projectid"></project-image-list>
-
+		<share-estimate v-if="projectid" :project_id="projectid"></share-estimate>
 		<v-row>
-				<v-btn class="mx-8 my-4" color="green" dark @click="sendEstimate">Share with Client</v-btn>
 				<v-spacer></v-spacer>
 				<v-btn class="mx-8 my-4" @click="$router.go(-1)">Cancel</v-btn>
 		</v-row>
@@ -105,6 +104,7 @@ import PersonEditForm from '../component/PersonEditForm'
 import ProjectEdit from '../component/ProjectEdit'
 import ProjectImageList from '../component/ProjectImageList'
 import ProjectNote from '../component/ProjectNote'
+import ShareEstimate from '../component/ShareEstimate'
 import store from '~/store/index'
 
 export default {
@@ -113,6 +113,7 @@ components: {
 	ProjectEdit,
 	ProjectImageList,
 	ProjectNote,
+	ShareEstimate
 },
 
 data: () => ({
@@ -150,21 +151,6 @@ methods: {
 		this.project_edit['active'] = this.project['active']
 		this.project_edit['share'] = this.project['share']
 	},
-	sendEstimate() {
-		this.$store.dispatch('loader/setLoader', { loader: true })
-		axios.get(api.path('sendEstimate') +'/'+ this.projectid, )
-				.then(res => {
-					const response_data = res.data;
-					if(response_data['status'] === 'success') this.$toast.success('Sent successfully!')
-					else this.$toast.error(response_data['message'])
-				})
-				.catch(err => {
-					this.$toast.error('Server Error!')
-				})
-				.then(() => {
-					this.$store.dispatch('loader/setLoader', { loader: false })
-				})
-	}
 },
 
 computed: {

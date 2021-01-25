@@ -108,7 +108,7 @@ Route::group(['middleware' => ['jwt']], function() {
     Route::get('contracttemplate/{id}', 'ContractTemplateController@show');
     Route::delete('contracttemplate/{id}', 'ContractTemplateController@destroy');
 
-    Route::get('sendestimate/{id}', 'MailController@sendmail');
+    Route::post('sendestimate', 'MailController@sendmail');
 
 });
 

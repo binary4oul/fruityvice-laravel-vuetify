@@ -24,9 +24,10 @@ class MailController extends Controller
 				$this->ProjectImageController = $ProjectImageController;
 		}
 
-  public function sendmail($id) {
+  public function sendmail(Request $request) {
 		$response['status'] = 'success';
-		$project = Project::with('person')->with('projectDetails')->find($id);
+		$input = $request->all();
+		$project = Project::with('person')->with('projectDetails')->find($input['project_id']);
 		$projectdetails = $project['projectDetails'];
 		$estimateprice = 0;
 		foreach($projectdetails as $detail) {
@@ -36,7 +37,7 @@ class MailController extends Controller
 		}
 		$project['price'] = $estimateprice;
 
-		$contracttemplate = ContractTemplate::where('created_by', $project->created_by)->first();
+		$contracttemplate = ContractTemplate::where('created_by', $project->created_by)->where('id', $input['contract_id'])->first();
 		if(!$contracttemplate)
 		{
 			$contracttemplate['name'] = '';
@@ -57,8 +58,6 @@ class MailController extends Controller
 		if(empty($contracttemplate['conclusion'])) $contracttemplate['conclusion'] = '';
 
 		$project['contracttemplate'] = $contracttemplate;
-		$project['images'] = $this->ProjectImageController->list($id);
-		$project['notes'] = $this->ProjectNoteController->list($id);
 
 		if(!$project['email']) {
 			$response['status'] = 'error';

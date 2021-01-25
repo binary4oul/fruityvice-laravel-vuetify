@@ -24,8 +24,17 @@
 <div style="padding:10px 10px 10px 20px">
 
   @foreach($project_details as $detail)
-  <h3 style="background-color:green">Option {{ $loop->index }}</h3>
-  <p style="padding-left:10px">{{ $detail['sytem_name'] }} {{ $detail['areaprice'] }}</p>
+  <span style="background-color:green">Option {{ $loop->index + 1 }}</span>
+  <div style="margin-left:10px">
+    {{ $detail['system_name'] }}
+    <br />
+    If projects 50% deposit is paid at contract signing and balance paid in full at completion you may apply discount.
+    <br />
+    <div style="margin-left:20px; background-color:yellow">
+      Total
+      <span style="margin-left:100px;">@ ${{ $detail['saleprice'] }}psf &nbsp;&nbsp;${{ $detail['areaprice'] }}</span>
+    </div>
+  </div>
   @endforeach
 
   <h4>Total Price : {{ $price }}</h4>
