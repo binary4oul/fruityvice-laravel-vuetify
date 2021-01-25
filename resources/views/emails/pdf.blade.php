@@ -6,15 +6,15 @@
   <p>{{ $contracttemplate['notetocustomer'] }}</p>
   <div>
     <h3>Scope of work: </h3>
-    <p style="padding-left:10px">{{ $contracttemplate['scopeofwork'] }}</p>
+    <div style="padding-left:10px">{{ $contracttemplate['scopeofwork'] }}</div>
   </div>
   <div>
     <h3>Some common conditions to be aware of:</h3>
-    <p style="padding-left:10px">{{ $contracttemplate['commoncondition'] }}</p>
+    <div style="padding-left:10px">{{ $contracttemplate['commoncondition'] }}</div>
   </div>
-  <p>{{ $contracttemplate['downpaymentterms'] }}</p>
-  <p>{{ $contracttemplate['note'] }}</p>
-  <p>{{ $contracttemplate['conclusion'] }}</p>
+  <div>{{ $contracttemplate['downpaymentterms'] }}</div>
+  <div>{{ $contracttemplate['note'] }}</div>
+  <div>{{ $contracttemplate['conclusion'] }}</div>
 </div>
 
 <div style="position:fixed; bottom:-60px; left: 0px; right: 0px; height: 50px;">
@@ -22,21 +22,11 @@
 </div>
 
 <div style="padding:10px 10px 10px 20px">
-  <h4>Estimates</h4>
-  <table>
-    <tr>
-      <th style="padding-left:10px">Area Name</th>
-      <th style="padding-left:10px">Area</th>
-      <th style="padding-left:10px">price</th>
-    </tr>
-    @foreach($project_details as $detail)
-      <tr>
-      <td style="padding-left:10px">{{ $detail['name'] }}</td>
-      <td style="padding-left:10px">{{ $detail['area'] }}</td>
-      <td style="padding-left:10px">{{ $detail['areaprice'] }}</td>
-      </tr>
-    @endforeach
-  </table>
+
+  @foreach($project_details as $detail)
+  <h3 style="background-color:green">Option {{ $loop->index }}</h3>
+  <p style="padding-left:10px">{{ $detail['sytem_name'] }} {{ $detail['areaprice'] }}</p>
+  @endforeach
 
   <h4>Total Price : {{ $price }}</h4>
 </div>

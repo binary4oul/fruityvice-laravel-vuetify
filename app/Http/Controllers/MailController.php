@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Mail;
 use PDF;
 use App\Models\Project;
+use App\Models\System;
 use App\Models\ContractTemplate;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectNoteController;
@@ -28,7 +29,11 @@ class MailController extends Controller
 		$project = Project::with('person')->with('projectDetails')->find($id);
 		$projectdetails = $project['projectDetails'];
 		$estimateprice = 0;
-		foreach($projectdetails as $details) $estimateprice += $details['areaprice'];
+		foreach($projectdetails as $detail) {
+			$system = System::where('id', $detail['system_id'])->first();
+			$detail['system_name'] = $system['name'];
+			$estimateprice += $detail['areaprice'];
+		}
 		$project['price'] = $estimateprice;
 
 		$contracttemplate = ContractTemplate::where('created_by', $project->created_by)->first();
