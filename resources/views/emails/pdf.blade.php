@@ -28,8 +28,6 @@
   <div style="margin-left:10px">
     {{ $detail['system_name'] }}
     <br />
-    If projects 50% deposit is paid at contract signing and balance paid in full at completion you may apply discount.
-    <br />
     <div style="margin-left:20px; background-color:yellow">
       Total
       <span style="margin-left:100px;">@ ${{ $detail['saleprice'] }}psf &nbsp;&nbsp;${{ $detail['areaprice'] }}</span>
