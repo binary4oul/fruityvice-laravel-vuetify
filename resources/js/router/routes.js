@@ -24,37 +24,18 @@ export default [
             { path: 'edit', name: 'profile-edit', component: require('$comp/page/profile/edit/ProfileEdit').default }
           ]
         },
-        { path: 'lead', component: require('$comp/page/lead/LeadWrapper').default, children:
+        { path: 'fruits', component: require('$comp/page/fruit/FruitWrapper').default, children:
           [
-            { path: 'list/:active', name: 'leads', component: require('$comp/page/lead/LeadList').default },
-            { path: 'edit/:leadid', name: 'lead-edit', component: require('$comp/page/lead/LeadEdit').default }
+            { path: 'list', name: 'all-fruits', component: require('$comp/page/fruit/FruitList').default }
           ]
         },
-        { path: 'project', component: require('$comp/page/lead/LeadWrapper').default, children:
+        { path: 'favourites', component: require('$comp/page/fruit/FruitWrapper').default, children:
           [
-            { path: 'estimates/:active', name: 'estimates', component: require('$comp/page/estimate/EstimateList').default },
-            { path: 'complete/:active', name: 'complete', component: require('$comp/page/estimate/CompleteProject').default },
-            { path: 'current/:active', name: 'current', component: require('$comp/page/estimate/CurrentProject').default },
-            { path: 'edit/:projectid', name: 'estimate-edit', component: require('$comp/page/estimate/EstimateEdit').default },
+            { path: 'list', name: 'favourites', component: require('$comp/page/favourite/FavouriteList').default },
           ]
         },
-
-        { path: 'color/list', name: 'colors', component: require('$comp/page/more/ColorList').default},
-        { path: 'pattern/list', name: 'patterns', component: require('$comp/page/more/PatternList').default},
-        { path: 'ingredient/list', name: 'ingredients', component: require('$comp/page/more/IngredientList').default},
-        { path: 'ingredient/edit/:ingredientid', name: 'ingredient-edit', component: require('$comp/page/more/IngredientEdit').default},
-        { path: 'system/list', name: 'systems', component: require('$comp/page/more/SystemList').default},
-        { path: 'system/edit/:systemid', name: 'system-edit', component: require('$comp/page/more/SystemEdit').default},
-        { path: 'conctract_template/list', name: 'contract_templates', component: require('$comp/page/more/ContractTemplateList').default},
-        { path: 'conctract_template/edit/:id', name: 'contract_template-edit', component: require('$comp/page/more/ContractTemplate').default},
-        { path: 'mymembership', name: 'mymembership', component: require('$comp/page/more/MyMembership').default},
-        { path: 'myteam', name: 'myteam', component: require('$comp/page/more/MyTeam').default},
-        { path: 'teams', name: 'teams', component: require('$comp/page/more/Teams').default},
-        { path: 'teams/project/:teamid', name: 'teamProject', component: require('$comp/page/more/TeamProject').default},
-
       ]
     },
-
   ]),
   { path: '*', redirect: { name: 'index' } }
 ]

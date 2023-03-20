@@ -39,6 +39,9 @@ class URL {
 export const api = Object.assign(new URL(apiUrl), {
   url: '',
 
+  fruits: 'fruits',
+  favourite: 'favourite',
+
   login: {
     url: 'login',
     refresh: 'refresh'
@@ -66,37 +69,4 @@ export const api = Object.assign(new URL(apiUrl), {
   profile: {
     url: 'profile'
   },
-
-  leads: { url: 'leads' },
-  lead: {url: 'lead'},
-  person: { url: 'person' },
-  phone: { url: 'phone', refresh: 'refresh' },
-  address: { url: 'address' },
-  states: { url: 'states' },
-  leaddetail: { url: 'leaddetail' },
-  colors: { url: 'colors' },
-  color: {url: 'color'},
-  patterns: { url: 'patterns' },
-  pattern: {url: 'pattern'},
-  ingredients: {url: 'ingredients'},
-  ingredient: {url: 'ingredient'},
-  systems: {url: 'systems'},
-  system: {url: 'system'},
-  project: {url: 'project'},
-  projectlist: {url: 'projects'},
-  projectdetail: {url: 'projectdetail'},
-  projectnote: {url: 'project/note'},
-  projectimage: {url: 'project/image'},
-  projectnotelist: {url: 'project/note/list'},
-  projectimagelist: {url: 'project/image/list'},
-  getTeams: {url: 'teams'},
-  getMyTeam: {url: 'myteam'},
-  addNewMember: {url: 'myteam/member'},
-  getTeamProject: {url: 'team/project'},
-  getMembers: {url: 'teammembers'},
-  teamMember: {url: 'teammember'},
-  sendEstimate: {url: 'sendestimate'},
-  contracttemplate: {url: 'contracttemplate'},
-  contracttemplates: {url: 'contracttemplate/list'},
-  membership: {url: 'membership'}
 })

@@ -22,6 +22,12 @@ Route::group(['middleware' => ['guest:api']], function() {
 });
 
 Route::group(['middleware' => ['jwt']], function() {
+    Route::get('fruits', 'FruitController@index');
+    Route::post('fruits', 'FruitController@store');
+    Route::put('fruits', 'FruitController@update');
+
+    Route::post('favourite', 'FavouriteController@store');
+
     Route::post('person', 'LeadController@create');
     Route::put('person/{id}', 'PersonController@update');
     Route::get('leads/{active}', 'ProjectController@leads');

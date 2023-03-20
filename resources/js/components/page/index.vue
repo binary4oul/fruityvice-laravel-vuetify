@@ -3,9 +3,9 @@
   <div class="fill-height">
     <v-card class="mx-auto my-1" max-width="1000px" min-height="99%">
 
-      <div class="primary">
+      <!-- <div class="primary">
         <img :src="'/assets/image/logo.png'"  class="logoPng" center height="100px">
-      </div>
+      </div> -->
 
 
       <v-toolbar color="second" dark>
@@ -18,6 +18,9 @@
         <v-spacer></v-spacer>
         <v-btn icon @click="$router.push({name:'index'})">
           <v-icon>mdi-home</v-icon>
+        </v-btn>
+        <v-btn icon @click="logout()">
+          <v-icon>mdi-logout</v-icon>
         </v-btn>
       </v-toolbar>
 
@@ -34,6 +37,7 @@
 import { mapGetters } from 'vuex'
 import store from '~/store'
 import axios from 'axios'
+import Axios from 'axios'
 
 export default {
   data: () => ({
@@ -48,7 +52,12 @@ export default {
   },
 
   methods: {
+    async logout() {
+      await this.$store.dispatch('auth/logout')
 
+      this.$toast.info('You are logged out.')
+      this.$router.push({ name: 'login' })
+    },
   }
 }
 </script>

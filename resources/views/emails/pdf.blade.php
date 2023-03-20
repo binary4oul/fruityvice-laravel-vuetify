@@ -1,7 +1,7 @@
 <div style="padding:20px 10px 10px 20px">
   <div style="text-align:center">
     <img src="{{ $contracttemplate['logo'] }}" style="width:40%; height:auto" alt="" />
-  </div>
+  </div> 
   <p>{{ $contracttemplate['name'] }}</p>
   <p>{{ $contracttemplate['notetocustomer'] }}</p>
   <div>

@@ -14,3 +14,16 @@
 Route::any('{all}', function () {
     return view('app');
 })->where(['all' => '.*']);
+
+// Route::get('/api/send-email', function () {
+//     $data = [
+//         'title' => 'Mail from Laravel',
+//         'body' => 'This is a test email from Laravel.'
+//     ];
+
+//     Mail::send('emails.testMail', $data, function ($message) {
+//         $message->to('recipient@example.com')->subject('Laravel Test Email');
+//     });
+
+//     return 'Email sent successfully.';
+// });
